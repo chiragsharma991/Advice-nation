@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.nat.advice_nation.Preloader.Splash">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+
+        />
+
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/advice_logo_black_480dp"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/splash_logo"
+        android:id="@+id/splash_title"
+        android:layout_centerInParent="true"
+        android:text="@string/splash_title"
+        android:textSize="@dimen/splash_title_size"
+
+
+
+        />
+
+
+    <com.project.nat.advice_nation.utils.CircleProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"
+        android:layout_below="@+id/splash_title"
+        app:mlpb_progress_color="@color/colorPrimary"
+        app:mlpb_progress_stoke_width="3dp"
+        >
+
+    </com.project.nat.advice_nation.utils.CircleProgressBar>
+
+
+</RelativeLayout>

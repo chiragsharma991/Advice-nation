@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <color name="tabSelectedIconColor">#ffffff</color>
+    <color name="tabUnselectedIconColor">#F1A5A5</color>
+    <color name="transparentColor">#00000000</color>
+    <color name="semiTransparentColor">#36000000</color>
+    <color name="darkTransparentColor">#88000000</color>
+    <color name="colorGreyText">#7B7A7B</color>
+    <color name="primary_light">#FFCDD2</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+    <color name="divider">#BDBDBD</color>
+    <color name="def">#dbdada</color>
+    <!-- <color name="colorPrimary">#32375C</color>
+     <color name="colorPrimaryDark">#212544</color>
+     <color name="colorAccent">#E25667</color>-->
+    <color name="color_bg">#E4E4E4</color>
+    <color name="colorPrimary">#24b89e</color>
+    <color name="colorPrimaryDark">#419c8c</color>
+    <color name="colorAccent">#546bbc</color>
+
+    <color name="colourorange">#ff5733</color>
+    <color name="colourgreen">#68ff33</color>
+    <color name="colourblue">#0f6ff1</color>
+    <color name="colourpurpoul">#ba0ff1</color>
+
+
+    <color name="colorPrimaryTrans">#a0673AB7</color>
+    <color name="colorAccentTrans">#a0009688</color>
+    <color name="colorBlackTrans">#a0000000</color>
 </resources>

@@ -6,4 +6,19 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="splash_title_size">30sp</dimen>
+    <dimen name="login_text_size">16sp</dimen>
+
+    <!--margin top-->
+    <dimen name="margin_top">50sp</dimen>
+    <dimen name="margin_bottom">50sp</dimen>
+    <dimen name="margin_top_view">10dp</dimen>
+    <dimen name="margin_bottom_view">10dp</dimen>
+
+    <dimen name="margin_left">2dp</dimen>
+    <dimen name="margin_right">2dp</dimen>
+    <dimen name="margin_left_most">5dp</dimen>
+    <dimen name="margin_right_most">2dp</dimen>
+    <dimen name="box_hight">90dp</dimen>
+
 </resources>

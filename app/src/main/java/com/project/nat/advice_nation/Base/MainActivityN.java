@@ -1,26 +1,24 @@
 package com.project.nat.advice_nation.Base;
 
-        import android.content.Context;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.support.percent.PercentLayoutHelper;
-        import android.support.percent.PercentRelativeLayout;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.View;
-        import android.view.Window;
-        import android.view.WindowManager;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import com.project.nat.advice_nation.R;
-        import com.project.nat.advice_nation.utils.BaseActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.BaseActivity;
 
-
-
-public class Login extends BaseActivity {
+public class MainActivityN extends BaseActivity {
 
     private boolean isSigninScreen = true;
     private TextView tvSignupInvoker;
@@ -89,7 +87,7 @@ public class Login extends BaseActivity {
 
         tvSignupInvoker.setVisibility(View.GONE);
         tvSigninInvoker.setVisibility(View.VISIBLE);
-        Animation translate= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
+        Animation translate= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.translate_right_to_left);
         llSignup.startAnimation(translate);
 
         Animation clockwise= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_right_to_left);
@@ -119,14 +117,7 @@ public class Login extends BaseActivity {
     }
 
     public static void startScreen(Context context){
-        context.startActivity(new Intent(context, Login.class));
+        context.startActivity(new Intent(context, MainActivityN.class));
 
     }
-
-
-
-
-
-
-
 }

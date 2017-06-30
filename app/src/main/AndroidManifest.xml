@@ -22,8 +22,12 @@
         <activity
             android:name=".Base.Login"
             android:screenOrientation="portrait"
-            android:theme="@style/Login"
-            />
+            android:theme="@style/Login" />
+
+        <!-- <activity
+             android:name=".Base.login"
+             android:screenOrientation="portrait"
+             android:theme="@style/Login" />-->
 
         <activity
             android:name=".Base.DashboardActivity"

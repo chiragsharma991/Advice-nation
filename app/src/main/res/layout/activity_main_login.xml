@@ -16,6 +16,14 @@
         tools:ignore="ContentDescription"
         />
 
+
+   <!-- <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/watch_later_black_480dp"
+        tools:ignore="ContentDescription" />-->
+
     <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,8 +38,9 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:background="@color/colorPrimary_light"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:layout_widthPercent="85%">
+
 
             <com.project.nat.advice_nation.Base.VerticalTextView
                 android:id="@+id/tvSigninInvoker"
@@ -51,7 +60,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center" />
+
         </LinearLayout>
+
+
+
 
         <LinearLayout
             android:id="@+id/llSignup"
@@ -61,7 +74,8 @@
             android:background="@color/colorAccentTrans"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
-            app:layout_widthPercent="15%">
+            app:layout_widthPercent="15%"
+            >
 
             <com.project.nat.advice_nation.Base.VerticalTextView
                 android:id="@+id/tvSignupInvoker"
@@ -72,9 +86,9 @@
                 android:paddingTop="15dp"
                 android:text="@string/signup"
                 android:textAllCaps="true"
-                android:textColor="@color/tabSelectedIconColor"
-                android:textSize="20sp"
-                android:visibility="visible" />
+                android:textColor="@color/tabSelectedIconColor">
+
+            </com.project.nat.advice_nation.Base.VerticalTextView>
 
             <include
                 android:id="@+id/llSignupContent"
@@ -86,4 +100,31 @@
     </android.support.percent.PercentRelativeLayout>
 
 
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_facebook" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_twitter" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_linkedin" />
+    </LinearLayout>-->
 </RelativeLayout>

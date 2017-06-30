@@ -27,7 +27,10 @@
     <color name="colourpurpoul">#ba0ff1</color>
 
 
+
     <color name="colorPrimary_bluelight">#a0673AB7</color>
+
+    <color name="colorPrimaryTrans">#a0673AB7</color>
     <color name="colorAccentTrans">#a0009688</color>
     <color name="colorBlackTrans">#a0000000</color>
 </resources>

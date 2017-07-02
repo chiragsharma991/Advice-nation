@@ -1,30 +1,57 @@
 package com.project.nat.advice_nation.Base;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.Constants;
+import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
+
+import static android.R.attr.delay;
+import static com.project.nat.advice_nation.R.id.pageIndicator;
+import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private ViewPager view_pager;
+    private FragmentStatePagerAdapter mHeaderPagerAdapter;
+    private CirclePageIndicator page_Indicator;
+    private Handler handler=new Handler();
+    private int delay=5000;
+    private String TAG="DashboardActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboardn);
+        initialize();
+
+    }
+
+    private void initialize() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        page_Indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -32,8 +59,16 @@ public class DashboardActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        view_pager=(ViewPager)findViewById(viewPager);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
+        collapsingToolbarLayout.setTitle(getString(R.string.app_name));
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        setViewPagerAdapter(view_pager);
     }
 
     @Override
@@ -45,6 +80,50 @@ public class DashboardActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
+    public void setViewPagerAdapter(ViewPager viewPager){
+
+        mHeaderPagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public int getCount() {
+                return 4;
+            }
+            @Override
+            public Fragment getItem(int position) {
+                PagerFragment pagerFragment = new PagerFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(Constants.Bundle_Pos, position);
+                pagerFragment.setArguments(bundle);
+
+                return pagerFragment;
+            }
+            @Override
+            public Parcelable saveState() {return null;}
+
+            @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return null;
+            }
+        };
+        viewPager.setAdapter(mHeaderPagerAdapter);
+        viewPager.setOffscreenPageLimit(4);
+        viewPager.setCurrentItem(0);
+        page_Indicator.setViewPager(viewPager);
+        handler.postDelayed(runnable, delay);
+    }
+
+    Runnable runnable = new Runnable() {
+        public void run() {
+            Log.e(TAG, "runable: " );
+
+        }
+    };
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,5 +170,10 @@ public class DashboardActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public static void startScreen(Context context){
+        context.startActivity(new Intent(context, DashboardActivity.class));
+
     }
 }

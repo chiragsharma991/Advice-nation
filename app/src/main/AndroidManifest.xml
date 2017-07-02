@@ -23,16 +23,11 @@
             android:name=".Base.Login"
             android:screenOrientation="portrait"
             android:theme="@style/Login" />
-
-        <!-- <activity
-             android:name=".Base.login"
-             android:screenOrientation="portrait"
-             android:theme="@style/Login" />-->
-
         <activity
             android:name=".Base.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Base.PagerFragment"></activity>
     </application>
 
 </manifest>

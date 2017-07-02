@@ -21,10 +21,13 @@
     <color name="colorPrimaryDark">#419c8c</color>
     <color name="colorAccent">#546bbc</color>
 
-    <color name="colourorange">#ff5733</color>
-    <color name="colourgreen">#68ff33</color>
-    <color name="colourblue">#0f6ff1</color>
-    <color name="colourpurpoul">#ba0ff1</color>
+    <color name="dashboard_icon1">#6c6d5e</color>
+    <color name="dashboard_icon2">#a656af</color>
+    <color name="dashboard_icon3">#c9cc84</color>
+    <color name="dashboard_icon4">#e0ea00</color>
+    <color name="dashboard_icon5">#6fabe8</color>
+    <color name="dashboard_icon6">#6da065</color>
+
 
 
 

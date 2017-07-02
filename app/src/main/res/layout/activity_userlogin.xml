@@ -96,21 +96,21 @@
 
                <RelativeLayout
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentBottom="true"
-                   android:layout_marginRight="5dp"
-                   android:layout_marginLeft="5dp"
+                   android:layout_height="match_parent"
+                   android:gravity="center_horizontal|center_vertical"
+                   android:layout_below="@+id/login_forgetPassword"
                    >
-                   <Button
-                       android:layout_width="match_parent"
-                       android:layout_height="40dp"
-                       android:background="@color/color_bg"
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="@string/log_in"
                        android:id="@+id/login"
-                       android:layout_marginBottom="30dp"
-                       android:text="Log in"
-                       android:textStyle="normal"
-                       android:textColor="@color/primary_text"
-                       tools:ignore="HardcodedText" />
+                       android:textStyle="bold"
+                       android:textSize="@dimen/login_text_button"
+                       android:textColor="@color/def"
+                       android:textAllCaps="true"
+                       />
+
 
                </RelativeLayout>
 
@@ -147,13 +147,6 @@
         </LinearLayout>-->
 
     </LinearLayout>
-
-
-
-
-
-
-
 
 
 </RelativeLayout>

@@ -4,7 +4,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
 import com.project.nat.advice_nation.Base.Login;
-import com.project.nat.advice_nation.Base.MainActivityN;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.AnimationUtils;
 import com.project.nat.advice_nation.utils.BaseActivity;
@@ -38,7 +37,7 @@ public class Splash extends BaseActivity {
                     sleep(3 * 1000);
                     showProgress(false);
                     Login.startScreen(Splash.this);
-                    MainActivityN.startScreen(Splash.this);
+                    Login.startScreen(Splash.this);
                     finish();
 
 

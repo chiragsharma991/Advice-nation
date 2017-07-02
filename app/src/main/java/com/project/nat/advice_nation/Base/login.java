@@ -1,34 +1,36 @@
 package com.project.nat.advice_nation.Base;
 
-        import android.content.Context;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.support.percent.PercentLayoutHelper;
-        import android.support.percent.PercentRelativeLayout;
-        import android.support.v7.app.AppCompatActivity;
-        import android.view.View;
-        import android.view.Window;
-        import android.view.WindowManager;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import com.project.nat.advice_nation.R;
-        import com.project.nat.advice_nation.utils.BaseActivity;
+import android.content.Context;
+import android.content.Intent;
+import android.database.DatabaseErrorHandler;
+import android.os.Bundle;
+import android.support.percent.PercentLayoutHelper;
+import android.support.percent.PercentRelativeLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.BaseActivity;
 
-
-
-public class Login extends BaseActivity {
+public class Login extends BaseActivity implements View.OnClickListener {
 
     private boolean isSigninScreen = true;
     private TextView tvSignupInvoker;
     private LinearLayout llSignup;
     private TextView tvSigninInvoker;
     private LinearLayout llSignin;
-    private Button btnSignup;
-    private Button btnSignLogin;
+    private TextView btnSignup;
+    private TextView btnSignLogin;
+    private Context context;
+    private String TAG="Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,15 +39,26 @@ public class Login extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main_login);
+        context=Login.this;
+        initialize();
+
+
+
+
+    }
+
+    private void initialize() {
 
         tvSignupInvoker = (TextView) findViewById(R.id.tvSignupInvoker);
         tvSigninInvoker = (TextView) findViewById(R.id.tvSigninInvoker);
 
-        btnSignup= (Button) findViewById(R.id.btnSignup);
-        btnSignLogin= (Button) findViewById(R.id.login);
+        btnSignup= (TextView) findViewById(R.id.btnSignup);
+        btnSignLogin= (TextView) findViewById(R.id.login);
+        btnSignLogin.setOnClickListener(this);
 
         llSignup = (LinearLayout) findViewById(R.id.llSignup);
         llSignin = (LinearLayout) findViewById(R.id.llSignin);
+
 
         tvSignupInvoker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +102,7 @@ public class Login extends BaseActivity {
 
         tvSignupInvoker.setVisibility(View.GONE);
         tvSigninInvoker.setVisibility(View.VISIBLE);
-        Animation translate= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_right_to_left);
+        Animation translate= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.translate_right_to_left);
         llSignup.startAnimation(translate);
 
         Animation clockwise= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_right_to_left);
@@ -123,10 +136,13 @@ public class Login extends BaseActivity {
 
     }
 
+    @Override
+    public void onClick(View view) {
+
+        if(view == btnSignLogin){
+            DashboardActivity.startScreen(context);
+        }
 
 
-
-
-
-
+    }
 }

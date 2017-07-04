@@ -19,13 +19,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.project.nat.advice_nation.Model.Product;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
 
-import static android.R.attr.delay;
-import static com.project.nat.advice_nation.R.id.pageIndicator;
+import java.util.ArrayList;
+
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends AppCompatActivity
@@ -38,11 +40,13 @@ public class DashboardActivity extends AppCompatActivity
     private Handler handler=new Handler();
     private int delay=5000;
     private String TAG="DashboardActivity";
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboardn);
+        context=DashboardActivity.this;
         initialize();
 
     }
@@ -175,5 +179,9 @@ public class DashboardActivity extends AppCompatActivity
     public static void startScreen(Context context){
         context.startActivity(new Intent(context, DashboardActivity.class));
 
+    }
+
+    public void onClickButton(View view){
+        DetailsList.startScreen(context);
     }
 }

@@ -38,6 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
+                    android:onClick="onClickButton"
                     android:layout_weight="1"
                     android:background="@drawable/border"
                     android:backgroundTint="@color/dashboard_icon1"
@@ -51,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
+                    android:onClick="onClickButton"
                     android:layout_weight="1"
                     android:background="@drawable/border"
                     android:backgroundTint="@color/dashboard_icon2"
@@ -58,12 +60,13 @@
                     android:textColor="@color/tabSelectedIconColor"
                     android:textAllCaps="false"
 
-                    />
+                    android:id="@+id/button" />
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
+                    android:onClick="onClickButton"
                     android:layout_weight="1"
                     android:background="@drawable/border"
                     android:backgroundTint="@color/dashboard_icon3"

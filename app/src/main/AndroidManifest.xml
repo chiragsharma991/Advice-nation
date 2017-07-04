@@ -27,7 +27,8 @@
             android:name=".Base.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Base.PagerFragment"></activity>
+        <activity android:name=".Base.PagerFragment" />
+        <activity android:name=".Base.DetailsList"></activity>
     </application>
 
 </manifest>

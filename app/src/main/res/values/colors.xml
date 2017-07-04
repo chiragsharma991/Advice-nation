@@ -28,6 +28,14 @@
     <color name="dashboard_icon5">#6fabe8</color>
     <color name="dashboard_icon6">#6da065</color>
 
+    <!--list text-->
+
+    <color name="text_dark">#404040</color>
+    <color name="text_light">#757575</color>
+    <color name="text_divider">#dfdedf</color>
+
+
+
 
 
 

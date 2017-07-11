@@ -1,7 +1,9 @@
 package com.project.nat.advice_nation.Base;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -14,23 +16,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
-import com.project.nat.advice_nation.Model.Product;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
+import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
-
-import java.util.ArrayList;
 
 import static com.project.nat.advice_nation.R.id.viewPager;
 
-public class DashboardActivity extends AppCompatActivity
+public class DashboardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -43,7 +45,8 @@ public class DashboardActivity extends AppCompatActivity
     private Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboardn);
         context=DashboardActivity.this;
@@ -51,7 +54,8 @@ public class DashboardActivity extends AppCompatActivity
 
     }
 
-    private void initialize() {
+    private void initialize()
+    {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -75,13 +79,19 @@ public class DashboardActivity extends AppCompatActivity
         setViewPagerAdapter(view_pager);
     }
 
+
+
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else
+        {
             super.onBackPressed();
+            overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
         }
     }
 
@@ -147,9 +157,16 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id ==R.id.selected){
+            moveActivity(new Intent(DashboardActivity.this, AddEvent.class),DashboardActivity.this, false);
+
+
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -176,12 +193,13 @@ public class DashboardActivity extends AppCompatActivity
         return true;
     }
 
-    public static void startScreen(Context context){
+    public static void startScreen(Context context)
+    {
         context.startActivity(new Intent(context, DashboardActivity.class));
-
     }
 
     public void onClickButton(View view){
-        DetailsList.startScreen(context);
+        SubcategoryActivity.startScreen(context);
+        overridePendingTransition(R.anim.start, R.anim.exit);
     }
 }

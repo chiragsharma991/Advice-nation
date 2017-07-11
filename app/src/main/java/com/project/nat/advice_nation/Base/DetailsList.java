@@ -7,15 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
+import com.project.nat.advice_nation.Adapter.DetailListAdapter;
 import com.project.nat.advice_nation.Model.Product;
 import com.project.nat.advice_nation.R;
 
 import java.util.ArrayList;
 
-public class DetailsList extends AppCompatActivity {
+import static com.project.nat.advice_nation.R.id.ratingBar;
+
+public class DetailsList extends AppCompatActivity implements View.OnClickListener{
 
     private RecyclerView ListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +45,21 @@ public class DetailsList extends AppCompatActivity {
             list.add(product);
         }
 
-        DetailListAdapter detailListAdapter=new DetailListAdapter(list);
+        DetailListAdapter detailListAdapter=new DetailListAdapter(list,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());
         ListView.setAdapter(detailListAdapter);
+
+        /*//Rating onClick
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+
+                Toast.makeText(getApplicationContext(),"Rating is:-"+String.valueOf(rating),Toast.LENGTH_SHORT).show();
+
+            }
+        });*/
 
 
     }
@@ -52,5 +69,17 @@ public class DetailsList extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+    }
 
+    @Override
+    public void onClick(View view)
+    {
+
+
+    }
 }

@@ -16,7 +16,6 @@
     <dimen name="text_size_large">11sp</dimen>
 
 
-
     <!--margin top-->
     <dimen name="margin_top">50sp</dimen>
     <dimen name="margin_bottom">50sp</dimen>

@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/detail_listview"
         >
-
-
     </android.support.v7.widget.RecyclerView>
 
 

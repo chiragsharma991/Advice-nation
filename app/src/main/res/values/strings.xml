@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">Advice_nation</string>
+    <string name="app_name">Advice~Nation</string>
 
+    <!--login-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="splash_title">Advice ~ Nation</string>
-    <string name="login_email">Please enter your email ~ Nation</string>
-    <string name="login_password">password ~ Nation</string>
+    <string name="login_email">User Name</string>
+    <string name="login_password">Password</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="log_in">Log In</string>
     <string name="signup">Signup</string>
@@ -16,6 +17,25 @@
     <string name="gender">Gender :</string>
     <string name="language">Language :</string>
     <string name="name">Name :</string>
-    <string name="password">Password :</string>
+    <string name="password">Password</string>
     <string name="email">Email :</string>
+
+
+    <!--dashboard icon text-->
+
+    <string name="dashboard_ictext1">Electronics</string>
+    <string name="dashboard_ictext2">Events</string>
+    <string name="dashboard_ictext3">Organization</string>
+    <string name="dashboard_ictext4">ShowRoom</string>
+    <string name="dashboard_ictext5">Vehicals</string>
+    <string name="dashboard_ictext6">Repair</string>
+    <string name="dashboard_ictext7">Data</string>
+    <string name="dashboard_ictext8">Ragister</string>
+    <string name="dashboard_ictext9">Performance</string>
+
+
+
+    <string name="addevent_upload">Upload Product Image</string>
+
+
 </resources>

@@ -17,8 +17,10 @@
      <color name="colorAccent">#E25667</color>-->
     <color name="color_bg">#E4E4E4</color>
     <color name="colorPrimary">#24b89e</color>
+    <color name="colorPrimary_light">#9024b89e</color>
     <color name="colorPrimaryDark">#419c8c</color>
-    <color name="colorAccent">#546bbc</color>
+    <color name="colorAccent">#24b89e</color>
+    <color name="loginlight_blue">#546bbc</color>
 
     <color name="dashboard_icon1">#6c6d5e</color>
     <color name="dashboard_icon2">#a656af</color>
@@ -36,6 +38,10 @@
 
 
 
+
+
+    <color name="colorPrimary_bluelight">#a0673AB7</color>
+    <color name="colourBlack">#000</color>
 
     <color name="colorPrimaryTrans">#a0673AB7</color>
     <color name="colorAccentTrans">#a0009688</color>

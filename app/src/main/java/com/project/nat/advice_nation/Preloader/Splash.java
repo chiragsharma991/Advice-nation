@@ -3,9 +3,7 @@ package com.project.nat.advice_nation.Preloader;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.WindowManager;
-
-import com.project.nat.advice_nation.Base.MainActivityN;
-import com.project.nat.advice_nation.Base.login;
+import com.project.nat.advice_nation.Base.Login;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.AnimationUtils;
 import com.project.nat.advice_nation.utils.BaseActivity;
@@ -14,6 +12,10 @@ import com.project.nat.advice_nation.utils.CircleProgressBar;
 public class Splash extends BaseActivity {
 
     private CircleProgressBar progressBar;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,8 @@ public class Splash extends BaseActivity {
                     // Thread will sleep for 5 seconds
                     sleep(3 * 1000);
                     showProgress(false);
-                    MainActivityN.startScreen(Splash.this);
+                    Login.startScreen(Splash.this);
+                    Login.startScreen(Splash.this);
                     finish();
 
 
@@ -57,6 +60,10 @@ public class Splash extends BaseActivity {
     }
 
     private void showProgress(boolean b) {
+        if (b) {
+
+            AnimationUtils.animateScaleOut(progressBar);
+        } else {
         if(b){
 
             AnimationUtils.animateScaleOut(progressBar);
@@ -64,6 +71,7 @@ public class Splash extends BaseActivity {
 
             AnimationUtils.animateScaleIn(progressBar);
         }
+    }
     }
 
 

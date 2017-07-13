@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.nat.advice_nation">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,19 +26,51 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Base.MainActivityN"
+            android:name=".Base.Login"
             android:screenOrientation="portrait"
-            android:theme="@style/Login"
-            />
-       <!-- <activity
-            android:name=".Base.login"
-            android:screenOrientation="portrait"
-            android:theme="@style/Login" />-->
-
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            android:theme="@style/Login" />
         <activity
             android:name=".Base.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+
+            />
+
+
+
+        <activity android:name=".Base.DetailsList"
+            android:screenOrientation="portrait"
+
+            />
+
+
+        <activity android:name=".Base.AddEvent"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            >
+
+        </activity>
+
+
+        <activity android:name=".Base.SubcategoryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            >
+
+        </activity>
+
+        <activity android:name=".Base.ReviewActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            >
+
+        </activity>
+
     </application>
 
 </manifest>

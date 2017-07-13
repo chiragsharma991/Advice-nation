@@ -154,15 +154,11 @@ public class DashboardActivity extends BaseActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout) {
+            finish();
             return true;
         }
-        else if(id ==R.id.selected){
-            moveActivity(new Intent(DashboardActivity.this, AddEvent.class),DashboardActivity.this, false);
 
-
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -184,8 +180,9 @@ public class DashboardActivity extends BaseActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.about) {
 
+          About.startScreen(context);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -200,6 +197,6 @@ public class DashboardActivity extends BaseActivity
 
     public void onClickButton(View view){
         SubcategoryActivity.startScreen(context);
-        overridePendingTransition(R.anim.start, R.anim.exit);
+     //   overridePendingTransition(R.anim.start, R.anim.exit);
     }
 }

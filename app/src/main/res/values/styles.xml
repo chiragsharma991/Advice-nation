@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -52,6 +52,13 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:windowEnterAnimation">@anim/dialog_up</item>
         <item name="android:windowExitAnimation">@anim/dialog_down</item>
+    </style>
+
+
+    <style name="RatingBar"
+        parent="android:style/Widget.Material.RatingBar.Small">
+       <!-- <item name="colorControlNormal">@color/colorPrimary_bluelight</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>-->
     </style>
 
 </resources>

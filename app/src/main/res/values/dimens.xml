@@ -16,6 +16,11 @@
     <dimen name="text_size_large">11sp</dimen>
 
 
+    <dimen name="actionbar_title">18sp</dimen>
+    <dimen name="actionbar_btn_hight">25dp</dimen>
+    <dimen name="actionbar_btn_width">25dp</dimen>
+
+
     <!--margin top-->
     <dimen name="margin_top">50sp</dimen>
     <dimen name="margin_bottom">50sp</dimen>

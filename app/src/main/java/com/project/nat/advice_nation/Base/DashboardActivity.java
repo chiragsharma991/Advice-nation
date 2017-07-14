@@ -171,6 +171,7 @@ public class DashboardActivity extends BaseActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
+            Login.startScreen(context);
             finish();
             return true;
         }

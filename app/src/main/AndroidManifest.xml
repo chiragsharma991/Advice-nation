@@ -66,6 +66,10 @@
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>
+        <activity android:name=".Base.Activity_Detail"
+
+            >
+        </activity>
     </application>
 
 </manifest>

@@ -6,27 +6,6 @@
     android:fitsSystemWindows="false"
     >
 
-
-    <LinearLayout
-        android:id="@+id/to_do_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="vertical" >
-
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/detail_listview"
-            >
-        </android.support.v7.widget.RecyclerView>
-
-
-
-
-    </LinearLayout>
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,7 +15,7 @@
         >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_to_do"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:layout_alignParentTop="true"
@@ -78,7 +57,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/imageBtnBack"
-                    android:text="Product List"
+                    android:text="About"
                     android:textStyle="bold"
                     android:textColor="@color/tabSelectedIconColor"
                     android:textSize="@dimen/actionbar_title" />
@@ -111,9 +90,52 @@
     </android.support.design.widget.AppBarLayout>
 
 
+    <LinearLayout
+        android:id="@+id/to_do_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical" >
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Advice Nation"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:textColor="@color/textBlack" />
+
+
+        <TextView
+            android:id="@+id/versioncode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/text_dark"
+            />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
 </android.support.design.widget.CoordinatorLayout>
-
-
-
 
 

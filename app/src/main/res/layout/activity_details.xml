@@ -1,0 +1,291 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="0.1"
+                tools:ignore="InefficientWeight,ObsoleteLayoutParam,ScrollViewSize,UselessParent">
+
+                <RelativeLayout
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    tools:ignore="UselessParent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imagerelative"
+                        >
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/pr_image"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:layout_centerInParent="true"
+                            android:src="@drawable/bg"
+                            tools:ignore="ContentDescription" />
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/login_border"
+                        android:layout_marginTop="4dp"
+                        tools:ignore="NotSibling"
+                        android:layout_below="@+id/imagerelative"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/border_black"
+                            android:orientation="vertical"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            tools:ignore="UselessParent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_weight="2"
+                                android:padding="4dp"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Product Name :-"
+                                    android:textColor="@color/primary_text"
+                                    android:layout_weight=".2"
+                                    tools:ignore="NestedWeights" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.8"
+                                    />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_weight="2"
+                                android:layout_marginTop="2dp"
+                                android:padding="4dp"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Product Discription :-"
+                                    android:textColor="@color/primary_text"
+                                    android:layout_weight=".2"
+                                    tools:ignore="NestedWeights" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.8"
+                                    />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_weight="2"
+                                android:layout_marginTop="2dp"
+                                android:padding="4dp"
+                                >
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Price :-"
+                                    android:textColor="@color/primary_text"
+                                    android:layout_weight=".2"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1.8"
+                                    />
+
+                            </LinearLayout>
+
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:orientation="horizontal"
+                                android:layout_weight="2"
+                                android:layout_marginTop="2dp"
+                                android:padding="4dp"
+                                >
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:layout_height="40dp"
+                                    android:text="Overall Ratings :-"
+                                    android:textColor="@color/primary_text"
+                                    android:gravity="center_vertical"
+                                    tools:ignore="NestedWeights" />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.6"
+                                    android:layout_gravity="center_vertical"
+                                    >
+
+                                    <RatingBar
+                                        android:id="@+id/ratingOverall"
+                                        android:scaleX="0.5"
+                                        android:scaleY="0.5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:clickable="true"
+                                        android:focusable="true"
+                                        android:numStars="5"
+                                        android:rating="2"
+                                        android:scrollbars="horizontal"
+                                        android:stepSize="1" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:orientation="horizontal"
+                                android:layout_weight="2"
+                                android:layout_marginTop="2dp"
+                                android:padding="4dp"
+                                >
+                                <TextView
+                                    android:layout_width="150dp"
+                                    android:layout_height="40dp"
+                                    android:text="Feature Ratings :-"
+                                    android:textColor="@color/primary_text"
+                                    android:gravity="center_vertical"
+                                    tools:ignore="NestedWeights"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="start"
+                                    >
+
+
+                                    <RatingBar
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:numStars="5"
+                                        android:scaleX="0.5"
+                                        android:scaleY="0.5"
+                                        android:id="@+id/featurerating"
+                                        android:clickable="true"
+                                        android:foregroundGravity="center_vertical"
+                                        android:layout_gravity="center_vertical"
+                                        android:rating="1"
+                                        android:stepSize="1" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+                                android:orientation="horizontal">
+                                <Button
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/review"
+                                    android:text="Review"
+                                    android:background="@drawable/border_black"
+                                    android:layout_weight="1"
+                                    tools:ignore="NestedWeights" />
+                                <Button
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/Buy"
+                                    android:background="@drawable/border_black"
+                                    android:text="Buy"
+                                    android:layout_weight="1"
+                                    />
+                                <Button
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:id="@+id/Voucher"
+                                    android:background="@drawable/border_black"
+                                    android:text="Voucher"
+                                    android:layout_weight="1"
+                                    />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:padding="4dp"
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Comments &amp; Reviews"
+                        android:textColor="@color/primary_text" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
+                    >
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

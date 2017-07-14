@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/tabSelectedIconColor">
+    >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -34,13 +34,16 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:id="@+id/imagerelative"
                         >
                         <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
+                            android:layout_height="wrap_content"
                             android:id="@+id/pr_image"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:layout_centerInParent="true"
                             android:src="@drawable/bg"
                             tools:ignore="ContentDescription" />
                     </LinearLayout>
@@ -49,8 +52,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/login_border"
+                        android:layout_marginTop="4dp"
                         tools:ignore="NotSibling"
-                        android:layout_marginTop="10dp"
                         android:layout_below="@+id/imagerelative"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true">
@@ -58,10 +61,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:padding="15dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:background="@drawable/border_gray"
+                            android:background="@drawable/border_black"
                             android:orientation="vertical"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
@@ -72,12 +72,13 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_weight="2"
+                                android:padding="3dp"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Product Name :-"
-                                    android:textColor="@color/colourBlack"
+                                    android:textColor="@color/textBlack"
                                     android:layout_weight=".2"
                                     tools:ignore="NestedWeights" />
                                 <TextView
@@ -93,13 +94,14 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_weight="2"
+                                android:padding="3dp"
                                 android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Product Discription :-"
-                                    android:textColor="@color/colourBlack"
+                                    android:textColor="@color/textBlack"
                                     android:layout_weight=".2"
                                     tools:ignore="NestedWeights" />
                                 <TextView
@@ -115,13 +117,14 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
                                 android:layout_weight="2"
+                                android:padding="3dp"
                                 android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Price :-"
-                                    android:textColor="@color/colourBlack"
+                                    android:textColor="@color/textBlack"
                                     android:layout_weight=".2"
                                     />
                                 <TextView
@@ -136,16 +139,17 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:layout_weight="2"
+                                android:padding="3dp"
                                 android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="40dp"
                                     android:text="Overall Ratings :-"
-                                    android:textColor="@color/colourBlack"
+                                    android:textColor="@color/textBlack"
                                     android:gravity="center_vertical"
                                     android:layout_weight=".2"
                                     tools:ignore="NestedWeights" />
@@ -156,53 +160,72 @@
                                     android:numStars="3"
                                     android:stepSize="1"
                                     android:scrollbars="horizontal"
-                                    android:focusable="true"                        />
+                                    android:focusable="true"/>
 
                             </LinearLayout>
 
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="40dp"
                                 android:orientation="horizontal"
                                 android:layout_weight="2"
+                                android:padding="3dp"
                                 android:layout_marginTop="2dp"
                                 >
                                 <TextView
                                     android:layout_width="wrap_content"
-                                    android:layout_height="match_parent"
+                                    android:layout_height="40dp"
                                     android:text="Feature Ratings :-"
-                                    android:textColor="@color/colourBlack"
+                                    android:textColor="@color/textBlack"
                                     android:gravity="center_vertical"
-                                    android:layout_weight=".2"
-                                    tools:ignore="NestedWeights" />
+                                    tools:ignore="NestedWeights"/>
+
+
                                 <RatingBar
-                                    android:layout_width="wrap_content"
+                                    android:id="@+id/ratingBar2"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1.8"
-                                    android:numStars="3"
-                                    android:stepSize="1"
-                                    android:scrollbars="horizontal"
-                                    android:focusable="true"                        />
+                                    android:max="5"
+                                    android:numStars="5"
+                                    android:rating="3.5"
+                                    android:stepSize="1" />
+
+                                <!-- <RatingBar
+                                     android:layout_width="match_parent"
+                                     android:layout_height="40dp"
+                                     android:layout_weight="1.8"
+                                     android:layout_gravity="center"
+                                     android:stepSize="1"
+                                     android:scrollbars="horizontal"
+                                     android:focusable="true"
+                                     android:scaleX="1"
+                                     android:scaleY="1"
+                                     android:transformPivotX="1dp"
+                                     android:transformPivotY="1dp"
+                                     android:isIndicator="true"
+                                     android:max="5"
+                                     />-->
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="3"
-                                android:layout_marginBottom="1dp"
                                 android:orientation="horizontal">
                                 <Button
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:id="@+id/review"
                                     android:text="Review"
+                                    android:background="@drawable/border_black"
                                     android:layout_weight="1"
                                     tools:ignore="NestedWeights" />
                                 <Button
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:id="@+id/Buy"
+                                    android:background="@drawable/border_black"
                                     android:text="Buy"
                                     android:layout_weight="1"
                                     />
@@ -210,6 +233,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:id="@+id/Voucher"
+                                    android:background="@drawable/border_black"
                                     android:text="Voucher"
                                     android:layout_weight="1"
                                     />
@@ -223,20 +247,23 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp">
+                    android:layout_marginTop="5dp"
+                    android:padding="5dp"
+                    >
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="Comments &amp; Reviews"
-                        android:textColor="@color/colourBlack" />
+                        android:textColor="@color/textBlack" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="15dp"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     >
 
                     <android.support.v7.widget.RecyclerView

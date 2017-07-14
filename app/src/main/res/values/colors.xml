@@ -34,6 +34,7 @@
     <color name="text_dark">#404040</color>
     <color name="text_light">#757575</color>
     <color name="text_divider">#dfdedf</color>
+    <color name="textBlack">#000000</color>
 
 
 
@@ -41,7 +42,6 @@
 
 
     <color name="colorPrimary_bluelight">#a0673AB7</color>
-    <color name="colourBlack">#000</color>
 
     <color name="colorPrimaryTrans">#a0673AB7</color>
     <color name="colorAccentTrans">#a0009688</color>

@@ -15,7 +15,7 @@
         >
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_to_do"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:layout_alignParentTop="true"
@@ -27,6 +27,7 @@
             app:contentInsetStart="0dp"
             >
 
+<!--
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -58,32 +59,32 @@
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/imageBtnBack"
                     android:text="About"
-                    android:textStyle="bold"
-                    android:textColor="@color/tabSelectedIconColor"
-                    android:textSize="@dimen/actionbar_title" />
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    />
 
 
 
 
-                <!--<RelativeLayout-->
-                <!--android:id="@+id/imageBtnSearch"-->
-                <!--android:background="@drawable/button_red_effect"-->
-                <!--android:layout_width="@dimen/header_clickable_width"-->
-                <!--android:layout_height="@dimen/header_clickable_height"-->
-                <!--android:layout_alignParentRight="true"-->
-                <!--android:layout_centerVertical="true">-->
+                &lt;!&ndash;<RelativeLayout&ndash;&gt;
+                &lt;!&ndash;android:id="@+id/imageBtnSearch"&ndash;&gt;
+                &lt;!&ndash;android:background="@drawable/button_red_effect"&ndash;&gt;
+                &lt;!&ndash;android:layout_width="@dimen/header_clickable_width"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="@dimen/header_clickable_height"&ndash;&gt;
+                &lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;
+                &lt;!&ndash;android:layout_centerVertical="true">&ndash;&gt;
 
-                <!--<Button-->
-                <!--android:clickable="false"-->
-                <!--android:background="@mipmap/key_product_search_icon1"-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:layout_centerInParent="true"/>-->
+                &lt;!&ndash;<Button&ndash;&gt;
+                &lt;!&ndash;android:clickable="false"&ndash;&gt;
+                &lt;!&ndash;android:background="@mipmap/key_product_search_icon1"&ndash;&gt;
+                &lt;!&ndash;android:layout_width="20dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_height="20dp"&ndash;&gt;
+                &lt;!&ndash;android:layout_centerInParent="true"/>&ndash;&gt;
 
-                <!--</RelativeLayout>-->
+                &lt;!&ndash;</RelativeLayout>&ndash;&gt;
 
 
             </RelativeLayout>
+-->
         </android.support.v7.widget.Toolbar>
 
 

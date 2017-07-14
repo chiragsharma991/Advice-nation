@@ -54,6 +54,10 @@
         <item name="android:windowExitAnimation">@anim/dialog_down</item>
     </style>
 
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar.Small">
+    </style>
+
 
     <style name="RatingBar"
         parent="android:style/Widget.Material.RatingBar.Small">

@@ -185,6 +185,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
         if(view == btnSignLogin){
             DashboardActivity.startScreen(context);
             overridePendingTransition(R.anim.start, R.anim.exit);
+            finish();
         }
 
 

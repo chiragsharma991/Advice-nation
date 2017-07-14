@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
@@ -30,6 +31,7 @@ import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
 
+import static com.project.nat.advice_nation.R.anim.exit;
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends BaseActivity
@@ -80,6 +82,7 @@ public class DashboardActivity extends BaseActivity
     }
 
 
+    private Boolean exit = false;
 
     @Override
     public void onBackPressed()
@@ -90,8 +93,21 @@ public class DashboardActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
         {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+           // super.onBackPressed();
+            //overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+            if (exit) {
+                finish(); // finish activity
+            } else {
+                Toast.makeText(this, "Press Back again to Exit.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+            }
         }
     }
 

@@ -200,6 +200,6 @@ public class DashboardActivity extends BaseActivity
 
     public void onClickButton(View view){
         SubcategoryActivity.startScreen(context);
-        overridePendingTransition(R.anim.start, R.anim.exit);
+       // overridePendingTransition(R.anim.start, R.anim.exit);
     }
 }

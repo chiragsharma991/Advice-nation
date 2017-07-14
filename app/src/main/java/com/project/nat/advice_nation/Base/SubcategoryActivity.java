@@ -55,6 +55,7 @@ public class SubcategoryActivity extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
-        overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+        finish();
+        //overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
     }
 }

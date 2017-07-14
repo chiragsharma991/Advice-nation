@@ -17,8 +17,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
+
+import org.json.JSONObject;
 
 public class Login extends BaseActivity implements View.OnClickListener {
 
@@ -31,6 +39,8 @@ public class Login extends BaseActivity implements View.OnClickListener {
     private TextView btnSignLogin;
     private Context context;
     private String TAG="Login";
+    // Tag used to cancel the request
+    String tag_json_obj = "json_obj_req";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,8 +51,41 @@ public class Login extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main_login);
         context=Login.this;
         initialize();
+        apicall();
 
 
+
+
+    }
+
+    private void apicall() {
+
+        String url = "http://api.androidhive.info/volley/person_object.json";
+        Log.e(TAG, "apicall: "+url );
+
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.e(TAG, response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error: " + error.getMessage());
+                // hide the progress dialog
+            }
+        });
+
+
+
+// Adding request to request queue
+
+        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
 
 
     }

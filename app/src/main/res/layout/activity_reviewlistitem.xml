@@ -32,7 +32,7 @@
                 android:layout_height="match_parent"
                 android:text="User"
                 android:gravity="center_vertical"
-                android:textColor="@color/colourBlack"
+                android:textColor="@color/textBlack"
                 android:id="@+id/UserText"
                 android:layout_weight=".5"
                 tools:ignore="NestedWeights" />
@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:id="@+id/UserName"
                 android:gravity="center_vertical"
-                android:textColor="@color/colourBlack"
+                android:textColor="@color/textBlack"
                 android:layout_weight=".5"
                 />
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Discription"
                 android:text="Comments from the user 1 about this product"
-                android:textColor="@color/colourBlack"
+                android:textColor="@color/textBlack"
                 />
         </LinearLayout>
 
@@ -82,7 +82,7 @@
                 android:text="Follow"
                 android:clickable="true"
                 android:gravity="end"
-                android:textColor="@color/colourBlack"
+                android:textColor="@color/textBlack"
                 />
         </LinearLayout>
     </LinearLayout>

@@ -167,11 +167,16 @@
 
                             <RatingBar
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:stepSize="0.5"
-                                android:numStars="3"
+                                android:layout_height="wrap_content"
+                                android:stepSize="1"
                                 android:focusable="false"
                                 android:id="@+id/ratingBar"
+                                android:scaleX=".7"
+                                android:scaleY=".7"
+                                android:transformPivotX="0dp"
+                                android:transformPivotY="25dp"
+                                android:backgroundTint="@color/colorPrimary"
+
                                 />
                             <!--<ToggleButton
                                 android:layout_width="20dp"

@@ -12,7 +12,7 @@ import com.project.nat.advice_nation.utils.CircleProgressBar;
 public class Splash extends BaseActivity {
 
     private CircleProgressBar progressBar;
-
+    //comit from surya
 
 
 

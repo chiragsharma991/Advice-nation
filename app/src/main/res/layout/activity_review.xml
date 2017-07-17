@@ -153,14 +153,16 @@
                                     android:gravity="center_vertical"
                                     android:layout_weight=".2"
                                     tools:ignore="NestedWeights" />
+
                                 <RatingBar
+                                    android:id="@+id/ratingBar3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1.8"
+                                    android:focusable="true"
                                     android:numStars="3"
-                                    android:stepSize="1"
                                     android:scrollbars="horizontal"
-                                    android:focusable="true"/>
+                                    android:stepSize="1" />
 
                             </LinearLayout>
 

@@ -15,14 +15,15 @@
     <string name="address">Address :</string>
     <string name="age">Age :</string>
     <string name="gender">Gender :</string>
-    <string name="language">Language :</string>
+    <string name="language">Date Of Birth :</string>
     <string name="name">Name :</string>
     <string name="password">Password</string>
     <string name="email">Email :</string>
+    <string name="gendermale">M</string>
+    <string name="genderFemale">F</string>
 
 
     <!--dashboard icon text-->
-
     <string name="dashboard_ictext1">Electronics</string>
     <string name="dashboard_ictext2">Events</string>
     <string name="dashboard_ictext3">Organization</string>
@@ -32,9 +33,14 @@
     <string name="dashboard_ictext7">Data</string>
     <string name="dashboard_ictext8">Ragister</string>
     <string name="dashboard_ictext9">Performance</string>
-
-
     <string name="addevent_upload">Upload Product Image</string>
+
+
+
+    <!--Error message -->
+    <string name="Entername">Enter Name</string>
+    <string name="Enteremails">Enter Email</string>
+    <string name="EnterAge">Enter Age</string>
 
 
 </resources>

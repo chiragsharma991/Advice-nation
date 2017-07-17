@@ -63,15 +63,11 @@ public class Splash extends BaseActivity {
 
             AnimationUtils.animateScaleOut(progressBar);
         } else {
-        if(b){
-
-            AnimationUtils.animateScaleOut(progressBar);
-        }else{
 
             AnimationUtils.animateScaleIn(progressBar);
         }
     }
-    }
+
 
 
     private void fullScreen() {

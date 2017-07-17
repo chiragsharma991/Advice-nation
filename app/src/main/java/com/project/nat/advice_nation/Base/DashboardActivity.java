@@ -35,7 +35,8 @@ import static com.project.nat.advice_nation.R.anim.exit;
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+{
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ViewPager view_pager;
@@ -58,6 +59,7 @@ public class DashboardActivity extends BaseActivity
 
     private void initialize()
     {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,6 +81,7 @@ public class DashboardActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         setViewPagerAdapter(view_pager);
+
     }
 
 
@@ -95,15 +98,20 @@ public class DashboardActivity extends BaseActivity
         {
            // super.onBackPressed();
             //overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
-            if (exit) {
-                finish(); // finish activity
-            } else {
+            if (exit)
+            {
+                finish();
+                //finish activity
+            } else
+            {
                 Toast.makeText(this, "Press Back again to Exit.",
                         Toast.LENGTH_SHORT).show();
                 exit = true;
-                new Handler().postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         exit = false;
                     }
                 }, 3 * 1000);
@@ -212,7 +220,8 @@ public class DashboardActivity extends BaseActivity
         context.startActivity(new Intent(context, DashboardActivity.class));
     }
 
-    public void onClickButton(View view){
+    public void onClickButton(View view)
+    {
         SubcategoryActivity.startScreen(context);
      //   overridePendingTransition(R.anim.start, R.anim.exit);
     }

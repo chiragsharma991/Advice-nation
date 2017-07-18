@@ -269,8 +269,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
             }else if(user_password.getText().length()==0){
                 showSnackbar(viewpart,"Please Enter Password");
             }else {
-                callback();
-               /* showProgress(true);
+               // callback();
+                showProgress(true);
                 Thread background = new Thread() {
                     public void run() {
                         try {
@@ -299,7 +299,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
                     }
                 };
                 // start thread
-                background.start();*/
+                background.start();
             }
 
 

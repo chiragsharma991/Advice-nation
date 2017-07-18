@@ -7,14 +7,16 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.RatingBar;
-import android.widget.Toast;
 
-import com.project.nat.advice_nation.Adapter.myAdapter;
+import com.project.nat.advice_nation.Adapter.ProductReviewAdapter;
 import com.project.nat.advice_nation.R;
 
 import java.util.ArrayList;
@@ -24,10 +26,10 @@ import java.util.Arrays;
  * Created by Surya Chundawat on 7/14/2017.
  */
 
-public class Activity_Detail extends AppCompatActivity {
+public class ProductReview extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    myAdapter myadapter;
+    ProductReviewAdapter adapter;
     private RatingBar OverallratingBar;
     private RatingBar FeatureRatingbar;
     //public MoviesAdapter moviesAdapter;
@@ -35,6 +37,7 @@ public class Activity_Detail extends AppCompatActivity {
     String[] TextComment;
     private String RatingValue;
     private String FeatureRating;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +50,7 @@ public class Activity_Detail extends AppCompatActivity {
                 "Nice and this is with in the budgut",
                 "Not gud not bad"
         };
-        Inti();
+        Initialise();
 
   /*      FeatureRatingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
@@ -58,14 +61,14 @@ public class Activity_Detail extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "This is Overall rating" + FeatureRating, Toast.LENGTH_SHORT).show();
             }
         });*/
-        LayerDrawable featurestars = (LayerDrawable)  FeatureRatingbar.getProgressDrawable();
+      /*  LayerDrawable featurestars = (LayerDrawable)  FeatureRatingbar.getProgressDrawable();
         featurestars.getDrawable(2).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
         featurestars.getDrawable(0).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
         featurestars.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
         LayerDrawable overallstar = (LayerDrawable)  OverallratingBar.getProgressDrawable();
         overallstar.getDrawable(2).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
         overallstar.getDrawable(0).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
-        overallstar.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        overallstar.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);*/
 
 
    /*     OverallratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -80,20 +83,26 @@ public class Activity_Detail extends AppCompatActivity {
 
     }
 
-    private void Inti() {
+    private void Initialise() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+      //  collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
+      //  collapsingToolbarLayout.setTitle(getString(R.string.product_review));
+     //   collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
 
-        OverallratingBar = (RatingBar) findViewById(R.id.ratingOverall);
-        FeatureRatingbar = (RatingBar) findViewById(R.id.featurerating);
+     //   OverallratingBar = (RatingBar) findViewById(R.id.ratingOverall);
+     //   FeatureRatingbar = (RatingBar) findViewById(R.id.featurerating);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        myadapter = new myAdapter(new ArrayList<>(Arrays.asList(username)), new ArrayList<>(Arrays.asList(TextComment)), this);
+
+        adapter = new ProductReviewAdapter(new ArrayList<>(Arrays.asList(username)), new ArrayList<>(Arrays.asList(TextComment)), this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(myadapter);
+        recyclerView.setAdapter(adapter);
     }
 
     public static void startScreen(Context context) {
-        context.startActivity(new Intent(context, Activity_Detail.class));
+        context.startActivity(new Intent(context, ProductReview.class));
 
     }
 }

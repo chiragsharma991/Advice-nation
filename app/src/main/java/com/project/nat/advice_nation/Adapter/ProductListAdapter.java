@@ -13,8 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.project.nat.advice_nation.Base.Activity_Detail;
-import com.project.nat.advice_nation.Base.ReviewActivity;
+import com.project.nat.advice_nation.Base.ProductReview;
 import com.project.nat.advice_nation.Model.Product;
 import com.project.nat.advice_nation.R;
 
@@ -46,7 +45,7 @@ public class ProductListAdapter extends RecyclerView.Adapter< ProductListAdapter
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Activity_Detail.startScreen(mcontext);
+                ProductReview.startScreen(mcontext);
             }
         });
 

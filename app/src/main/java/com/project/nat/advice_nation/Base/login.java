@@ -25,22 +25,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.project.nat.advice_nation.Https.ApiFailed;
+import com.project.nat.advice_nation.Https.ApiSucess;
 import com.project.nat.advice_nation.Https.AppController;
-import com.project.nat.advice_nation.Preloader.Splash;
+import com.project.nat.advice_nation.Https.PostApi;
+import com.project.nat.advice_nation.Https.ToAppcontroller;
 import com.project.nat.advice_nation.R;
-import com.project.nat.advice_nation.Urls.networkUrl;
 import com.project.nat.advice_nation.utils.BaseActivity;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
 
-public class Login extends BaseActivity implements View.OnClickListener
+public class Login extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiFailed,ApiSucess
 {
 
     private boolean isSigninScreen = true;
@@ -78,45 +79,19 @@ public class Login extends BaseActivity implements View.OnClickListener
 
     }
 
-    private void apicall(JSONObject jObject)
+    private void callback ()
     {
-
-        String url = "http://api.androidhive.info/volley/person_object.json";
-        Log.e(TAG, "apicall: "+url );
-        Log.e(TAG, "apiObject: "+jObject );
-
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(networkUrl.URL_REGISTER
-                , jObject,
-                new Response.Listener<JSONObject>()
-                {
-
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        Log.e(TAG, response.toString());
-                        Toast.makeText(getApplicationContext(),"Response"+response.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener()
-        {
-
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                Log.e(TAG, "Error: " + error.getMessage());
-                // hide the progress dialog
-            }
-        });
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(jsonObjReq, tag_json_obj);
+        String URL =NetworkUrl.URL_LOGIN;
+        String apiTag =NetworkUrl.URL_LOGIN;
+        JSONObject jsonObject=GetLoginObject();
+        Log.e(TAG, "callback: json"+jsonObject.toString() );
+        PostApi postApi=new PostApi(context,URL,jsonObject,apiTag,TAG);
 
     }
 
+
     private void initialize()
     {
-
-
         edtName = (EditText) findViewById(R.id.edtName);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtAge = (EditText) findViewById(R.id.edtAge);
@@ -294,7 +269,8 @@ public class Login extends BaseActivity implements View.OnClickListener
             }else if(user_password.getText().length()==0){
                 showSnackbar(viewpart,"Please Enter Password");
             }else {
-                showProgress(true);
+                callback();
+               /* showProgress(true);
                 Thread background = new Thread() {
                     public void run() {
                         try {
@@ -310,18 +286,20 @@ public class Login extends BaseActivity implements View.OnClickListener
                                 DashboardActivity.startScreen(context);
                                 overridePendingTransition(R.anim.start, R.anim.exit);
                                 finish();
-                            }else {
-                                showSnackbar(viewpart,"Server is not responding");
+
+                            } else {
+                                callback();
                             }
 
 
 
                         } catch (Exception e) {
+                            Log.e(TAG, "run catch error: "+e.getMessage() );
                         }
                     }
                 };
                 // start thread
-                background.start();
+                background.start();*/
             }
 
 
@@ -380,7 +358,7 @@ public class Login extends BaseActivity implements View.OnClickListener
                 jobject.put("userName", edtEmail.getText().toString());
                 jobject.put("secret","test123");
 
-                 apicall(jobject);
+               //  apicall(jobject);
 
 
             } catch (JSONException e) {
@@ -389,6 +367,25 @@ public class Login extends BaseActivity implements View.OnClickListener
 
 
         }
+    }
+
+    public JSONObject GetLoginObject() {
+
+        JSONObject jobject =new JSONObject();
+        try {
+
+            jobject.put("userName" ,"chiragsharma@gmail.com" );
+            jobject.put("secret","test123");
+            jobject.put("deviceOs","testDeviceToken");
+            jobject.put("deviceToken", "abc");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e(TAG, "GetLoginObject: "+e.getMessage() );
+        }
+        return jobject;
+
+
     }
 
 
@@ -402,4 +399,22 @@ public class Login extends BaseActivity implements View.OnClickListener
         }
     }
 
+
+    @Override
+    public void appcontroller(JsonObjectRequest jsonObjectRequest, String apiTag) {
+
+        Log.e(TAG, "appcontroller: " );
+        AppController.getInstance().addToRequestQueue(jsonObjectRequest, apiTag);
+    }
+
+    @Override
+    public void OnFailed(VolleyError error) {
+        Log.e(TAG, "OnFailed:"+error.getMessage() );
+
+    }
+
+    @Override
+    public void OnSucess(JSONObject response) {
+        Log.e(TAG, "OnSucess: "+response );
+    }
 }

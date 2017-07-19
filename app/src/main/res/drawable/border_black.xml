@@ -7,14 +7,14 @@
     </solid>
 
     <padding
-        android:left="1dp"
-        android:top="1dp"
-        android:right="1dp"
-        android:bottom="1dp"    >
+        android:left="2dp"
+        android:top="2dp"
+        android:right="2dp"
+        android:bottom="2dp"    >
     </padding>
 
     <corners
-        android:radius="5dp"   >
+        android:radius="3dp"   >
     </corners>
     <stroke
         android:width="0.5dip"

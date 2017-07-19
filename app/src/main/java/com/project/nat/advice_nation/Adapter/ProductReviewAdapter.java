@@ -4,7 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.net.http.HttpResponseCache;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,11 @@ import android.widget.TextView;
 
 import com.project.nat.advice_nation.R;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * Created by Surya Chundawat on 7/14/2017.
@@ -40,6 +47,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
                 .inflate(R.layout.activity_detailslistitem, parent, false);
         return new MyViewHolder(itemView);
     }
+
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position)
@@ -76,5 +84,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
 
         }
     }
+
+
 }
 

@@ -54,10 +54,26 @@
         <item name="android:windowExitAnimation">@anim/dialog_down</item>
     </style>
 
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar.Small">
+    </style>
+
 
    <!-- <style name="RatingBar1" parent="@android:style/Widget.RatingBar.Small">
         <item name="android:minHeight">22dip</item>
         <item name="android:maxHeight">22dip</item>
     </style>-->
+
+
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/tabSelectedIconColor</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">@color/tabSelectedIconColor</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">@color/loginlight_blue</item>
+    </style>
 
 </resources>

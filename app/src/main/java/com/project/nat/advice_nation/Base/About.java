@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,13 +42,13 @@ public class About extends AppCompatActivity {
         String version = pInfo.versionName;
         versioncode.setText("Version "+version);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
+ /*       btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 finish();
             }
-        });
+        });*/
     }
 
     private void checkstatusbar() {
@@ -67,8 +69,19 @@ public class About extends AppCompatActivity {
     }
 
     private void initialise() {
-
-        btnBack = (RelativeLayout) findViewById(R.id.imageBtnBack);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("About");
+        toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                // what do you want here
+            }
+        });
+      //  btnBack = (RelativeLayout) findViewById(R.id.imageBtnBack);
         versioncode = (TextView) findViewById(R.id.versioncode);
 
     }

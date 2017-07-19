@@ -2,6 +2,7 @@ package com.project.nat.advice_nation.Base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -46,7 +48,7 @@ public class SubcategoryActivity extends AppCompatActivity
 
     private static String[] data = new String[]
     {
-            "Apple", "Ball", "Camera", "Day", "Egg", "Foo", "Google", "Hello", "Iron", "Japan"
+            "Electronics", "Biography", "System", "TreeProcess", "Mechanical", "Science", "Google", "Word", "Iron", "Process Control"
     };
 
     private void checkstatusbar() {
@@ -68,19 +70,24 @@ public class SubcategoryActivity extends AppCompatActivity
 
     private void Initi()
     {
-        btnBack = (RelativeLayout) findViewById(R.id.imageBtnBack);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Sub Category");
+        toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                // what do you want here
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.subrecycler);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         SubcategoryAdapter adapter = new SubcategoryAdapter(this, new ArrayList<>(Arrays.asList(data)));
         recyclerView.setAdapter(adapter);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     public static void startScreen(Context context)
@@ -92,6 +99,7 @@ public class SubcategoryActivity extends AppCompatActivity
     public void onBackPressed()
     {
         super.onBackPressed();
+        finish();
        // overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
     }
 }

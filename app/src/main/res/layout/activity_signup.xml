@@ -7,32 +7,26 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-
-
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center_horizontal|center_vertical"
-        >
+        android:orientation="vertical">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
             android:cropToPadding="true"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_user"
-            tools:ignore="ContentDescription"
-            android:layout_marginBottom="15dp"
-            />
+            tools:ignore="ContentDescription" />
 
 
         <LinearLayout
+            android:id="@+id/linear_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linear_signup"
             android:layout_margin="5dp"
             android:background="@drawable/border"
             android:orientation="vertical">
@@ -44,19 +38,20 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <EditText
+                        android:id="@+id/edtName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name"
                         android:textColor="@color/tabSelectedIconColor"
                         android:textColorHint="@color/tabSelectedIconColor"
-                        android:textSize="@dimen/login_text_size"
-                        android:id="@+id/editText" />
+                        android:textSize="@dimen/login_text_size" />
 
                     <EditText
+                        android:id="@+id/edtEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
@@ -65,43 +60,88 @@
                         android:textColorHint="@color/tabSelectedIconColor"
                         android:textSize="@dimen/login_text_size" />
 
-                    <TextView
+                    <EditText
+                        android:id="@+id/edtAge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:hint="@string/age"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="25dp"
+                        android:inputType="number"
                         android:textColor="@color/tabSelectedIconColor"
                         android:textColorHint="@color/tabSelectedIconColor"
                         android:textSize="@dimen/login_text_size" />
 
-                    <TextView
+
+
+                        <TextView
+                            android:id="@+id/txtDateofbirth"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="25dp"
+                            android:hint="@string/language"
+                            android:textColor="@color/tabSelectedIconColor"
+                            android:textColorHint="@color/tabSelectedIconColor"
+                            android:textSize="@dimen/login_text_size" />
+
+
+
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="25dp"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/gender"
+                            android:textColor="@color/tabSelectedIconColor"
+                            android:textColorHint="@color/tabSelectedIconColor"
+                            android:textSize="@dimen/login_text_size" />
+
+
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/language"
-                        android:layout_marginTop="25dp"
+                        android:orientation="horizontal"
                         android:layout_marginLeft="5dp"
-                        android:textColor="@color/tabSelectedIconColor"
-                        android:textColorHint="@color/tabSelectedIconColor"
-                        android:textSize="@dimen/login_text_size" />
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        >
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/gender"
-                        android:layout_marginTop="25dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginBottom="25dp"
-                        android:textColor="@color/tabSelectedIconColor"
-                        android:textColorHint="@color/tabSelectedIconColor"
-                        android:textSize="@dimen/login_text_size" />
+                        <RadioGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+
+                            >
+                            <RadioButton
+                                android:id="@+id/sign_male"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="20dp"
+                                android:text="Male"
+                                android:checked="true"
+                                android:textColor="@color/tabSelectedIconColor" />
+
+                            <RadioButton
+                                android:id="@+id/sign_female"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Female"
+                                android:textColor="@color/tabSelectedIconColor" />
 
 
 
+                        </RadioGroup>
+
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
-
 
             </ScrollView>
 
@@ -110,22 +150,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:gravity="center_horizontal|center_vertical"
             android:layout_below="@+id/linear_signup"
-            >
-            <TextView
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal|center_vertical">
+
+            <Button
+                android:id="@+id/btnSignup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#0000"
+                android:clickable="true"
                 android:text="@string/signup"
-                android:id="@+id/btnSignup"
-                android:textStyle="bold"
-                android:textSize="@dimen/login_text_button"
-                android:textColor="@color/def"
                 android:textAllCaps="true"
-                />
-
-
+                android:textColor="@color/def"
+                android:textSize="@dimen/login_text_button"
+                android:textStyle="bold" />
         </RelativeLayout>
 
 

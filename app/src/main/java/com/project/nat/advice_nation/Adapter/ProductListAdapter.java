@@ -1,6 +1,9 @@
 package com.project.nat.advice_nation.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.project.nat.advice_nation.Base.Activity_Detail;
 import com.project.nat.advice_nation.Base.ReviewActivity;
 import com.project.nat.advice_nation.Model.Product;
 import com.project.nat.advice_nation.R;
@@ -20,14 +24,14 @@ import java.util.ArrayList;
  * Created by Chari on 7/4/2017.
  */
 
-public class DetailListAdapter extends RecyclerView.Adapter< DetailListAdapter.MyViewHolder >
+public class ProductListAdapter extends RecyclerView.Adapter< ProductListAdapter.MyViewHolder >
 {
 
 
     private final ArrayList<Product> list;
     private final Context mcontext;
 
-    public DetailListAdapter(ArrayList<Product> list,Context context)
+    public ProductListAdapter(ArrayList<Product> list, Context context)
     {
         this.list = list;
         this.mcontext = context;
@@ -42,7 +46,7 @@ public class DetailListAdapter extends RecyclerView.Adapter< DetailListAdapter.M
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ReviewActivity.startScreen(mcontext);
+                Activity_Detail.startScreen(mcontext);
             }
         });
 
@@ -58,7 +62,11 @@ public class DetailListAdapter extends RecyclerView.Adapter< DetailListAdapter.M
         holder.subtitle.setText(product.getSubtitle());
         holder.time.setText(product.getTime());
         holder.image.setImageResource(product.getImage());
-        holder.ratingBar.setNumStars(3);
+     //   holder.ratingBar.setNumStars(3);
+        LayerDrawable stars = (LayerDrawable)  holder.ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
     }
 
     @Override

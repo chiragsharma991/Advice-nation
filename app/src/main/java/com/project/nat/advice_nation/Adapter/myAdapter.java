@@ -1,6 +1,9 @@
 package com.project.nat.advice_nation.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +46,11 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.MyViewHolder>
     {
         holder.username.setText(usename.get(position));
         holder.userComment.setText(textComment.get(position));
+
+        LayerDrawable stars = (LayerDrawable)   holder.ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
 
     }
 

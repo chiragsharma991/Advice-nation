@@ -2,6 +2,9 @@ package com.project.nat.advice_nation.Base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +49,7 @@ public class Activity_Detail extends AppCompatActivity {
         };
         Inti();
 
-        FeatureRatingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+  /*      FeatureRatingbar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
 
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating,
@@ -54,10 +57,18 @@ public class Activity_Detail extends AppCompatActivity {
                 FeatureRating = String.valueOf(ratingBar.getRating());
                 Toast.makeText(getApplicationContext(), "This is Overall rating" + FeatureRating, Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
+        LayerDrawable featurestars = (LayerDrawable)  FeatureRatingbar.getProgressDrawable();
+        featurestars.getDrawable(2).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        featurestars.getDrawable(0).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        featurestars.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        LayerDrawable overallstar = (LayerDrawable)  OverallratingBar.getProgressDrawable();
+        overallstar.getDrawable(2).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        overallstar.getDrawable(0).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        overallstar.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
 
 
-        OverallratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+   /*     OverallratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
@@ -65,7 +76,7 @@ public class Activity_Detail extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "This is Overall rating" + RatingValue, Toast.LENGTH_SHORT).show();
             }
         });
-
+*/
 
     }
 

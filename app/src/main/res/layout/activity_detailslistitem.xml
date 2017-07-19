@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,75 +13,111 @@
         tools:ignore="DisableBaselineAlignment"
         android:orientation="vertical"
         android:background="@drawable/border_black"
-        >
+        android:layout_marginTop="5dp"
 
+
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="InefficientWeight,UselessLeaf,UselessParent"
-            android:orientation="horizontal"
-            android:layout_weight="3"
-
+            android:background="@color/tabSelectedIconColor"
             >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="User"
-                android:textColor="@color/textBlack"
-                android:id="@+id/UserText"
-                android:layout_weight=".5"
-                tools:ignore="NestedWeights" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/UserName"
-                android:textColor="@color/textBlack"
-                android:layout_weight=".5"
-                />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:numStars="5"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:id="@+id/subUserBar"
-                android:stepSize="1"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Discription"
-                android:text="Comments from the user 1 about this product"
-                android:textColor="@color/textBlack"
-                />
+                android:orientation="vertical"
+                android:layout_margin="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="InefficientWeight,UselessLeaf,UselessParent"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_weight="3"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="User"
+                        android:id="@+id/UserName"
+                        android:textColor="#50bdff"
+                        android:textSize="@dimen/text_size_large"
+                        android:layout_weight="1"
+                        tools:ignore="NestedWeights" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        android:textColor="@color/textBlack"
+                        android:layout_weight="1"
+                        />
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:stepSize="1"
+                        android:id="@+id/subUserBar"
+                        android:focusable="false"
+                        android:scaleX=".5"
+                        android:scaleY=".5"
+                        android:numStars="4"
+                        android:transformPivotX="0dp"
+                        android:transformPivotY="10dp"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    >
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/Discription"
+                        android:minLines="2"
+                        android:textSize="@dimen/text_size_large"
+                        android:text="Comments from the user 1 about this product"
+                        android:textColor="@color/textBlack"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UselessLeaf"
+                    android:gravity="end"
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="end"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Follow"
+                        android:clickable="true"
+                        android:textSize="@dimen/text_size_large"
+                        android:gravity="end"
+                        android:textColor="#50bdff"
+                        />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="UselessLeaf"
-            android:gravity="end"
-            android:layout_gravity="end"
-            >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Follow"
-                android:clickable="true"
-                android:gravity="end"
-                android:textColor="@color/textBlack"
-                />
-        </LinearLayout>
+
+
+
+
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</RelativeLayout>

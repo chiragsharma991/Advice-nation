@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@color/color_bg"
     tools:context="com.project.nat.advice_nation.Base.DashboardActivity"
-    tools:showIn="@layout/activity_details">
+    tools:showIn="@layout/activity_details"
+    >
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,8 +21,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -59,7 +59,9 @@
                                 android:layout_height="wrap_content"
                                 android:focusableInTouchMode="true"
                                 android:background="@color/tabSelectedIconColor"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                >
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -293,8 +295,6 @@
                                     android:id="@+id/recycler_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:scrollbars="vertical"
-                                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
                                     android:nestedScrollingEnabled="false"
                                     />
                             </RelativeLayout>

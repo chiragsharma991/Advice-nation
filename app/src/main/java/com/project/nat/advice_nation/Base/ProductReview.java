@@ -3,6 +3,7 @@ package com.project.nat.advice_nation.Base;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -13,7 +14,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RatingBar;
 
 import com.project.nat.advice_nation.Adapter.ProductReviewAdapter;
@@ -39,12 +43,14 @@ public class ProductReview extends AppCompatActivity {
     String[] TextComment;
     private String RatingValue;
     private String FeatureRating;
+    private String TAG="ProductReview";
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        checkstatusbar();
 
         username = new String[]{"Surya", "Narayan", "Singh", "Chndawat"};
         TextComment = new String[]{"This product is good",
@@ -88,7 +94,7 @@ public class ProductReview extends AppCompatActivity {
     private void Initialise() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setTitle("About");
+        getSupportActionBar().setTitle("");
         toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -98,34 +104,13 @@ public class ProductReview extends AppCompatActivity {
                 // what do you want here
             }
         });
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(collapsingToolbar);
-        collapsingToolbarLayout.setTitle(getString(R.string.product_review));
-        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
+
      //   OverallratingBar = (RatingBar) findViewById(R.id.ratingOverall);
      //   FeatureRatingbar = (RatingBar) findViewById(R.id.featurerating);
 
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        appBarLayout.setExpanded(true);
 
-        // hiding & showing the title when toolbar expanded & collapsed
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
 
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbarLayout.setTitle(getString(R.string.product_review));
-                    isShow = true;
-                } else if (isShow) {
-                    collapsingToolbarLayout.setTitle(" ");
-                    isShow = false;
-                }
-            }
-        });
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         adapter = new ProductReviewAdapter(new ArrayList<>(Arrays.asList(username)), new ArrayList<>(Arrays.asList(TextComment)), this);
@@ -138,6 +123,24 @@ public class ProductReview extends AppCompatActivity {
     public static void startScreen(Context context) {
         context.startActivity(new Intent(context, ProductReview.class));
 
+    }
+
+
+    private void checkstatusbar() {
+
+        if(Build.VERSION.SDK_INT>=21)
+        {
+            Window window = getWindow();
+
+            // clear FLAG_TRANSLUCENT_STATUS flag:
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+            // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+            // finally change the color
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
     }
 }
 

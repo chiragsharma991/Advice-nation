@@ -376,7 +376,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
             jobject.put("userName" ,"chiragsharma@gmail.com" );
             jobject.put("secret","test123");
-            jobject.put("deviceOs","testDeviceToken");
+            jobject.put("deviceOs","ANDROID");
             jobject.put("deviceToken", "abc");
 
         } catch (JSONException e) {

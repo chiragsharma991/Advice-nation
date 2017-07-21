@@ -11,6 +11,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -23,17 +24,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.project.nat.advice_nation.Fragment.HomeFragment;
+import com.project.nat.advice_nation.Fragment.MoviesFragment;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
 
+import static com.project.nat.advice_nation.R.anim.exit;
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+{
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ViewPager view_pager;
@@ -43,6 +49,16 @@ public class DashboardActivity extends BaseActivity
     private int delay=5000;
     private String TAG="DashboardActivity";
     private Context context;
+    // index to identify current nav menu item
+    public static int navItemIndex = 0;
+
+    // tags used to attach the fragments
+    private static final String TAG_HOME = "home";
+    private static final String TAG_MOVIES = "movies";
+    public static String CURRENT_TAG = TAG_HOME;
+    private DrawerLayout drawer;
+    private Handler mHandler;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,17 +67,27 @@ public class DashboardActivity extends BaseActivity
         setContentView(R.layout.activity_dashboardn);
         context=DashboardActivity.this;
         initialize();
+        setUpNavigationView();
+
+        if (savedInstanceState == null) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+            loadHomeFragment();
+        }
 
     }
 
     private void initialize()
     {
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mHandler = new Handler();
+
 
         page_Indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -73,13 +99,122 @@ public class DashboardActivity extends BaseActivity
         collapsingToolbarLayout.setTitle(getString(R.string.app_name));
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         setViewPagerAdapter(view_pager);
+
+    }
+
+    /***
+     * Returns respected fragment that user
+     * selected from navigation menu
+     */
+    private void loadHomeFragment() {
+
+        // set toolbar title
+        setToolbarTitle();
+
+        // if user select the current navigation menu again, don't do anything
+        // just close the navigation drawer
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+            drawer.closeDrawers();
+            return;
+        }
+
+        // Sometimes, when fragment has huge data, screen seems hanging
+        // when switching between navigation menus
+        // So using runnable, the fragment is loaded with cross fade effect
+        // This effect can be seen in GMail app
+        Runnable mPendingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // update the main content by replacing fragments
+                Fragment fragment = getHomeFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        };
+
+        // If mPendingRunnable is not null, then add to the message queue
+        if (mPendingRunnable != null) {
+            mHandler.post(mPendingRunnable);
+        }
+
+        //Closing drawer on item click
+        drawer.closeDrawers();
+
+        // refresh toolbar menu
+        invalidateOptionsMenu();
+    }
+
+    private void setToolbarTitle() {
+        getSupportActionBar().setTitle("");
+    }
+
+    private Fragment getHomeFragment() {
+        switch (navItemIndex) {
+            case 0:
+                // home
+                HomeFragment homeFragment = new HomeFragment();
+                return homeFragment;
+
+            case 2:
+                // movies fragment
+                MoviesFragment moviesFragment = new MoviesFragment();
+                return moviesFragment;
+
+            default:
+                return new HomeFragment();
+        }
+    }
+
+    private void setUpNavigationView() {
+        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            // This method will trigger on item Click of navigation menu
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                //Check to see which item was being clicked and perform appropriate action
+                switch (menuItem.getItemId()) {
+                    //Replacing the main content with ContentFragment Which is our Inbox View;
+                    case R.id.nav_camera:
+                        navItemIndex = 0;
+                        CURRENT_TAG = TAG_HOME;
+                        break;
+                    case R.id.nav_gallery:
+                        navItemIndex = 2;
+                        CURRENT_TAG = TAG_MOVIES;
+                        break;
+
+                    default:
+                        navItemIndex = 0;
+                }
+
+                //Checking if the item is in checked state or not, if not make it in checked state
+            /*    if (menuItem.isChecked()) {
+                    menuItem.setChecked(false);
+                } else {
+                    menuItem.setChecked(true);
+                }
+                menuItem.setChecked(true);*/
+
+                loadHomeFragment();
+
+                return true;
+            }
+        });
+
+
     }
 
 
+    private Boolean exit = false;
 
     @Override
     public void onBackPressed()
@@ -90,8 +225,26 @@ public class DashboardActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
         {
-            super.onBackPressed();
-            overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+           // super.onBackPressed();
+            //overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+            if (exit)
+            {
+                finish();
+                //finish activity
+            } else
+            {
+                Toast.makeText(this, "Press Back again to Exit.",
+                        Toast.LENGTH_SHORT).show();
+                exit = true;
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        exit = false;
+                    }
+                }, 3 * 1000);
+            }
         }
     }
 
@@ -155,6 +308,7 @@ public class DashboardActivity extends BaseActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
+            Login.startScreen(context);
             finish();
             return true;
         }
@@ -195,7 +349,8 @@ public class DashboardActivity extends BaseActivity
         context.startActivity(new Intent(context, DashboardActivity.class));
     }
 
-    public void onClickButton(View view){
+    public void onClickButton(View view)
+    {
         SubcategoryActivity.startScreen(context);
      //   overridePendingTransition(R.anim.start, R.anim.exit);
     }

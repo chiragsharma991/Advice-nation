@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -70,11 +71,13 @@ public class About extends AppCompatActivity {
     private void initialise() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setTitle("About");
         toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 // what do you want here
             }
         });

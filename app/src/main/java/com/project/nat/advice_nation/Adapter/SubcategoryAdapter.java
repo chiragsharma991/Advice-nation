@@ -1,7 +1,6 @@
 package com.project.nat.advice_nation.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.project.nat.advice_nation.Base.DetailsList;
+import com.project.nat.advice_nation.Base.ProductList;
 import com.project.nat.advice_nation.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
       public void onClick(View view)
       {
       //  overridePendingTransition(R.anim.start, R.anim.exit);
-        DetailsList.startScreen(mContext);
+        ProductList.startScreen(mContext);
 
       }
     });

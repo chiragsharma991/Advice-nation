@@ -37,7 +37,6 @@ public class Splash extends BaseActivity {
                     sleep(3 * 1000);
                     showProgress(false);
                     Login.startScreen(Splash.this);
-                    Login.startScreen(Splash.this);
                     finish();
 
 
@@ -64,15 +63,11 @@ public class Splash extends BaseActivity {
 
             AnimationUtils.animateScaleOut(progressBar);
         } else {
-        if(b){
-
-            AnimationUtils.animateScaleOut(progressBar);
-        }else{
 
             AnimationUtils.animateScaleIn(progressBar);
         }
     }
-    }
+
 
 
     private void fullScreen() {

@@ -5,8 +5,6 @@ import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,19 +18,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.project.nat.advice_nation.Adapter.DetailListAdapter;
+import com.project.nat.advice_nation.Adapter.ProductListAdapter;
 import com.project.nat.advice_nation.Model.Product;
 import com.project.nat.advice_nation.R;
 
 import java.util.ArrayList;
 
-import static com.project.nat.advice_nation.R.id.ratingBar;
-
-public class DetailsList extends AppCompatActivity implements View.OnClickListener{
+public class ProductList extends AppCompatActivity implements View.OnClickListener{
 
     private RecyclerView ListView;
     private RelativeLayout btnBack;
@@ -51,8 +45,17 @@ public class DetailsList extends AppCompatActivity implements View.OnClickListen
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Product List");
+        toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                // what do you want here
+            }
+        });
         ListView=(RecyclerView)findViewById(R.id.detail_listview);
-        btnBack = (RelativeLayout) findViewById(R.id.imageBtnBack);
 
 
         String[]time={"8:33 am","10:01 pm","03:14 pm","08:03 pm"};
@@ -65,18 +68,12 @@ public class DetailsList extends AppCompatActivity implements View.OnClickListen
             list.add(product);
         }
 
-        DetailListAdapter detailListAdapter=new DetailListAdapter(list,this);
+        ProductListAdapter detailListAdapter=new ProductListAdapter(list,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());
         ListView.setAdapter(detailListAdapter);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         /*//Rating onClick
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -110,7 +107,7 @@ public class DetailsList extends AppCompatActivity implements View.OnClickListen
     }
 
     public static void startScreen(Context context){
-        context.startActivity(new Intent(context, DetailsList.class));
+        context.startActivity(new Intent(context, ProductList.class));
 
     }
 
@@ -118,7 +115,8 @@ public class DetailsList extends AppCompatActivity implements View.OnClickListen
     public void onBackPressed()
     {
         super.onBackPressed();
-     //   overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+        finish();
+        //   overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
     }
 
     @Override

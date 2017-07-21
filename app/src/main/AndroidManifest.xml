@@ -3,10 +3,11 @@
     package="com.project.nat.advice_nation"
     >
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
 
     <application
         android:name=".Https.AppController"
@@ -38,7 +39,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             />
         <activity
-            android:name=".Base.DetailsList"
+            android:name=".Base.ProductList"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             />
@@ -53,16 +54,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
-
-
         </activity>
-        <activity
-            android:name=".Base.ReviewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
 
         <activity android:name=".Base.About"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
+        </activity>
+        <activity android:name=".Base.ProductReview"
             android:theme="@style/AppTheme.NoActionBar"
             >
         </activity>

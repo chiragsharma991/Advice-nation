@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:text="User"
                         android:id="@+id/UserName"
-                        android:textColor="#50bdff"
+                        android:textColor="@color/colorclickable"
                         android:textSize="@dimen/text_size_large"
                         android:layout_weight="1"
                         tools:ignore="NestedWeights" />
@@ -105,7 +105,7 @@
                         android:clickable="true"
                         android:textSize="@dimen/text_size_large"
                         android:gravity="end"
-                        android:textColor="#50bdff"
+                        android:textColor="@color/colorclickable"
                         />
                 </LinearLayout>
 

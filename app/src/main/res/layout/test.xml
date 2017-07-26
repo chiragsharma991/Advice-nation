@@ -1,366 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".Base.ProductReview"
+    android:background="@color/color_bg"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.project.nat.advice_nation.Base.DashboardActivity"
+
     >
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsingToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                app:layout_collapseMode="pin"
-                android:layout_height="?android:actionBarSize"
-                android:layout_alignParentTop="true"
-                android:background="?attr/colorPrimary"
-                app:theme="@style/ThemeOverlay.AppCompat.Light"
-                app:contentInsetEnd="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetRight="0dp"
-                app:contentInsetStart="0dp"
-                >
-
-
-            </android.support.v7.widget.Toolbar>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:src="@mipmap/bg_people"
-                android:id="@+id/product_image"
-
-                />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context="advice_natio.project.com.myapplication.ScrollingActivity"
-        >
 
-        <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="0dp"
+
+            >
+
+            <!--first row-->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="0.1"
-                tools:ignore="InefficientWeight,ObsoleteLayoutParam,ScrollViewSize,UselessParent">
+                android:layout_height="100dp"
+                android:padding="0dp"
+                android:weightSum="3">
 
-                <RelativeLayout
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    tools:ignore="UselessParent"
-                    android:layout_marginTop="5dp"
-                    >
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/login_border"
-                        tools:ignore="NotSibling"
-                        android:layout_below="@+id/imagerelative"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            tools:ignore="UselessParent"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentStart="true">
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:background="@color/tabSelectedIconColor"
-                                >
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_weight="2"
-                                    android:padding="4dp"
-                                    >
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Product Name :-"
-                                        android:textSize="@dimen/text_size_large"
-                                        android:textColor="@color/primary_text"
-                                        android:layout_weight=".2"
-                                        tools:ignore="NestedWeights"
-                                        android:id="@+id/textView2" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="@dimen/text_size_large"
-                                        android:layout_weight="1.8"
-                                        />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_weight="2"
-                                    android:layout_marginTop="2dp"
-                                    android:padding="4dp"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Product Discription :-"
-                                        android:textColor="@color/primary_text"
-                                        android:layout_weight=".2"
-                                        android:textSize="@dimen/text_size_large"
-                                        tools:ignore="NestedWeights" />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1.8"
-                                        />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_weight="2"
-                                    android:layout_marginTop="2dp"
-                                    android:padding="4dp"
-                                    >
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="Price :-"
-                                        android:textColor="@color/primary_text"
-                                        android:layout_weight=".2"
-                                        android:textSize="@dimen/text_size_large"
-                                        />
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1.8"
-                                        />
-
-                                </LinearLayout>
-
-
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:orientation="horizontal"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:layout_weight="2"
-                                    android:layout_marginTop="2dp"
-                                    android:padding="4dp"
-                                    >
-                                    <TextView
-                                        android:layout_width="150dp"
-                                        android:layout_height="40dp"
-                                        android:text="Overall Ratings :-"
-                                        android:textColor="@color/primary_text"
-                                        android:gravity="center_vertical"
-                                        android:textSize="@dimen/text_size_large"
-                                        tools:ignore="NestedWeights" />
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0.6"
-                                        android:layout_gravity="center_vertical"
-                                        >
-
-                                        <RatingBar
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="40dp"
-                                            android:stepSize="0.1"
-                                            android:id="@+id/ratingOverall"
-                                            android:focusable="false"
-                                            android:scaleX=".5"
-                                            android:scaleY=".5"
-                                            android:numStars="5"
-                                            android:transformPivotX="0dp"
-                                            android:transformPivotY="10dp"
-
-                                            />
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginBottom="5dp"
-                                    android:orientation="horizontal"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:layout_weight="2"
-                                    android:layout_marginTop="2dp"
-                                    android:padding="4dp"
-                                    >
-                                    <TextView
-                                        android:layout_width="150dp"
-                                        android:layout_height="40dp"
-                                        android:textSize="@dimen/text_size_large"
-                                        android:text="Feature Ratings :-"
-                                        android:textColor="@color/primary_text"
-                                        android:gravity="center_vertical"
-                                        tools:ignore="NestedWeights" />
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0.6"
-                                        android:layout_gravity="center_vertical"
-                                        >
-
-                                        <RatingBar
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="40dp"
-                                            android:stepSize="0.1"
-                                            android:id="@+id/featurerating"
-                                            android:focusable="false"
-                                            android:scaleX=".5"
-                                            android:scaleY=".5"
-                                            android:numStars="5"
-                                            android:transformPivotX="0dp"
-                                            android:transformPivotY="10dp"
-
-                                            />
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                >
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_weight="3"
-                                    android:layout_marginLeft="1dp"
-                                    android:layout_marginRight="1dp"
-                                    android:orientation="horizontal">
-                                    <Button
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/review"
-                                        android:text="Review"
-                                        android:textAllCaps="false"
-                                        android:background="@drawable/border_black"
-                                        android:layout_weight="1"
-                                        tools:ignore="NestedWeights" />
-
-                                    <Button
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:id="@+id/Buy"
-                                        android:background="@drawable/border_black"
-                                        android:text="Buy"
-                                        android:textAllCaps="false"
-                                        android:layout_weight="1"
-                                        />
-
-                                    <Button
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:id="@+id/Voucher"
-                                        android:textAllCaps="false"
-                                        android:background="@drawable/border_black"
-                                        android:text="Voucher"
-                                        android:layout_weight="1"
-                                        />
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-
-
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:padding="4dp"
-                    >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/login_text_size"
-                        android:text="Comments &amp; Reviews"
-                        android:textColor="@color/primary_text" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
+                <Button
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    >
+                    android:layout_margin="1dp"
+                    android:onClick="onClickButton"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:background="@drawable/border"
+                    android:textSize="@dimen/text_size_dashboard"
+                    android:backgroundTint="@color/dashboard_icon1"
+                    android:text="@string/dashboard_ictext1"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
 
-                    <!--      <android.support.v7.widget.RecyclerView
-                              android:id="@+id/recycler_view"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
+                    />
 
-                              />-->
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:onClick="onClickButton"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:background="@drawable/border"
+                    android:textSize="@dimen/text_size_dashboard"
+                    android:backgroundTint="@color/dashboard_icon2"
+                    android:text="@string/dashboard_ictext2"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
 
-                </RelativeLayout>
+                    android:id="@+id/button" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:onClick="onClickButton"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_dashboard"
+                    android:backgroundTint="@color/dashboard_icon3"
+                    android:text="@string/dashboard_ictext3"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+
+                    />
+
+                <!--first row-->
+            </LinearLayout>
+
+            <!--Second row-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="0dp"
+                android:weightSum="3">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/dashboard_icon4"
+                    android:text="@string/dashboard_ictext4"
+                    android:singleLine="true"
+                    android:background="@drawable/border"
+                    android:textSize="@dimen/text_size_dashboard"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/dashboard_icon5"
+                    android:text="@string/dashboard_ictext5"
+                    android:singleLine="true"
+                    android:background="@drawable/border"
+                    android:textSize="@dimen/text_size_dashboard"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/dashboard_icon6"
+                    android:text="@string/dashboard_ictext6"
+                    android:singleLine="true"
+                    android:background="@drawable/border"
+                    android:textSize="@dimen/text_size_dashboard"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+
+                    />
+
+
+            </LinearLayout>
+
+            <!--third row-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="0dp"
+                android:weightSum="3">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:backgroundTint="@color/dashboard_icon1"
+                    android:text="@string/dashboard_ictext7"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/text_size_dashboard"
+
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:backgroundTint="@color/dashboard_icon2"
+                    android:text="@string/dashboard_ictext8"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/text_size_dashboard"
+
+
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"
+                    android:backgroundTint="@color/dashboard_icon3"
+                    android:text="@string/dashboard_ictext9"
+                    android:textColor="@color/tabSelectedIconColor"
+                    android:textAllCaps="false"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_dashboard"
+
+
+                    />
+
+
             </LinearLayout>
 
 
-        </RelativeLayout>
-
-
+        </LinearLayout>
 
 
     </android.support.v4.widget.NestedScrollView>
-
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

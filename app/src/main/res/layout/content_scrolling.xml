@@ -10,312 +10,102 @@
     tools:showIn="@layout/activity_details"
     >
 
-    <android.support.v4.widget.NestedScrollView
+    <!--   <android.support.v4.widget.NestedScrollView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_alignParentStart="true"
+           android:layout_alignParentTop="true"
+           app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+           >-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="wrap_content">
 
-        >
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:orientation="vertical"
+            tools:ignore="InefficientWeight,ObsoleteLayoutParam,ScrollViewSize,UselessParent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:orientation="vertical"
-                tools:ignore="InefficientWeight,ObsoleteLayoutParam,ScrollViewSize,UselessParent">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                tools:ignore="UselessParent">
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="0dp"
-                    tools:ignore="UselessParent">
+                    android:id="@+id/login_border"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/imagerelative"
+                    tools:ignore="NotSibling">
 
-                    <RelativeLayout
-                        android:id="@+id/login_border"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_below="@+id/imagerelative"
-                        tools:ignore="NotSibling">
+                        android:layout_alignParentTop="true"
+                        android:orientation="vertical"
+                        tools:ignore="UselessParent">
 
-                        <LinearLayout
+
+
+
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:orientation="vertical"
-                            tools:ignore="UselessParent">
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:padding="4dp">
 
-
-                            <LinearLayout
+                            <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusableInTouchMode="true"
-                                android:background="@color/tabSelectedIconColor"
-                                android:orientation="vertical"
-                                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                >
+                                android:text="Comments and Reviews"
+                                android:textColor="@color/primary_text"
+                                android:textSize="@dimen/login_text_size" />
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="2"
-                                    android:orientation="horizontal"
-                                    android:padding="4dp">
-
-                                    <TextView
-                                        android:id="@+id/textView2"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".2"
-                                        android:text="Product Name :-"
-                                        android:textColor="@color/primary_text"
-                                        android:textSize="@dimen/text_size_large"
-                                        tools:ignore="NestedWeights" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1.8"
-                                        android:textSize="@dimen/text_size_large" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_weight="2"
-                                    android:orientation="horizontal"
-                                    android:padding="4dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".2"
-                                        android:text="Product Discription :-"
-                                        android:textColor="@color/primary_text"
-                                        android:textSize="@dimen/text_size_large"
-                                        tools:ignore="NestedWeights" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1.8" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_weight="2"
-                                    android:orientation="horizontal"
-                                    android:padding="4dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".2"
-                                        android:text="Price :-"
-                                        android:textColor="@color/primary_text"
-                                        android:textSize="@dimen/text_size_large" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1.8" />
-
-                                </LinearLayout>
+                        </RelativeLayout>
 
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_weight="2"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:orientation="horizontal"
-                                    android:padding="4dp">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            >
 
-                                    <TextView
-                                        android:layout_width="150dp"
-                                        android:layout_height="40dp"
-                                        android:gravity="center_vertical"
-                                        android:text="Overall Ratings :-"
-                                        android:textColor="@color/primary_text"
-                                        android:textSize="@dimen/text_size_large"
-                                        tools:ignore="NestedWeights" />
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_weight="0.6">
-
-                                        <RatingBar
-                                            android:id="@+id/ratingOverall"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="40dp"
-                                            android:focusable="false"
-                                            android:numStars="5"
-                                            android:scaleX=".5"
-                                            android:scaleY=".5"
-                                            android:stepSize="0.1"
-                                            android:transformPivotX="0dp"
-                                            android:transformPivotY="10dp"
-
-                                            />
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginBottom="5dp"
-                                    android:layout_marginTop="2dp"
-                                    android:layout_weight="2"
-                                    android:gravity="center_horizontal|center_vertical"
-                                    android:orientation="horizontal"
-                                    android:padding="4dp">
-
-                                    <TextView
-                                        android:layout_width="150dp"
-                                        android:layout_height="40dp"
-                                        android:gravity="center_vertical"
-                                        android:text="Feature Ratings :-"
-                                        android:textColor="@color/primary_text"
-                                        android:textSize="@dimen/text_size_large"
-                                        tools:ignore="NestedWeights" />
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
-                                        android:layout_weight="0.6">
-
-                                        <RatingBar
-                                            android:id="@+id/featurerating"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="40dp"
-                                            android:focusable="false"
-                                            android:numStars="5"
-                                            android:scaleX=".5"
-                                            android:scaleY=".5"
-                                            android:stepSize="0.1"
-                                            android:transformPivotX="0dp"
-                                            android:transformPivotY="10dp"
-
-                                            />
-
-                                    </LinearLayout>
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="40dp"
-                                    android:layout_marginLeft="1dp"
-                                    android:layout_marginRight="1dp"
-                                    android:layout_weight="3"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/review"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/border_black"
-                                        android:text="Review"
-                                        android:textAllCaps="false"
-                                        tools:ignore="NestedWeights" />
-
-                                    <Button
-                                        android:id="@+id/Buy"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/border_black"
-                                        android:text="Buy"
-                                        android:textAllCaps="false" />
-
-                                    <Button
-                                        android:id="@+id/Voucher"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/border_black"
-                                        android:text="Voucher"
-                                        android:textAllCaps="false" />
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                            <RelativeLayout
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/recycler_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="5dp"
-                                android:padding="4dp">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Comments and Reviews"
-                                    android:textColor="@color/primary_text"
-                                    android:textSize="@dimen/login_text_size" />
-
-                            </RelativeLayout>
-
-
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:padding="10dp">
-
-                                <android.support.v7.widget.RecyclerView
-                                    android:id="@+id/recycler_view"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:nestedScrollingEnabled="false"
-                                    />
-                            </RelativeLayout>
+                                android:nestedScrollingEnabled="true"
+                                />
+                        </RelativeLayout>
 
 
 
 
-                        </LinearLayout>
-
-                    </RelativeLayout>
+                    </LinearLayout>
 
                 </RelativeLayout>
 
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
+            </RelativeLayout>
 
 
-    </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+    <!--
+        </android.support.v4.widget.NestedScrollView>
+    -->
 </RelativeLayout>
 
 

@@ -20,7 +20,20 @@
     <color name="colorPrimary_light">#9024b89e</color>
     <color name="colorPrimaryDark">#419c8c</color>
     <color name="colorAccent">#24b89e</color>
+    <color name="colorclickable">#50bdff</color>
     <color name="loginlight_blue">#546bbc</color>
+
+    <array name="dashbord_icon_color">
+        <item>#6c6d5e</item>
+        <item>#a656af</item>
+        <item>#c9cc84</item>
+        <item>#6da065</item>
+        <item>#6fabe8</item>
+        <item>#6da065</item>
+        <item>#6c6d5e</item>
+        <item>#a656af</item>
+        <item>#c9cc84</item>
+    </array>
 
     <color name="dashboard_icon1">#6c6d5e</color>
     <color name="dashboard_icon2">#a656af</color>

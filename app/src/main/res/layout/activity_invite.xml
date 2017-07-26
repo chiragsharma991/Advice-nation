@@ -45,60 +45,41 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Advice Nation"
+            android:text="Invite User by Email Address :"
             android:textSize="@dimen/login_text_size"
             android:layout_margin="20dp"
             android:textColor="@color/textBlack" />
 
 
-        <TextView
-            android:id="@+id/versioncode"
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:layout_marginTop="10dp"
-            android:text="Version code"
             android:layout_marginLeft="20dp"
-            android:textColor="@color/text_dark"
+            android:layout_marginRight="20dp"
+            android:hint="Email Address"
+            android:background="@drawable/border_black"
+            android:textSize="@dimen/login_text_size"
+            android:padding="10dp"
+
             />
-        <TextView
-            android:id="@+id/version_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_large"
-            android:layout_marginTop="10dp"
-            android:text="Version Name"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/text_dark"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/email"
-            android:textSize="@dimen/text_size_large"
-            android:text="Company Email"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/colorclickable"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/website"
-            android:textSize="@dimen/text_size_large"
-            android:text="Company Website"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/colorclickable"
-            />
+
+
+
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_marginTop="30dp"
             >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Or By Social Media :"
+                android:textSize="@dimen/login_text_size"
+                android:layout_margin="20dp"
+                android:textColor="@color/textBlack" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,8 +105,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_large"
-                android:text="Linkedin"
-                android:id="@+id/linkedin"
+                android:text="WhatsApp"
+                android:id="@+id/whatsapp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/colorclickable"
@@ -151,16 +132,6 @@
 
 
     </LinearLayout>
-
-
-
-
-
-
-
-
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

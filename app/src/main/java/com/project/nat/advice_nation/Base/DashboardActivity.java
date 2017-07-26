@@ -11,6 +11,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -25,6 +26,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.project.nat.advice_nation.Fragment.AnKoins;
+import com.project.nat.advice_nation.Fragment.HomeFragment;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
@@ -46,6 +49,16 @@ public class DashboardActivity extends BaseActivity
     private int delay=5000;
     private String TAG="DashboardActivity";
     private Context context;
+    // index to identify current nav menu item
+    public static int navItemIndex = 0;
+
+    // tags used to attach the fragments
+    private static final String TAG_HOME = "home";
+    private static final String TAG_ANKOINS = "ankoins";
+    public static String CURRENT_TAG = TAG_HOME;
+    private DrawerLayout drawer;
+    private Handler mHandler;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +67,13 @@ public class DashboardActivity extends BaseActivity
         setContentView(R.layout.activity_dashboardn);
         context=DashboardActivity.this;
         initialize();
+      //  setUpNavigationView();
+
+        if (savedInstanceState == null) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+            loadHomeFragment(getString(R.string.app_name));
+        }
 
     }
 
@@ -62,10 +82,12 @@ public class DashboardActivity extends BaseActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        mHandler = new Handler();
+
 
         page_Indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -77,11 +99,62 @@ public class DashboardActivity extends BaseActivity
         collapsingToolbarLayout.setTitle(getString(R.string.app_name));
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         setViewPagerAdapter(view_pager);
 
+    }
+
+
+    private void loadHomeFragment(String title) {
+
+        setToolbarTitle(title);
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+            drawer.closeDrawers();
+            return;
+        }
+
+        Runnable mPendingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Fragment fragment = getHomeFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        };
+
+        if (mPendingRunnable != null) {
+            mHandler.post(mPendingRunnable);
+        }
+        drawer.closeDrawers();
+        invalidateOptionsMenu();
+    }
+
+    private void setToolbarTitle(String title) {
+        //getSupportActionBar().setTitle(title);
+        collapsingToolbarLayout.setTitle(title);
+
+    }
+
+    private Fragment getHomeFragment() {
+        switch (navItemIndex) {
+            case 0:
+                // home
+                HomeFragment homeFragment = new HomeFragment();
+                return homeFragment;
+
+            case 2:
+                // Ankoins fragment
+                AnKoins anKoins = new AnKoins();
+                return anKoins;
+
+            default:
+                return new HomeFragment();
+        }
     }
 
 
@@ -96,12 +169,9 @@ public class DashboardActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
         {
-           // super.onBackPressed();
-            //overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
             if (exit)
             {
                 finish();
-                //finish activity
             } else
             {
                 Toast.makeText(this, "Press Back again to Exit.",
@@ -172,9 +242,7 @@ public class DashboardActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -195,22 +263,30 @@ public class DashboardActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.home) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+            loadHomeFragment(getString(R.string.app_name));
+
+        } else if (id == R.id.ankoins) {
+            navItemIndex = 2;
+            CURRENT_TAG = TAG_ANKOINS;
+            loadHomeFragment(getString(R.string.app_ankoins));
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            Invite.startScreen(context);
 
         } else if (id == R.id.about) {
 
           About.startScreen(context);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        else{
+            loadHomeFragment(getString(R.string.app_name));
+        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -220,9 +296,9 @@ public class DashboardActivity extends BaseActivity
         context.startActivity(new Intent(context, DashboardActivity.class));
     }
 
-    public void onClickButton(View view)
+ /*   public void onClickButton(View view)
     {
         SubcategoryActivity.startScreen(context);
      //   overridePendingTransition(R.anim.start, R.anim.exit);
-    }
+    }*/
 }

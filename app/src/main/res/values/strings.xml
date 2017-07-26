@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Advice~Nation</string>
-    <string name="product_review">Product Review</string>
+    <string name="app_product_review">Product Review</string>
+    <string name="app_ankoins">AnKoins</string>
 
     <!--login-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -23,8 +24,31 @@
     <string name="gendermale">M</string>
     <string name="genderFemale">F</string>
 
+    <!--Transfer ANikoins-->
+    <string name="transfer_anikoinstotransfer">Number Of Ankoins To Transfer</string>
+    <string name="transfer_anikoinswhomtotransfer">Email Address To Whom Transfer</string>
+    <string name="transfer_remaiinganikoinstotransfer">Remaining Ankoins</string>
+    <string name="transfer_ankoinsbutton">Confirm Transfer</string>
+    <string name="tranjection_ankoinTranjectidtxt">Tranjection Id :</string>
+    <string name="tranjection_ankoinDateOftrajection">Date Of Tranjection :</string>
+    <string name="tranjection_spentAnkoins">Ankoins Spent :</string>
+    <string name="tranjection_purpose">Purpose :</string>
+
 
     <!--dashboard icon text-->
+    <string-array name="dashboard_title">
+        <item>Electronics</item>
+        <item>Events</item>
+        <item>Organization</item>
+        <item>ShowRoom</item>
+        <item>Vehicals</item>
+        <item>Repair</item>
+        <item>Data</item>
+        <item>Ragister</item>
+        <item>Performance</item>
+    </string-array>
+
+
     <string name="dashboard_ictext1">Electronics</string>
     <string name="dashboard_ictext2">Events</string>
     <string name="dashboard_ictext3">Organization</string>
@@ -34,8 +58,7 @@
     <string name="dashboard_ictext7">Data</string>
     <string name="dashboard_ictext8">Ragister</string>
     <string name="dashboard_ictext9">Performance</string>
-    <string name="addevent_upload">Upload Product Image</string>
-
+    <string name="addevent_upload">Upload Poduct Image</string>
 
 
     <!--Error message -->

@@ -8,7 +8,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="splash_title">Advice ~ Nation</string>
-    <string name="login_email">User Name</string>
+    <string name="login_email">User Email</string>
     <string name="login_password">Password</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
     <string name="log_in">Log In</string>
@@ -23,6 +23,10 @@
     <string name="email">Email :</string>
     <string name="gendermale">M</string>
     <string name="genderFemale">F</string>
+    <string name="network_notfound">Please check your network connection</string>
+
+    <!--error-->
+    <string name="error_404">Please enter valid Username and Password</string>
 
     <!--Transfer ANikoins-->
     <string name="transfer_anikoinstotransfer">Number Of Ankoins To Transfer</string>

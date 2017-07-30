@@ -8,5 +8,5 @@ import com.android.volley.VolleyError;
 
 public interface ApiFailed {
 
-    void OnFailed(VolleyError error);
+    void OnFailed(int error);
 }

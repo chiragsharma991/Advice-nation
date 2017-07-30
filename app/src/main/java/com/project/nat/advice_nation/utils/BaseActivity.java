@@ -157,9 +157,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void showToast(String msg){
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+    protected void showToast(String msg,Context context){
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 10);
         toast.show();
     }
 

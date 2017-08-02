@@ -4,11 +4,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.percent.PercentLayoutHelper;
 import android.support.percent.PercentRelativeLayout;
@@ -30,11 +29,12 @@ import android.widget.Toast;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
-import com.project.nat.advice_nation.Https.ApiFailed;
-import com.project.nat.advice_nation.Https.ApiSucess;
+import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
+import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Https.PostApi;
 import com.project.nat.advice_nation.Https.ToAppcontroller;
+import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.UserDetails;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
@@ -43,12 +43,12 @@ import com.project.nat.advice_nation.utils.NetworkUrl;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Login extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiFailed,ApiSucess {
+import static android.R.attr.category;
+
+public class Login extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiResponse {
 
     private boolean isSigninScreen = true;
     private TextView tvSignupInvoker;
@@ -75,6 +75,11 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
     private String user_name, user_password;
     private View viewpart;
     private Gson gson;
+    private SharedPreferences sharedPreferences;
+    private ArrayList<UserDetails> userlist;
+    private PostApi postApi;
+    private GetApi getApi;
+    private ArrayList<Category> categoryList;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -92,18 +97,55 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
     }
 
-    private void callback() {
-        String URL = NetworkUrl.URL_LOGIN;
-        String apiTag = NetworkUrl.URL_LOGIN;
-        JSONObject jsonObject = GetLoginObject();
-        Log.e(TAG, "callback: json" + jsonObject.toString());
-        PostApi postApi = new PostApi(context, URL, jsonObject, apiTag, TAG);
+    private void callback(int id) {
+        switch (id) {
+            case 0:
+                String URL = NetworkUrl.URL_LOGIN;
+                String apiTag = NetworkUrl.URL_LOGIN;
+                JSONObject jsonObject = GetLoginObject();
+                Log.e(TAG, "callback: json" + jsonObject.toString());
+                postApi = new PostApi(context, URL, jsonObject, apiTag, TAG ,1);  // 1 is id for call deshboard api
+            break;
+            case 1:
+                long ID = sharedPreferences.getLong("id",0);
+                String bearerToken = sharedPreferences.getString("bearerToken","");
+                Log.e(TAG, "ID: "+ID );
+                URL = NetworkUrl.URL_CATEGORY+ID+"/productCategory";
+                apiTag = NetworkUrl.URL_CATEGORY+ID+"/productCategory";
+               // getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0); //0 is for finish second api call
+
+                showProgress(false);
+                showToast("Authentication success", context);
+                Thread background = new Thread() {
+                    public void run() {
+                        try {
+                            // Thread will sleep for 5 seconds
+                            sleep(3 * 1000);
+                            DashboardActivity.startScreen(context);
+                            overridePendingTransition(R.anim.start, R.anim.exit);
+                            finish();
+                        } catch (Exception e) {
+                            Log.e(TAG, "run catch error: " + e.getMessage());
+                        }
+
+                    }
+                };
+                background.start();
+            break;
+
+            default:
+                break;
+
+
+        }
+
 
     }
 
 
     private void initialize() {
         gson = new Gson();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         edtName = (EditText) findViewById(R.id.edtName);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtAge = (EditText) findViewById(R.id.edtAge);
@@ -274,8 +316,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
                 showSnackbar(viewpart, "Please Enter Password");
             } else {
                 if (isOnline(context)) {
-                  //  showProgress(true);
-                    callback();
+                    showProgress(true);
+                    callback(0); //0 is id for login api
                 } else {
                     showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
                 }
@@ -392,7 +434,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
                 showSnackbar(viewpart, getResources().getString(R.string.error_404));
                 break;
             case 000:
-                showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+                showSnackbar(viewpart, getResources().getString(R.string.network_poor));
                 break;
             default:
                 showSnackbar(viewpart, getResources().getString(R.string.error_404));
@@ -404,32 +446,54 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
     }
 
     @Override
-    public void OnSucess(JSONObject response) {
-        Log.e(TAG, "OnSucess: " + response);
-        showProgress(false);
+    public void OnSucess(JSONObject response,int id) {
+        Log.e(TAG, "OnSucess: "+id+"  "+ response);
 
+        switch (id){
+            case 0:
+                showProgress(false);
+                categoryList=new ArrayList<Category>();
+                Category category = gson.fromJson(response.toString(), Category.class);
+                categoryList.add(category);
+                Log.e(TAG, "category list: "+categoryList.size()+" and "+categoryList.get(0).getData().get(0).getProductCategoryName() );
 
-        UserDetails userdetail = gson.fromJson(response.toString(), UserDetails.class);
-        Log.e(TAG, "status: "+userdetail.getStatus());
+                showToast("Authentication success", context);
+                Thread background = new Thread() {
+                    public void run() {
+                        try {
+                            // Thread will sleep for 5 seconds
+                            sleep(3 * 1000);
+                            DashboardActivity.startScreen(context);
+                            overridePendingTransition(R.anim.start, R.anim.exit);
+                            finish();
+                        } catch (Exception e) {
+                            Log.e(TAG, "run catch error: " + e.getMessage());
+                        }
 
+                    }
+                };
+                background.start();
+                break;
+            case 1:
+                userlist=new ArrayList<UserDetails>();
+                UserDetails userdetail = gson.fromJson(response.toString(), UserDetails.class);
+                userlist.add(userdetail);
+                saveProfileData(userlist);
+                callback(1); // 0 is for second api
+                break;
+        }
 
-        showToast("Authentication success", context);
-        Thread background = new Thread() {
-            public void run() {
-                try {
-                    // Thread will sleep for 5 seconds
-                    sleep(3 * 1000);
-                    DashboardActivity.startScreen(context);
-                    overridePendingTransition(R.anim.start, R.anim.exit);
-                    finish();
+    }
 
-
-                } catch (Exception e) {
-                    Log.e(TAG, "run catch error: " + e.getMessage());
-                }
-
-            }
-        };
-        background.start();
+    private void saveProfileData(ArrayList<UserDetails> userlist) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username", userlist.get(0).getData().getUserName());
+        editor.putLong("dateOfBirth", userlist.get(0).getData().getDateOfBirth());
+        editor.putLong("id", userlist.get(0).getData().getId());
+        editor.putString("bearerToken", postApi.header);
+        editor.putString("phoneNumber", userlist.get(0).getData().getPhoneNumber());
+        editor.putString("deviceToken", userlist.get(0).getData().getDeviceToken());
+        editor.putString("deviceOs", userlist.get(0).getData().getDeviceOs());
+        editor.apply();
     }
 }

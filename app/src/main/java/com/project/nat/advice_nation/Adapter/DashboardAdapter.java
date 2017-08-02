@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.project.nat.advice_nation.Base.ProductList;
+import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -22,15 +22,13 @@ import java.util.Random;
 
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
 
-    private final int[] color;
+    private final List<Category.CategoryList> data;
     private Context mContext;
-    private List<String> mDataSet;
 
-    public DashboardAdapter(Context context, List<String> dataSet, int[] color)
-    {
+
+    public DashboardAdapter(Context context, List<Category.CategoryList> data) {
         mContext = context;
-        mDataSet = dataSet;
-        this.color = color;
+        this.data = data;
     }
 
     @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,17 +52,17 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
         //  Picasso.with(mContext).load(R.drawable.bg).into(holder.image);
-      //  Random rnd = new Random();
-       // int currentStrokeColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        holder.image.setBackgroundColor(color[position]);
+        Random rnd = new Random();
+        int currentStrokeColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        holder.image.setBackgroundColor(currentStrokeColor);
         //  Glide.with(mContext).load(R.color.dashboard_icon2).into(holder.image);
 
-        holder.text.setText(mDataSet.get(position));
+        holder.text.setText(data.get(position).getProductCategoryName());
 
     }
 
     @Override public int getItemCount() {
-        return mDataSet.size();
+        return data.size();
     }
 
 

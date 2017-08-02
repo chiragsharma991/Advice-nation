@@ -23,10 +23,12 @@
     <string name="email">Email :</string>
     <string name="gendermale">M</string>
     <string name="genderFemale">F</string>
-    <string name="network_notfound">Please check your network connection</string>
 
     <!--error-->
     <string name="error_404">Please enter valid Username and Password</string>
+    <string name="network_notfound">Please check your network connection</string>
+    <string name="network_poor">Network connection is too poor</string>
+
 
     <!--Transfer ANikoins-->
     <string name="transfer_anikoinstotransfer">Number Of Ankoins To Transfer</string>

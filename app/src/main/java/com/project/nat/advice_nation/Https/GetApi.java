@@ -1,9 +1,6 @@
 package com.project.nat.advice_nation.Https;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -16,43 +13,40 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.project.nat.advice_nation.utils.BaseActivity;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Chari on 7/17/2017.
+ * Created by Chari on 8/2/2017.
  */
 
-public class PostApi extends BaseActivity   {
+public class GetApi {
 
     private final ToAppcontroller toAppcontroller;
     private final String apiTag;
-    private final JSONObject jObject;
     private final String url;
     private final String TAG;
     private final ApiResponse apiResponse;
     private final int id;
+    private final String bearerToken;
     private Context context;
     private JsonObjectRequest jsonObjReq;
     public String header;
 
+//                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0);
 
-    public PostApi(Context context, String url, JSONObject jObject, String apiTag, String TAG, int id) {
+    public GetApi(Context context, String url, String bearerToken, String apiTag, String TAG, int id,ToAppcontroller toAppcontroller) {
 
         Log.e(TAG, "PostApi: ");
         this.context = context;
         this.id = id;
-        toAppcontroller = (ToAppcontroller) this.context;
-        apiResponse = (ApiResponse) this.context;
+        this.toAppcontroller = (ToAppcontroller) toAppcontroller;
+        apiResponse = (ApiResponse) toAppcontroller;
         this.url = url;
-        this.jObject = jObject;
+        this.bearerToken = bearerToken;
         this.apiTag = apiTag;
         this.TAG = TAG;
         header="";
@@ -66,8 +60,8 @@ public class PostApi extends BaseActivity   {
 
         Log.e(TAG, "setApi: "+url);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
-        jsonObjReq = new JsonObjectRequest(Request.Method.POST, url
-                , jObject,
+        jsonObjReq = new JsonObjectRequest(Request.Method.GET, url
+                , null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
@@ -103,6 +97,7 @@ public class PostApi extends BaseActivity   {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
+                headers.put("Authorization",  "Bearer " + bearerToken);
                 return headers;
             }
         };
@@ -114,12 +109,4 @@ public class PostApi extends BaseActivity   {
         mRequestQueue.add(jsonObjReq);
 
     }
-
-
 }
-
-
-
-
-
-

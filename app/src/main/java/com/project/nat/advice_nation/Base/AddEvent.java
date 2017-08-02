@@ -33,7 +33,8 @@ import static com.project.nat.advice_nation.R.id.imageView;
 import static com.project.nat.advice_nation.R.id.start;
 import static com.project.nat.advice_nation.utils.Constants.REQUEST_OPEN_CAMERA;
 
-public class AddEvent extends BaseActivity {
+public class AddEvent extends BaseActivity
+{
 
     private String imagePath="";
     private int isGalleryOpen = -1;
@@ -46,19 +47,16 @@ public class AddEvent extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupExplodeWindowAnimations(Gravity.BOTTOM);
-      //  fullScreen();
+        //fullScreen();
         setContentView(R.layout.activity_add_event);
         getSupportActionBar().hide();
         initialise();
-
     }
 
     private void initialise() {
        Upload_img = (ImageView) findViewById(R.id.addevent_upload_img);
         linAdd = (LinearLayout) findViewById(R.id.addevent_linAdd);
         linAdd.setVisibility(View.VISIBLE);
-
-
     }
 
     private void fullScreen() {

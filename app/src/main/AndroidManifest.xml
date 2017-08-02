@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.project.nat.advice_nation"
     >
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".Https.AppController"
@@ -14,7 +16,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="InnerclassSeparator">
         <activity
             android:name=".Preloader.Splash"
             android:label="@string/app_name"
@@ -41,41 +44,40 @@
             android:name=".Base.ProductList"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            />
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Base.AddEvent"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            tools:ignore="InnerclassSeparator" />
         <activity
             android:name=".Base.SubcategoryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
-
-
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            tools:ignore="InnerclassSeparator">
         </activity>
-        <activity
-            android:name=".Base.ReviewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
-
-
-        <activity
-            android:name=".Base.Activity_Detail"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
-
-
 
         <activity android:name=".Base.About"
             android:theme="@style/AppTheme.NoActionBar"
-            >
+            tools:ignore="InnerclassSeparator">
+        </activity>
+        <activity android:name=".Base.ProductReview"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            tools:ignore="InnerclassSeparator">
         </activity>
 
+
+        <activity android:name=".Base.ForgetPassword"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="InnerclassSeparator"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            >
+        </activity>
     </application>
 
 </manifest>

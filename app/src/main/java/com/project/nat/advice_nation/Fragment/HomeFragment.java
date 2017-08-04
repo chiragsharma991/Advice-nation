@@ -136,7 +136,7 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context=context;//
 
 
     }

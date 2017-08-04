@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.project.nat.advice_nation.Base.ProductList;
+import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,13 +21,14 @@ import java.util.List;
  */
 public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.ViewHolder> {
 
+  private final ArrayList<Category> data;
   private Context mContext;
-  private List<String> mDataSet;
 
-  public SubcategoryAdapter(Context context, List<String> dataSet)
+
+  public SubcategoryAdapter(Context context, ArrayList<Category> data)
   {
     mContext = context;
-    mDataSet = dataSet;
+    this.data = data;
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,12 +54,12 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
   //  Picasso.with(mContext).load(R.drawable.bg).into(holder.image);
     Glide.with(mContext).load(R.mipmap.placeholder).into(holder.image);
 
-    holder.text.setText(mDataSet.get(position));
+    holder.text.setText(data.get(0).getData().get(position).getProductSubCategoryName());
 
   }
 
   @Override public int getItemCount() {
-    return mDataSet.size();
+    return data.get(0).getData().size();
   }
 
 

@@ -46,14 +46,15 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import static android.R.attr.breadCrumbShortTitle;
 import static android.R.attr.category;
+import static android.R.attr.debuggable;
 
 public class Login extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiResponse {
 
     private boolean isSigninScreen = true;
     private TextView tvSignupInvoker;
     private LinearLayout llSignup;
-    private ImageButton imgbtnCalender;
     private TextView tvSigninInvoker;
     private LinearLayout llSignin;
     private Button btnSignup;
@@ -104,33 +105,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
                 String apiTag = NetworkUrl.URL_LOGIN;
                 JSONObject jsonObject = GetLoginObject();
                 Log.e(TAG, "callback: json" + jsonObject.toString());
-                postApi = new PostApi(context, URL, jsonObject, apiTag, TAG ,1);  // 1 is id for call deshboard api
-            break;
-            case 1:
-                long ID = sharedPreferences.getLong("id",0);
-                String bearerToken = sharedPreferences.getString("bearerToken","");
-                Log.e(TAG, "ID: "+ID );
-                URL = NetworkUrl.URL_CATEGORY+ID+"/productCategory";
-                apiTag = NetworkUrl.URL_CATEGORY+ID+"/productCategory";
-               // getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0); //0 is for finish second api call
-
-                showProgress(false);
-                showToast("Authentication success", context);
-                Thread background = new Thread() {
-                    public void run() {
-                        try {
-                            // Thread will sleep for 5 seconds
-                            sleep(3 * 1000);
-                            DashboardActivity.startScreen(context);
-                            overridePendingTransition(R.anim.start, R.anim.exit);
-                            finish();
-                        } catch (Exception e) {
-                            Log.e(TAG, "run catch error: " + e.getMessage());
-                        }
-
-                    }
-                };
-                background.start();
+                postApi = new PostApi(context, URL, jsonObject, apiTag, TAG ,0);  // 1 is id for call deshboard api
             break;
 
             default:
@@ -452,17 +427,19 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
         switch (id){
             case 0:
                 showProgress(false);
-                categoryList=new ArrayList<Category>();
-                Category category = gson.fromJson(response.toString(), Category.class);
-                categoryList.add(category);
-                Log.e(TAG, "category list: "+categoryList.size()+" and "+categoryList.get(0).getData().get(0).getProductCategoryName() );
-
+                userlist=new ArrayList<>();
+                UserDetails details = gson.fromJson(response.toString(), UserDetails.class);
+                userlist.add(details);
+                saveProfileData(userlist);
                 showToast("Authentication success", context);
-                Thread background = new Thread() {
+                DashboardActivity.startScreen(context);
+                overridePendingTransition(R.anim.start, R.anim.exit);
+                finish();
+               /* Thread background = new Thread() {
                     public void run() {
                         try {
                             // Thread will sleep for 5 seconds
-                            sleep(3 * 1000);
+                            sleep(1 * 1000);
                             DashboardActivity.startScreen(context);
                             overridePendingTransition(R.anim.start, R.anim.exit);
                             finish();
@@ -472,14 +449,10 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
                     }
                 };
-                background.start();
+                background.start();*/
                 break;
-            case 1:
-                userlist=new ArrayList<UserDetails>();
-                UserDetails userdetail = gson.fromJson(response.toString(), UserDetails.class);
-                userlist.add(userdetail);
-                saveProfileData(userlist);
-                callback(1); // 0 is for second api
+
+            default:
                 break;
         }
 

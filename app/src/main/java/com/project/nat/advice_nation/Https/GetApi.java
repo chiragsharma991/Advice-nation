@@ -13,6 +13,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.project.nat.advice_nation.Base.SubcategoryActivity;
 
 import org.json.JSONObject;
 
@@ -28,7 +29,7 @@ public class GetApi {
     private final ToAppcontroller toAppcontroller;
     private final String apiTag;
     private final String url;
-    private final String TAG;
+    private String TAG;
     private final ApiResponse apiResponse;
     private final int id;
     private final String bearerToken;
@@ -56,9 +57,23 @@ public class GetApi {
 
     }
 
+    public GetApi(Context context, String url, String bearerToken, String apiTag, String tag, int id) {
+        Log.e(TAG, "PostApi: ");
+        this.context = context;
+        this.id = id;
+        this.toAppcontroller = (ToAppcontroller)context ;
+        apiResponse = (ApiResponse) context;
+        this.url = url;
+        this.bearerToken = bearerToken;
+        this.apiTag = apiTag;
+        header="";
+        setApi();
+    }
+
+
     private void setApi() {
 
-        Log.e(TAG, "setApi: "+url);
+        Log.e(TAG, "setApi: "+TAG+" "+url);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url
                 , null,

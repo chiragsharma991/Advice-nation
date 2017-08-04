@@ -3,6 +3,7 @@ package com.project.nat.advice_nation.Base;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.project.nat.advice_nation.Fragment.AnKoins;
@@ -35,10 +37,12 @@ import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
 
 import static com.project.nat.advice_nation.R.anim.exit;
+import static com.project.nat.advice_nation.R.id.progressBar;
+import static com.project.nat.advice_nation.R.id.progressBarToolbar;
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener
 {
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -59,6 +63,7 @@ public class DashboardActivity extends BaseActivity
     private DrawerLayout drawer;
     private Handler mHandler;
     private NavigationView navigationView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,7 +91,8 @@ public class DashboardActivity extends BaseActivity
 
 
         page_Indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -141,6 +147,7 @@ public class DashboardActivity extends BaseActivity
     }
 
     private Fragment getHomeFragment() {
+        Log.e(TAG, "getHomeFragment: " );
         switch (navItemIndex) {
             case 0:
                 // home
@@ -222,15 +229,8 @@ public class DashboardActivity extends BaseActivity
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(0);
         page_Indicator.setViewPager(viewPager);
-        handler.postDelayed(runnable, delay);
     }
 
-    Runnable runnable = new Runnable() {
-        public void run() {
-            Log.e(TAG, "runable: " );
-
-        }
-    };
 
 
     @Override
@@ -296,9 +296,9 @@ public class DashboardActivity extends BaseActivity
         context.startActivity(new Intent(context, DashboardActivity.class));
     }
 
- /*   public void onClickButton(View view)
-    {
-        SubcategoryActivity.startScreen(context);
-     //   overridePendingTransition(R.anim.start, R.anim.exit);
-    }*/
+    @Override
+    public void onFragmentInteraction(boolean loader) {
+        progressBar.setVisibility(loader==true ? View.VISIBLE :View.GONE);
+    }
+
 }

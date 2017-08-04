@@ -28,6 +28,7 @@
     <string name="error_404">Please enter valid Username and Password</string>
     <string name="network_notfound">Please check your network connection</string>
     <string name="network_poor">Network connection is too poor</string>
+    <string name="random_error">Server not responding</string>
 
 
     <!--Transfer ANikoins-->

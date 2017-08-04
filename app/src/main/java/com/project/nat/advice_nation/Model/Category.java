@@ -24,7 +24,18 @@ public class Category {
     public class CategoryList {
 
         private long id;
+        private long productCategoryId;
         private String productCategoryName;
+        private String productSubCategoryName;
+
+
+        public long getProductCategoryId() {
+            return productCategoryId;
+        }
+
+        public String getProductSubCategoryName() {
+            return productSubCategoryName;
+        }
 
         public long getId() {
             return id;
@@ -33,8 +44,6 @@ public class Category {
         public String getProductCategoryName() {
             return productCategoryName;
         }
-
-
 
     }
 }

@@ -1,5 +1,6 @@
 package com.project.nat.advice_nation.Fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -28,6 +29,7 @@ import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.UserDetails;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
+import com.project.nat.advice_nation.utils.BaseFragmetActivity;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONObject;
@@ -35,15 +37,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
-public class HomeFragment extends Fragment implements ToAppcontroller,ApiResponse {
+public class HomeFragment extends BaseFragmetActivity implements ToAppcontroller,ApiResponse {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    private String TAG="HomeFragment";
     private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private Context context;
@@ -51,6 +55,8 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
     private Gson gson;
     private GetApi getApi;
     private ArrayList<Category> categoryList;
+    private OnFragmentInteractionListener mcallback;
+    private View viewpart;
 
     public HomeFragment() {
 
@@ -87,14 +93,20 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
         super.onActivityCreated(savedInstanceState);
         View v =getView();
         Initi(v);
-        callback(0);
+        Log.e(TAG, "onActivityCreated: " );
+        if (isOnline(context)) {
+           mcallback.onFragmentInteraction(true);
+            callback(0);//0 is id for login api
+        } else {
+            showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+        }
+
+
 
     }
 
     private void setview(){
 
-       // String[]data=getResources().getStringArray(R.array.dashboard_title);
-       // int[]color=getResources().getIntArray(R.array.dashbord_icon_color);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         DashboardAdapter adapter = new DashboardAdapter(context, categoryList.get(0).getData());
@@ -104,7 +116,9 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
                 new RecyclerItemClickListener(context, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position)
                     {
-                        SubcategoryActivity.startScreen(context);
+                       int selectID=(int)categoryList.get(0).getData().get(position).getId();
+                        Log.e(TAG, "onItemClick ID: "+selectID );
+                        SubcategoryActivity.startScreen(context,selectID);
 
                         // do whatever
                     }
@@ -122,24 +136,25 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
     private void Initi(View view) {
         gson = new Gson();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        viewpart = view.findViewById(android.R.id.content);
         recyclerView = (RecyclerView)view.findViewById(R.id.subrecycler);
 
 
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;//
+        this.context=context;
+        mcallback=(OnFragmentInteractionListener)context;
+
 
 
     }
+
+
 
     private void callback(int id) {
         switch (id) {
@@ -172,6 +187,7 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
                 categoryList.add(category);
                 Log.e(TAG, "category list: "+categoryList.get(0).getData().size());
                 setview();
+                mcallback.onFragmentInteraction(false);
                 break;
 
             default:
@@ -182,6 +198,16 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
     @Override
     public void OnFailed(int error) {
         Log.e(TAG, "OnFailed: "+error );
+        mcallback.onFragmentInteraction(false);
+        switch (error) {
+            case 000:
+                showSnackbar(viewpart, getResources().getString(R.string.network_poor));
+                break;
+            default:
+                showSnackbar(viewpart, getResources().getString(R.string.random_error));
+
+        }
+
     }
 
     @Override
@@ -192,6 +218,6 @@ public class HomeFragment extends Fragment implements ToAppcontroller,ApiRespons
 
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(boolean loader);
     }
 }

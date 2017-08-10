@@ -15,13 +15,12 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -31,47 +30,54 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.project.nat.advice_nation.Https.ApiFailed;
-import com.project.nat.advice_nation.Https.ApiSucess;
+import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.PostApi;
 import com.project.nat.advice_nation.Https.ToAppcontroller;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
-import static com.project.nat.advice_nation.R.id.btnSignup;
-import static com.project.nat.advice_nation.R.id.txtDateofbirth;
+import static android.R.attr.id;
+import static com.project.nat.advice_nation.R.id.edtfristname;
+import static com.project.nat.advice_nation.R.id.edtpasswordnew;
 
 /**
- * Created by Surya Chundawat on 7/31/2017.
+ * Created by Chari on 8/5/2017.
  */
 
-public class ForgetPassword extends AppCompatActivity implements View.OnClickListener,ToAppcontroller,ApiFailed,ApiSucess
+public class ForgetPassword extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiResponse
 {
 
     private TextInputLayout txtname,txtlastname,txtemail,txtpassword,txtconfirmpassword,txtphone,txtdate;
-    private EditText edtname,edtlastname,edtemails,edtpassword,edtconfrimpassword,edtphone;
+    private EditText edtname,edtlastname,edtemails,edtconfrimpassword,edtphone;
     private TextView txtdateofbirth;
+    private EditText edtfristname;
+    private EditText edtpasswordnew;
+    private View viewpart;
     private Button btnsubmit;
     private Context context;
     private String TAG="ForgetPassword";
     private ProgressBar progressBarToolbar;
     private Calendar calendar;
     private int year,month,day;
+    private PostApi postApi;
+    private boolean isSuccess;
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forgetpassword);
+        setContentView(R.layout.activity_forgetpasswordnew);
+        context= this;
         initialise();
         checkstatusbar();
         initview();
@@ -97,10 +103,10 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     private void initialise() {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Forget Password");
+        toolbar.setTitle("Forget Password");
         toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,16 +127,18 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         txtdate = (TextInputLayout) findViewById(R.id.input_date);
 
 
-        edtname = (EditText) findViewById(R.id.edtfristname);
+        edtfristname = (EditText) findViewById(R.id.edtfristname);
         edtlastname = (EditText) findViewById(R.id.edtlastname);
         edtemails = (EditText) findViewById(R.id.edtemails);
-        edtpassword = (EditText) findViewById(R.id.edtpasswordnew);
+        edtpasswordnew = (EditText) findViewById(R.id.edtpasswordnew);
         edtconfrimpassword = (EditText) findViewById(R.id.edtconfrimpassword);
-        edtphone = (EditText) findViewById(R.id.edtphone);
-        edtname.addTextChangedListener(new MyTextWatcher(edtname));
+        edtphone = (EditText) findViewById(R.id.edtphoneReg);
+
+        //Textwatcher
+        edtfristname.addTextChangedListener(new MyTextWatcher(edtfristname));
         edtemails.addTextChangedListener(new MyTextWatcher(edtemails));
         edtphone.addTextChangedListener(new MyTextWatcher(edtphone));
-        edtpassword.addTextChangedListener(new MyTextWatcher(edtpassword));
+        edtpasswordnew.addTextChangedListener(new MyTextWatcher(edtpasswordnew));
         edtlastname.addTextChangedListener(new MyTextWatcher(edtlastname));
         edtconfrimpassword.addTextChangedListener(new MyTextWatcher(edtconfrimpassword));
 
@@ -145,14 +153,15 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    public static void startScreen(Context context){
+    public static void startScreen(Context context)
+    {
         context.startActivity(new Intent(context, ForgetPassword.class));
-
     }
 
     @Override
     public void onClick(View v)
     {
+        viewpart = findViewById(android.R.id.content);
         if (v==btnsubmit)
         {
             if (!validateName())
@@ -168,50 +177,50 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
             if (!validateDob())
             {return;}
             if (!validateConfirmPassword())
-            {return;}else
+            {return;}
             {
-                if (isOnline())
+                if (edtphone.getText().toString().replaceAll("\\s{2,}", " ").trim().length()<10 )
+                {
+                    //Toast.makeText(context, "Enter Valid Mobile Number", Toast.LENGTH_SHORT).show();
+                    showSnackbar(viewpart, getResources().getString(R.string.phonelength));
+                    return;
+                }else if (!(edtpasswordnew.getText().toString().replaceAll("\\s{2,}", " ").trim().equals(edtconfrimpassword.getText().toString().replaceAll("\\s{2,}", " ").trim())))
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.passwordNotmatch));
+
+                }else if (isOnline(ForgetPassword.this))
                 {
                     showProgress(true,progressBarToolbar);
-                    callbackSingnUp();
+                    callback(1);
 
                 }else
                 {
-                    Toast.makeText(context, "Check Network", Toast.LENGTH_SHORT).show();
+                    showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+                    //Toast.makeText(context, "Check Network", Toast.LENGTH_SHORT).show();
                 }
             }
         }
 
         if(v.getId()==R.id.edtdate){
             showDialog(999);
-
         }
-
     }
 
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+    private void callback(int id) {
+        switch (id) {
+            case 1:
+                String URLREG = NetworkUrl.URL_FORGET;
+                String apiTag_REG = NetworkUrl.URL_FORGET;
+                JSONObject jsonObject1 = GetsignUpObject();
+                Log.e(TAG, "callback: json" + jsonObject1.toString());
+                postApi = new PostApi(context, URLREG, jsonObject1, apiTag_REG, TAG ,2);
+                break;
+
+            default:
+                break;
+        }
     }
 
-    private void callbackSingnUp()
-    {
-
-        String URL = null;
-        String apiTag = null;
-        JSONObject jsonObject = null;
-        jsonObject=GetsignUpObject();
-        URL= NetworkUrl.URL_REGISTER;
-        apiTag=NetworkUrl.URL_REGISTER;
-        Log.e(TAG, "callback: json"+jsonObject.toString() );
-        PostApi postApi=new PostApi(context,URL,jsonObject,apiTag,TAG);
-
-        /*Animation clockwise= AnimationUtils.loadAnimation(getApplicationContext(),R.anim.rotate_right_to_left);
-        if(isSigninScreen)
-            btnSignup.startAnimation(clockwise);*/
-    }
 
     private JSONObject GetsignUpObject()
     {
@@ -223,21 +232,18 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
             jobject.put("dateOfBirth", "2017-08-01T18:02:28.938Z");
             jobject.put("deviceOs", "ANDROID");
             jobject.put("deviceToken", "stringvalue");
-            jobject.put("firstName", edtname.getText().toString().trim());
+            jobject.put("firstName", edtfristname.getText().toString().replaceAll("\\s{2,}", " ").trim());
             jobject.put("gender", "MALE");
             jobject.put("id","0");
-            jobject.put("lastName",edtlastname.getText().toString().trim());
-            jobject.put("newSecret",edtpassword.getText().toString());
-            jobject.put("phoneNumber",edtphone.getText().toString().trim());
+            jobject.put("lastName",edtlastname.getText().toString().replaceAll("\\s{2,}", " ").trim());
+            jobject.put("newSecret",edtpasswordnew.getText().toString().replaceAll("\\s{2,}", " ").trim());
+            jobject.put("phoneNumber",edtphone.getText().toString().replaceAll("\\s{2,}", " ").trim());
             JSONArray jsonArray = new JSONArray();
             jsonArray.put("String");
             jobject.put("roles",jsonArray);
             jobject.put("secret","string");
-            jobject.put("userName",edtemails.getText().toString().trim());
+            jobject.put("userName",edtemails.getText().toString().replaceAll("\\s{2,}", " ").trim());
 
-
-           /* Log.e(TAG, "Authentication: "+"Name"+"abc"+"Emails"+edtEmail.getText().toString().trim()+"PhoneNumber"+edtPhone.getText().toString().trim()
-                    +"dob"+txtDateofbirth.getText().toString().trim());*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -247,9 +253,9 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
 
     private boolean validateName()
     {
-        if (edtname.getText().toString().trim().isEmpty()) {
+        if (edtfristname.getText().toString().trim().isEmpty()) {
             txtname.setError(getResources().getString(R.string.forgetname));
-            requestFocus(edtname);
+            requestFocus(edtfristname);
             return false;
         } else {
             txtname.setErrorEnabled(false);
@@ -271,14 +277,20 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
 
     private boolean validateEmail()
     {
-        if (edtemails.getText().toString().trim().isEmpty()) {
-            txtemail.setError(getResources().getString(R.string.forgetEmails));
+        String email = edtemails.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            txtemail.setError(getString(R.string.Enteremails));
             requestFocus(edtemails);
             return false;
         } else {
             txtemail.setErrorEnabled(false);
         }
         return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean validateConfirmPassword()
@@ -296,7 +308,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     private boolean validatePhone()
     {
         if (edtphone.getText().toString().trim().isEmpty()) {
-            txtphone.setError(getResources().getString(R.string.forgetPhone));
+            txtphone.setError(getResources().getString(R.string.phonenumber));
             requestFocus(edtphone);
             return false;
         } else {
@@ -307,9 +319,9 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
 
     private boolean validatePassword()
     {
-        if (edtpassword.getText().toString().trim().isEmpty()) {
+        if (edtpasswordnew.getText().toString().trim().isEmpty()) {
             txtpassword.setError(getResources().getString(R.string.forgetPassword));
-            requestFocus(edtpassword);
+            requestFocus(edtpasswordnew);
             return false;
         } else {
             txtpassword.setErrorEnabled(false);
@@ -320,7 +332,7 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     private boolean validateDob()
     {
         if (txtdateofbirth.getText().toString().trim().isEmpty()) {
-            txtdate.setError(getResources().getString(R.string.forgetPhone));
+            txtdate.setError(getResources().getString(R.string.phonenumber));
             requestFocus(txtdateofbirth);
             return false;
         } else {
@@ -346,22 +358,6 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void OnSucess(JSONObject response)
-    {
-        showProgress(false,progressBarToolbar);
-        Toast.makeText(context, "Success essage"+response, Toast.LENGTH_SHORT).show();
-        Log.e(TAG, "OnSuccess:"+response );
-
-    }
-
-    @Override
-    public void OnFailed(VolleyError error) {
-        showProgress(false,progressBarToolbar);
-        Toast.makeText(context, "Failed Responce"+error.getMessage(), Toast.LENGTH_SHORT).show();
-        Log.e(TAG, "OnFailed:"+error.getMessage() );
-
-    }
 
     @Override
     public void appcontroller(JsonObjectRequest jsonObjectRequest, String apiTag)
@@ -375,6 +371,63 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
     {
         Login.startScreen(this);
         super.onBackPressed();
+    }
+
+    @Override
+    public void OnSucess(JSONObject response, int id)
+    {
+        showSnackbar(viewpart, response.toString());
+
+        //Toast.makeText(context,"Error Code"+response,Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "OnSucess: "+id+"  "+ response);
+        showProgress(false,progressBarToolbar);
+        switch (id)
+        {
+            case 2:
+                showToast("Congrats!!Password Change Successfully..", context);
+                Login.startScreen(context);
+        }
+
+
+
+        //Toast.makeText(context, "Success essage"+response, Toast.LENGTH_SHORT).show();
+        Log.e(TAG, "OnSuccess:"+response );
+    }
+
+    @Override
+    public void OnFailed(int error,int id) {
+
+        showSnackbar(viewpart, String.valueOf(error));
+
+        //Toast.makeText(context,"Error Code"+error,Toast.LENGTH_SHORT).show();
+
+        showProgress(false, progressBarToolbar);
+        switch (error) {
+            case 404:
+                showSnackbar(viewpart, getResources().getString(R.string.error_404));
+                    //Toast.makeText(context, "Message"+getResources().getString(R.string.error_404), Toast.LENGTH_SHORT).show();
+                break;
+            case 403:
+                //Toast.makeText(context, "Message"+getResources().getString(R.string.error_403), Toast.LENGTH_SHORT).show();
+                showSnackbar(viewpart, getResources().getString(R.string.error_403));
+                break;
+            case 401:
+                //Toast.makeText(context, "Message"+getResources().getString(R.string.error_401), Toast.LENGTH_SHORT).show();
+                showSnackbar(viewpart, getResources().getString(R.string.error_401));
+                break;
+            case 000:
+                //Toast.makeText(context, "Message"+getResources().getString(R.string.network_poor), Toast.LENGTH_SHORT).show();
+                showSnackbar(viewpart, getResources().getString(R.string.network_poor));
+                break;
+            case 409:
+                //Toast.makeText(context, "Message"+getResources().getString(R.string.error_404_reg), Toast.LENGTH_SHORT).show();
+                showSnackbar(viewpart, getResources().getString(R.string.error_404_reg));
+                break;
+            default:
+                showSnackbar(viewpart, getResources().getString(R.string.error_404));
+                    //Toast.makeText(context, "Message"+getResources().getString(R.string.error_404), Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     private class MyTextWatcher implements TextWatcher {
@@ -406,11 +459,14 @@ public class ForgetPassword extends AppCompatActivity implements View.OnClickLis
                 case R.id.edtpasswordnew:
                     validatePassword();
                     break;
-                case R.id.edtphone:
+                case R.id.edtphoneReg:
                     validatePhone();
                     break;
                 case R.id.edtdate:
                     validateDob();
+                    break;
+                case R.id.edtconfrimpassword:
+                    validateConfirmPassword();
                     break;
             }
 

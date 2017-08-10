@@ -9,9 +9,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TextInputLayout;
 import android.support.percent.PercentLayoutHelper;
 import android.support.percent.PercentRelativeLayout;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +25,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -40,24 +43,25 @@ import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static android.R.attr.breadCrumbShortTitle;
-import static android.R.attr.category;
-import static android.R.attr.debuggable;
+import static android.view.View.Z;
+import static com.project.nat.advice_nation.R.id.edtLastName;
+import static com.project.nat.advice_nation.R.id.edtemails;
 
 public class Login extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiResponse {
 
     private boolean isSigninScreen = true;
     private TextView tvSignupInvoker;
     private LinearLayout llSignup;
-    private TextView tvSigninInvoker;
+    private TextView tvSigninInvoker,login_forgetPassword;
     private LinearLayout llSignin;
-    private Button btnSignup;
+    private TextView btnSignup;
     private TextView btnSignLogin;
     private Context context;
     private String TAG = "Login";
@@ -70,6 +74,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
     private EditText edtAge;
     private EditText user_name_edt;
     private EditText user_password_edt;
+    private EditText edt_Passwordreg;
+    private EditText edt_lastNamereg;
     private TextView txtDateofbirth;
     private SwitchCompat switchcompact;
     private ProgressBar progressBarToolbar;
@@ -81,6 +87,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
     private PostApi postApi;
     private GetApi getApi;
     private ArrayList<Category> categoryList;
+    private TextInputLayout txtName,txtLastname,txtEmail,txtPhone,txtDate,txtPassword;
+    private ProgressBar progressBarToolbarReg;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -108,13 +116,17 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
                 postApi = new PostApi(context, URL, jsonObject, apiTag, TAG ,0);  // 1 is id for call deshboard api
             break;
 
-            default:
+            case 1:
+                String URLREG = NetworkUrl.URL_REGISTER;
+                String apiTag_REG = NetworkUrl.URL_REGISTER;
+                JSONObject jsonObject1 = signUp();
+                Log.e(TAG, "callback: json" + jsonObject1.toString());
+                postApi = new PostApi(context, URLREG, jsonObject1, apiTag_REG, TAG ,2);
                 break;
 
-
+            default:
+                break;
         }
-
-
     }
 
 
@@ -122,20 +134,48 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
         gson = new Gson();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         edtName = (EditText) findViewById(R.id.edtName);
+        edt_lastNamereg= (EditText) findViewById(R.id.edtLastName);
+        edt_Passwordreg = (EditText) findViewById(R.id.edtPassword);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
-        edtAge = (EditText) findViewById(R.id.edtAge);
+        edtAge = (EditText) findViewById(R.id.edtphone);
         user_name_edt = (EditText) findViewById(R.id.user_name_edt);
         user_password_edt = (EditText) findViewById(R.id.user_password_edt);
         progressBarToolbar = (ProgressBar) findViewById(R.id.progressBarToolbar);
+        progressBarToolbarReg = (ProgressBar) findViewById(R.id.progressBarToolbarReg);
         progressBarToolbar.setVisibility(View.INVISIBLE);
+        progressBarToolbarReg.setVisibility(View.INVISIBLE);
 
+        //TextInputlayout
+        txtName =(TextInputLayout) findViewById(R.id.input_layout_name);
+        txtLastname=(TextInputLayout) findViewById(R.id.input_layout_Lastname);
+        txtEmail =(TextInputLayout) findViewById(R.id.text_edtemail);
+        txtPhone =(TextInputLayout) findViewById(R.id.text_edtphone);
+        txtPassword =(TextInputLayout) findViewById(R.id.text_password);
+        txtDate =(TextInputLayout) findViewById(R.id.text_Date);
         txtDateofbirth = (TextView) findViewById(R.id.txtDateofbirth);
+        edtName.addTextChangedListener(new MyTextWatcher(edtName));
+        edt_lastNamereg.addTextChangedListener(new MyTextWatcher(edt_lastNamereg));
+        edt_Passwordreg.addTextChangedListener(new MyTextWatcher(edt_Passwordreg));
+        edtEmail.addTextChangedListener(new MyTextWatcher(edtEmail));
+        edtAge.addTextChangedListener(new MyTextWatcher(edtAge));
+        txtDateofbirth.addTextChangedListener(new MyTextWatcher(txtDateofbirth));
+
+        //ForgetPassword
+        login_forgetPassword = (TextView) findViewById(R.id.login_forgetPassword);
+        login_forgetPassword.setOnClickListener(this);
+
+
+
+
+
+
+
 
 
         tvSignupInvoker = (TextView) findViewById(R.id.tvSignupInvoker);
         tvSigninInvoker = (TextView) findViewById(R.id.tvSigninInvoker);
 
-        btnSignup = (Button) findViewById(R.id.btnSignup);
+        btnSignup = (TextView) findViewById(R.id.btnSignup);
         btnSignLogin = (TextView) findViewById(R.id.login);
         btnSignLogin.setOnClickListener(this);
         btnSignup.setOnClickListener(this);
@@ -163,21 +203,6 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
         });
         showSigninForm();
 
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Animation clockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_right_to_left);
-                if (isSigninScreen)
-                    btnSignup.startAnimation(clockwise);
-            }
-        });
-
-        btnSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signUp();
-            }
-        });
     }
 
 
@@ -296,11 +321,61 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
                 } else {
                     showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
                 }
+            }
+        }
 
+        if (view == btnSignup)
+        {
+            if (!validateName())
+            {
+                return;
             }
 
+            if (!validateEmail())
+            {
+                return;
+            }
 
+            if (!validatePhone())
+            {
+                return;
+            }
+
+            if (!validateDate())
+            {
+                return;
+            }
+
+            if (!validateLastName())
+            {
+                return;
+            }
+
+            if (!validatepassword())
+            {
+                return;
+            }else
+            {
+                if (edtAge.getText().toString().replaceAll("\\s{2,}", " ").trim().length()<10)
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.phonelength));
+                    return;
+                }else if (isOnline(context))
+                {
+                   showProgressReg(true);
+                   callback(1);
+                }else
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+                }
+            }
         }
+
+        if (view == login_forgetPassword)
+        {
+            ForgetPassword.startScreen(this);
+        }
+
 
         if (view.getId() == R.id.txtDateofbirth) {
             showDialog(999);
@@ -312,51 +387,32 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
 
 
-    private void signUp() {
-
-
-        if (edtName.getText().toString().trim().equalsIgnoreCase("")) {
-            edtName.setError(getResources().getString(R.string.Entername));
-
-        } else if (edtEmail.getText().toString().trim().equalsIgnoreCase("")) {
-            edtEmail.setError(getResources().getString(R.string.Enteremails));
-        } else if (edtAge.getText().toString().trim().equalsIgnoreCase("")) {
-            edtAge.setError(getResources().getString(R.string.EnterAge));
-
-        } else {
+    private JSONObject signUp() {
 
             JSONObject jobject = new JSONObject();
             try {
-                /*"dateOfBirth": "2016-04-10",
-                        "deviceOs": "ANDROID",
-                        "deviceToken": "testDeviceToken",
-                        "firstName": "abc",
-                        "lastName": "def",
-                        "phoneNumber": "1234567890",
-                        "gender":"MALE",
-                        "userName": "sh@am.com",
-                        "secret":"test123"*/
-
-
-                jobject.put("Dob", txtDateofbirth.getText().toString());
+                jobject.put("active",true);
+                jobject.put("anKoins",0);
+                jobject.put("dateOfBirth", "2017-08-05T09:31:33.568Z");
                 jobject.put("deviceOs", "ANDROID");
                 jobject.put("deviceToken", "testDeviceToken");
-                jobject.put("firstName", "abc");
-                jobject.put("lastName", "def");
-                jobject.put("phoneNumber", "1234567890");
+                jobject.put("firstName", edtName.getText().toString().replaceAll("\\s{2,}", " ").trim());
                 jobject.put("gender", "MALE");
-                jobject.put("userName", edtEmail.getText().toString());
-                jobject.put("secret", "test123");
-
-                //  apicall(jobject);
-
+                jobject.put("id",0);
+                jobject.put("lastName", edt_lastNamereg.getText().toString().replaceAll("\\s{2,}", " ").trim());
+                jobject.put("newSecret" ,edt_Passwordreg.getText().toString().replaceAll("\\s{2,}", " ").trim());
+                jobject.put("phoneNumber", edtAge.getText().toString().replaceAll("\\s{2,}", " ").trim());
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put("abcd");
+                jobject.put("roles",jsonArray);
+                jobject.put("userName", edtEmail.getText().toString().replaceAll("\\s{2,}", " ").trim());
+                jobject.put("secret", edt_Passwordreg.getText().toString().replaceAll("\\s{2,}", " ").trim());
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-
-        }
+        return jobject;
     }
 
 
@@ -380,15 +436,114 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
     }
 
+    private boolean validateName()
+    {
+        if (edtName.getText().toString().trim().isEmpty()) {
+            txtName.setError(getResources().getString(R.string.Entername));
+            requestFocus(edtName);
+            return false;
+        } else {
+            txtName.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateLastName()
+    {
+        if (edt_lastNamereg.getText().toString().trim().isEmpty()) {
+            txtLastname.setError(getResources().getString(R.string.EnterLastName));
+            requestFocus(edt_lastNamereg);
+            return false;
+        } else {
+            txtLastname.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateEmail()
+    {
+        String email = edtEmail.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            txtEmail.setError(getString(R.string.Enteremails));
+            requestFocus(edtEmail);
+            return false;
+        } else {
+            txtEmail.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    //Validate Emails Format
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean validatePhone()
+    {
+        if (edtAge.getText().toString().trim().isEmpty()) {
+            txtPhone.setError(getResources().getString(R.string.EnterAge));
+            requestFocus(edtAge);
+            return false;
+        } else {
+            txtPhone.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+
+    private boolean validateDate()
+    {
+        if (txtDateofbirth.getText().toString().trim().isEmpty()) {
+            txtDate.setError(getResources().getString(R.string.forgetDOb));
+            requestFocus(txtDateofbirth);
+            return false;
+        } else {
+            txtDate.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validatepassword()
+    {
+        if (edt_Passwordreg.getText().toString().trim().isEmpty()) {
+            txtPassword.setError(getResources().getString(R.string.password));
+            requestFocus(edt_Passwordreg);
+            return false;
+        } else {
+            txtPassword.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
 
     private void showProgress(boolean b) {
-        if (b) {
-
+        if (b)
+        {
             com.project.nat.advice_nation.utils.AnimationUtils.animateScaleOut(progressBarToolbar);
         } else {
 
             com.project.nat.advice_nation.utils.AnimationUtils.animateScaleIn(progressBarToolbar);
         }
+    }
+
+
+    private void showProgressReg(boolean b)
+    {
+        if (b)
+        {
+            com.project.nat.advice_nation.utils.AnimationUtils.animateScaleOut(progressBarToolbarReg);
+        }else
+        {
+            com.project.nat.advice_nation.utils.AnimationUtils.animateScaleIn(progressBarToolbarReg);
+        }
+
     }
 
 
@@ -400,19 +555,42 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
     }
 
     @Override
-    public void OnFailed(int error) {
+    public void OnFailed(int error , int id) {
         Log.e(TAG, "OnFailed:" + error);
         showProgress(false);
+        showProgressReg(false);
 
         switch (error) {
             case 404:
-                showSnackbar(viewpart, getResources().getString(R.string.error_404));
+                if (id==0)
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.error_404));
+                }else
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.error_404_reg));
+                }
+                break;
+            case 403:
+                showSnackbar(viewpart, getResources().getString(R.string.error_403));
+                break;
+            case 401:
+                showSnackbar(viewpart, getResources().getString(R.string.error_401));
                 break;
             case 000:
                 showSnackbar(viewpart, getResources().getString(R.string.network_poor));
                 break;
+            case 409:
+                showSnackbar(viewpart, getResources().getString(R.string.error_404_reg));
+                break;
             default:
-                showSnackbar(viewpart, getResources().getString(R.string.error_404));
+                if (id==0)
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.error_404));
+                }else
+                {
+                    showSnackbar(viewpart, getResources().getString(R.string.error_404_reg));
+                }
+
 
         }
         //Additional cases
@@ -424,33 +602,25 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
     public void OnSucess(JSONObject response,int id) {
         Log.e(TAG, "OnSucess: "+id+"  "+ response);
 
-        switch (id){
+        switch (id)
+        {
             case 0:
                 showProgress(false);
-                userlist=new ArrayList<>();
+               /* userlist=new ArrayList<>();
                 UserDetails details = gson.fromJson(response.toString(), UserDetails.class);
                 userlist.add(details);
                 saveProfileData(userlist);
                 showToast("Authentication success", context);
                 DashboardActivity.startScreen(context);
                 overridePendingTransition(R.anim.start, R.anim.exit);
-                finish();
-               /* Thread background = new Thread() {
-                    public void run() {
-                        try {
-                            // Thread will sleep for 5 seconds
-                            sleep(1 * 1000);
-                            DashboardActivity.startScreen(context);
-                            overridePendingTransition(R.anim.start, R.anim.exit);
-                            finish();
-                        } catch (Exception e) {
-                            Log.e(TAG, "run catch error: " + e.getMessage());
-                        }
-
-                    }
-                };
-                background.start();*/
+                finish();*/
                 break;
+
+            case 2:
+                showProgressReg(false);
+                showToast("Registration Success", context);
+                isSigninScreen = true;
+                showSigninForm();
 
             default:
                 break;
@@ -468,5 +638,47 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
         editor.putString("deviceToken", userlist.get(0).getData().getDeviceToken());
         editor.putString("deviceOs", userlist.get(0).getData().getDeviceOs());
         editor.apply();
+    }
+
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable)
+        {
+            switch (view.getId())
+            {
+                case R.id.edtName:
+                    validateName();
+                    break;
+                case R.id.edtLastName:
+                    validateLastName();
+                    break;
+                case R.id.edtEmail:
+                    validateEmail();
+                    break;
+                case R.id.edtPassword:
+                    validatepassword();
+                    break;
+                case R.id.edtphone:
+                    validatePhone();
+                    break;
+                case R.id.txtDateofbirth:
+                    validateDate();
+                    break;
+            }
+
+        }
     }
 }

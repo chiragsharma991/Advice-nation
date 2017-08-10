@@ -57,9 +57,6 @@ public class PostApi extends BaseActivity   {
         this.TAG = TAG;
         header="";
         setApi();
-
-
-
     }
 
     private void setApi() {
@@ -72,25 +69,27 @@ public class PostApi extends BaseActivity   {
 
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.e(TAG, "onResponse: log" );
                         apiResponse.OnSucess(response,id);
                     }
 
                 }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error)
+            {
                 NetworkResponse response = error.networkResponse;
-                try{
-                    apiResponse.OnFailed(response.statusCode);
-                }catch (Exception e){
+                try
+                {
+                    apiResponse.OnFailed(response.statusCode,id);
+                }catch (Exception e)
+                {
                     Log.e(TAG, "onErrorResponse: "+e.getMessage());
-                    apiResponse.OnFailed(000);
-
+                    apiResponse.OnFailed(000,id);
                 }
             }
-
-
         }
+
         ) {
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {

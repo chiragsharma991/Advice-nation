@@ -90,10 +90,10 @@ public class GetApi {
             public void onErrorResponse(VolleyError error) {
                 NetworkResponse response = error.networkResponse;
                 try{
-                    apiResponse.OnFailed(response.statusCode);
+                    apiResponse.OnFailed(response.statusCode,id);
                 }catch (Exception e){
                     Log.e(TAG, "onErrorResponse: "+e.getMessage());
-                    apiResponse.OnFailed(000);
+                    apiResponse.OnFailed(000,id);
 
                 }
             }

@@ -196,7 +196,7 @@ public class HomeFragment extends BaseFragmetActivity implements ToAppcontroller
     }
 
     @Override
-    public void OnFailed(int error) {
+    public void OnFailed(int error,int id) {
         Log.e(TAG, "OnFailed: "+error );
         mcallback.onFragmentInteraction(false);
         switch (error) {

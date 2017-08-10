@@ -177,7 +177,7 @@ public class SubcategoryActivity extends BaseActivity implements ToAppcontroller
     }
 
     @Override
-    public void OnFailed(int error) {
+    public void OnFailed(int error,int id) {
         Log.e(TAG, "OnFailed: "+error );
         progressBar.setVisibility(View.GONE);
         switch (error) {

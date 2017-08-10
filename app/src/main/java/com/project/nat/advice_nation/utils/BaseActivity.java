@@ -33,6 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected int FINISH_TIME = 400;
     protected int ANIM_TIME = 300;
     private Dialog dialog;
+    private Boolean isSuccess;
 
     protected boolean checkPermission(String strPermission, Context context){
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
@@ -167,7 +168,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
     }
 
-    protected void showErrorLog(String error){
+    protected void showErrorLog(String error) {
         Log.e(TAG, ""+error);
     }
 

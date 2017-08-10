@@ -10,7 +10,7 @@ public interface ApiResponse {
 
     void OnSucess(JSONObject response ,int id);
 
-    void OnFailed(int error);
+    void OnFailed(int error,int id);
 
 
 }

@@ -22,7 +22,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -36,7 +35,6 @@ import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Https.PostApi;
-import com.project.nat.advice_nation.Https.ToAppcontroller;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.UserDetails;
 import com.project.nat.advice_nation.R;
@@ -50,11 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static android.view.View.Z;
-import static com.project.nat.advice_nation.R.id.edtLastName;
-import static com.project.nat.advice_nation.R.id.edtemails;
-
-public class Login extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiResponse {
+public class Login extends BaseActivity implements View.OnClickListener,ApiResponse {
 
     private boolean isSigninScreen = true;
     private TextView tvSignupInvoker;
@@ -546,13 +540,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
     }
 
+//9449052078 02240065442
 
-    @Override
-    public void appcontroller(JsonObjectRequest jsonObjectRequest, String apiTag) {
-
-        Log.e(TAG, "appcontroller: ");
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, apiTag);
-    }
 
     @Override
     public void OnFailed(int error , int id) {
@@ -606,14 +595,14 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
         {
             case 0:
                 showProgress(false);
-               /* userlist=new ArrayList<>();
+                userlist=new ArrayList<>();
                 UserDetails details = gson.fromJson(response.toString(), UserDetails.class);
                 userlist.add(details);
                 saveProfileData(userlist);
                 showToast("Authentication success", context);
                 DashboardActivity.startScreen(context);
                 overridePendingTransition(R.anim.start, R.anim.exit);
-                finish();*/
+                finish();
                 break;
 
             case 2:
@@ -624,6 +613,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ToAppcon
 
             default:
                 break;
+
         }
 
     }

@@ -32,7 +32,6 @@ import java.util.Map;
 
 public class PostApi extends BaseActivity   {
 
-    private final ToAppcontroller toAppcontroller;
     private final String apiTag;
     private final JSONObject jObject;
     private final String url;
@@ -49,7 +48,6 @@ public class PostApi extends BaseActivity   {
         Log.e(TAG, "PostApi: ");
         this.context = context;
         this.id = id;
-        toAppcontroller = (ToAppcontroller) this.context;
         apiResponse = (ApiResponse) this.context;
         this.url = url;
         this.jObject = jObject;
@@ -106,11 +104,11 @@ public class PostApi extends BaseActivity   {
             }
         };
 
-        toAppcontroller.appcontroller(jsonObjReq, apiTag);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, apiTag);
         int socketTimeout = 10000;//30000-30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjReq.setRetryPolicy(policy);
-        mRequestQueue.add(jsonObjReq);
+      //  mRequestQueue.add(jsonObjReq);
 
     }
 

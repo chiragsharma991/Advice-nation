@@ -26,11 +26,10 @@ import java.util.Map;
 
 public class GetApi {
 
-    private final ToAppcontroller toAppcontroller;
     private final String apiTag;
     private final String url;
     private String TAG;
-    private final ApiResponse apiResponse;
+    private  ApiResponse apiResponse;
     private final int id;
     private final String bearerToken;
     private Context context;
@@ -39,13 +38,12 @@ public class GetApi {
 
 //                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0);
 
-    public GetApi(Context context, String url, String bearerToken, String apiTag, String TAG, int id,ToAppcontroller toAppcontroller) {
+    public GetApi(Context context, String url, String bearerToken, String apiTag, String TAG, int id,ApiResponse apiResponse) {
 
         Log.e(TAG, "PostApi: ");
         this.context = context;
         this.id = id;
-        this.toAppcontroller = (ToAppcontroller) toAppcontroller;
-        apiResponse = (ApiResponse) toAppcontroller;
+        this.apiResponse = (ApiResponse) apiResponse;
         this.url = url;
         this.bearerToken = bearerToken;
         this.apiTag = apiTag;
@@ -61,7 +59,6 @@ public class GetApi {
         Log.e(TAG, "PostApi: ");
         this.context = context;
         this.id = id;
-        this.toAppcontroller = (ToAppcontroller)context ;
         apiResponse = (ApiResponse) context;
         this.url = url;
         this.bearerToken = bearerToken;
@@ -74,7 +71,7 @@ public class GetApi {
     private void setApi() {
 
         Log.e(TAG, "setApi: "+TAG+" "+url);
-        RequestQueue mRequestQueue = Volley.newRequestQueue(context);
+       // RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         jsonObjReq = new JsonObjectRequest(Request.Method.GET, url
                 , null,
                 new Response.Listener<JSONObject>() {
@@ -117,11 +114,11 @@ public class GetApi {
             }
         };
 
-        toAppcontroller.appcontroller(jsonObjReq, apiTag);
+        AppController.getInstance().addToRequestQueue(jsonObjReq, apiTag);
         int socketTimeout = 10000;//30000-30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjReq.setRetryPolicy(policy);
-        mRequestQueue.add(jsonObjReq);
+       // mRequestQueue.add(jsonObjReq);
 
     }
 }

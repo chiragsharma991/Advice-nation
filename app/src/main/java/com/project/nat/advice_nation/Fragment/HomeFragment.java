@@ -1,13 +1,10 @@
 package com.project.nat.advice_nation.Fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,14 +16,11 @@ import android.view.ViewGroup;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.project.nat.advice_nation.Adapter.DashboardAdapter;
-import com.project.nat.advice_nation.Base.DashboardActivity;
 import com.project.nat.advice_nation.Base.SubcategoryActivity;
 import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
-import com.project.nat.advice_nation.Https.ToAppcontroller;
 import com.project.nat.advice_nation.Model.Category;
-import com.project.nat.advice_nation.Model.UserDetails;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseFragmetActivity;
@@ -35,13 +29,9 @@ import com.project.nat.advice_nation.utils.NetworkUrl;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 
-public class HomeFragment extends BaseFragmetActivity implements ToAppcontroller,ApiResponse {
+public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -210,11 +200,6 @@ public class HomeFragment extends BaseFragmetActivity implements ToAppcontroller
 
     }
 
-    @Override
-    public void appcontroller(JsonObjectRequest jsonObjectRequest, String apiTag) {
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, apiTag);
-
-    }
 
 
     public interface OnFragmentInteractionListener {

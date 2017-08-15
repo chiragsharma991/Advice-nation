@@ -26,7 +26,6 @@ import com.project.nat.advice_nation.Adapter.SubcategoryAdapter;
 import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
-import com.project.nat.advice_nation.Https.ToAppcontroller;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
@@ -42,7 +41,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * Created by Chari on 7/9/2017.
  */
 
-public class SubcategoryActivity extends BaseActivity implements ToAppcontroller,ApiResponse
+public class SubcategoryActivity extends BaseActivity implements ApiResponse
 {
     private RecyclerView recyclerView;
     private RelativeLayout btnBack;
@@ -190,10 +189,5 @@ public class SubcategoryActivity extends BaseActivity implements ToAppcontroller
 
     }
 
-    @Override
-    public void appcontroller(JsonObjectRequest jsonObjectRequest, String apiTag) {
 
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, apiTag);
-
-    }
 }

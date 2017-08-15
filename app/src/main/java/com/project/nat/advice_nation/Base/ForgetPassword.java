@@ -5,14 +5,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -28,12 +25,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.PostApi;
-import com.project.nat.advice_nation.Https.ToAppcontroller;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.NetworkUrl;
@@ -44,15 +39,11 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 
-import static android.R.attr.id;
-import static com.project.nat.advice_nation.R.id.edtfristname;
-import static com.project.nat.advice_nation.R.id.edtpasswordnew;
-
 /**
  * Created by Chari on 8/5/2017.
  */
 
-public class ForgetPassword extends BaseActivity implements View.OnClickListener,ToAppcontroller,ApiResponse
+public class ForgetPassword extends BaseActivity implements View.OnClickListener,ApiResponse
 {
 
     private TextInputLayout txtname,txtlastname,txtemail,txtpassword,txtconfirmpassword,txtphone,txtdate;
@@ -359,12 +350,6 @@ public class ForgetPassword extends BaseActivity implements View.OnClickListener
     }
 
 
-    @Override
-    public void appcontroller(JsonObjectRequest jsonObjectRequest, String apiTag)
-    { Log.e(TAG, "appcontroller: " );
-        AppController.getInstance().addToRequestQueue(jsonObjectRequest, apiTag);
-
-    }
 
     @Override
     public void onBackPressed()

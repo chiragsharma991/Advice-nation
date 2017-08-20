@@ -1,5 +1,6 @@
 package com.project.nat.advice_nation.Base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,12 +29,16 @@ import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Model.Category;
+import com.project.nat.advice_nation.Model.Parser;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseActivity;
+import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
@@ -41,8 +47,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * Created by Chari on 7/9/2017.
  */
 
-public class SubcategoryActivity extends BaseActivity implements ApiResponse
-{
+public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     private RecyclerView recyclerView;
     private RelativeLayout btnBack;
     private SubcategoryActivity context;
@@ -53,12 +58,11 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
     private ArrayList<Category> SubcategoryList;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subcategory);
-        context=this;
+        context = this;
         checkstatusbar();
         Initi();
 
@@ -66,11 +70,9 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
     }
 
 
-
     private void checkstatusbar() {
 
-        if(Build.VERSION.SDK_INT>=21)
-        {
+        if (Build.VERSION.SDK_INT >= 21) {
             Window window = getWindow();
 
             // clear FLAG_TRANSLUCENT_STATUS flag:
@@ -84,8 +86,7 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
         }
     }
 
-    private void Initi()
-    {
+    private void Initi() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
@@ -97,8 +98,8 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
         gson = new Gson();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         viewpart = findViewById(android.R.id.content);
-        Intent intent=getIntent();
-        int selectedID=intent.getExtras().getInt("ID");
+        Intent intent = getIntent();
+        int selectedID = intent.getExtras().getInt("ID");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,21 +112,21 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
 
         if (isOnline(context)) {
             progressBar.setVisibility(View.VISIBLE);
-            callback(0,selectedID);//0 is responseCode for login api
+            callback(0, selectedID);//0 is responseCode for login api
         } else {
             showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
 
     }
 
-    private void callback(int responseCode, int SelectID) {
+    private void callback(int responseCode, int productCategoryId) {
         switch (responseCode) {
             case 0:
-                long user = sharedPreferences.getLong("id",0);
-                String bearerToken = sharedPreferences.getString("bearerToken","");
-                Log.e(TAG, "bearerToken: "+bearerToken );
-                String URL = NetworkUrl.URL_CATEGORY + user + "/productCategory/"+SelectID;
-                String apiTag = NetworkUrl.URL_CATEGORY + user + "/productCategory/"+SelectID;
+                long user = sharedPreferences.getLong("id", 0);
+                String bearerToken = sharedPreferences.getString("bearerToken", "");
+                Log.e(TAG, "bearerToken: " + bearerToken);
+                String URL = NetworkUrl.URL_CATEGORY + user + "/productCategory/" + productCategoryId;
+                String apiTag = NetworkUrl.URL_CATEGORY + user + "/productCategory/" + productCategoryId;
                 GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0); //0 is for finish second api call
                 break;
 
@@ -136,28 +137,26 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
         }
     }
 
-    public static void startScreen(Context context, int selectID)
-    {
-        context.startActivity(new Intent(context, SubcategoryActivity.class).putExtra("ID",selectID));
+    public static void startScreen(Context context, int selectID) {
+        context.startActivity(new Intent(context, SubcategoryActivity.class).putExtra("ID", selectID));
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         finish();
-       // overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
+        // overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
     }
 
     @Override
     public void OnSucess(JSONObject response, int id) {
 
-        switch (id){
+        switch (id) {
             case 0:
-                SubcategoryList=new ArrayList<Category>();
+                Log.e(TAG, "OnSucess: "+response.toString() );
+                SubcategoryList = new ArrayList<Category>();
                 Category category = gson.fromJson(response.toString(), Category.class);
                 SubcategoryList.add(category);
-                Log.e(TAG, "category list: "+SubcategoryList.get(0).getData().size());
                 progressBar.setVisibility(View.GONE);
                 setview();
                 break;
@@ -171,17 +170,36 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse
 
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        SubcategoryAdapter adapter = new SubcategoryAdapter(context,SubcategoryList);
+        SubcategoryAdapter adapter = new SubcategoryAdapter(context, SubcategoryList);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        context,
+                        recyclerView,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                             ProductList.startScreen(context,SubcategoryList.get(0).getData().get(position).getProductCategoryId(),SubcategoryList.get(0).getData().get(position).getId());
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+                            }
+                        }
+                )
+        );
     }
 
     @Override
-    public void OnFailed(int error,int id) {
-        Log.e(TAG, "OnFailed: "+error );
+    public void OnFailed(int error, int id) {
+        Log.e(TAG, "OnFailed: " + error);
         progressBar.setVisibility(View.GONE);
         switch (error) {
             case 000:
                 showSnackbar(viewpart, getResources().getString(R.string.network_poor));
+                break;
+            case 500:
+                showSnackbar(viewpart, getResources().getString(R.string.error_500));
                 break;
             default:
                 showSnackbar(viewpart, getResources().getString(R.string.random_error));

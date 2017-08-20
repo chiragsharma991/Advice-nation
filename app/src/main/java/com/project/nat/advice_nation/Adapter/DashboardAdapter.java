@@ -31,14 +31,15 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         this.data = data;
     }
 
-    @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
         View v = LayoutInflater.from(mContext).inflate(R.layout.activity_dashboard_child, parent, false);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
                 //  overridePendingTransition(R.anim.start, R.anim.exit);
-                ProductList.startScreen(mContext);
+                ProductList.startScreen(mContext,0,0);
 
             }
         });
@@ -67,12 +68,14 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder
+    {
 
         public ImageView image;
         public TextView text;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image);
             text = (TextView) itemView.findViewById(R.id.text);

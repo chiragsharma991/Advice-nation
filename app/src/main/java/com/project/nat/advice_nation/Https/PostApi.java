@@ -45,7 +45,6 @@ public class PostApi extends BaseActivity   {
 
     public PostApi(Context context, String url, JSONObject jObject, String apiTag, String TAG, int id) {
 
-        Log.e(TAG, "PostApi: ");
         this.context = context;
         this.id = id;
         apiResponse = (ApiResponse) this.context;
@@ -59,7 +58,7 @@ public class PostApi extends BaseActivity   {
 
     private void setApi() {
 
-        Log.e(TAG, "setApi: "+TAG+" "+url);
+        Log.e(TAG, "PostApi: "+TAG+" "+url);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         jsonObjReq = new JsonObjectRequest(Request.Method.POST, url
                 , jObject,

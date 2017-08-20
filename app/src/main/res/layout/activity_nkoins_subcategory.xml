@@ -36,8 +36,6 @@
                 android:textColor="@color/tabSelectedIconColor"
                 android:textAllCaps="false"
                 />
-
-
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

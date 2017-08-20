@@ -6,6 +6,7 @@ package com.project.nat.advice_nation.utils;
 public class Constants {
 
     public static String Bundle_Pos = "position";
+    public static String Bundle_Feed_List = "Arraylist";
     public static String Network_notfound = "Please Check your Network";
     public static final int REQUEST_PERMISSION_WRITE_STORAGE = 105;
     public static final int REQUEST_OPEN_GALLERY = 104;

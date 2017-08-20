@@ -39,7 +39,7 @@ public class NkoinsSubcatAdapter extends RecyclerView.Adapter<NkoinsSubcatAdapte
             public void onClick(View view)
             {
                 //  overridePendingTransition(R.anim.start, R.anim.exit);
-                ProductList.startScreen(mContext);
+                ProductList.startScreen(mContext,0,0);
 
             }
         });

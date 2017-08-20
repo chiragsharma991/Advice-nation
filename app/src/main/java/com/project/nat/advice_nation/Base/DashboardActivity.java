@@ -113,10 +113,11 @@ public class DashboardActivity extends BaseActivity
     }
 
 
-    private void loadHomeFragment(String title) {
-
+    private void loadHomeFragment(String title)
+    {
         setToolbarTitle(title);
-        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null)
+        {
             drawer.closeDrawers();
             return;
         }

@@ -1,5 +1,6 @@
 package com.project.nat.advice_nation.Base;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
@@ -367,16 +369,14 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
         if (view == login_forgetPassword)
         {
-            ForgetPassword.startScreen(this);
+            maketrasitionEffect(new Intent(this, ForgetPassword.class),this, false);
+
         }
 
-
-        if (view.getId() == R.id.txtDateofbirth) {
+        if(view.getId()==R.id.txtDateofbirth){
             showDialog(999);
 
         }
-
-
     }
 
 
@@ -607,7 +607,12 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
             case 2:
                 showProgressReg(false);
-                showToast("Registration Success", context);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast("Registration Success", context);
+                    }
+                }, 500);
                 isSigninScreen = true;
                 showSigninForm();
 

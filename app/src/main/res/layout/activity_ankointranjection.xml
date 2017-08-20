@@ -20,10 +20,6 @@
             android:layout_alignParentTop="true"
             android:background="?attr/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Light"
-            app:contentInsetEnd="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp"
             >
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
@@ -39,9 +35,6 @@
         android:layout_height="match_parent"
         android:id="@+id/recycler_view"
         >
-
-
-
        </android.support.v7.widget.RecyclerView>
 
 

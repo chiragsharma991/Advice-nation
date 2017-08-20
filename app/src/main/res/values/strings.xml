@@ -29,10 +29,11 @@
     <string name="passwordNotmatch">Password Does Not Match</string>
 
     <!--error-->
-    <string name="error_404">Please enter valid Username and Password</string>
+    <string name="error_404">Please enter valid information</string>
     <string name="error_404_reg">Username and Password Already Register</string>
     <string name="error_401">Please Register first</string>
     <string name="error_403">Forbiden</string>
+    <string name="error_500">Login session time out...</string>
     <string name="network_notfound">Please check your network connection</string>
     <string name="network_poor">Network connection is too poor</string>
     <string name="random_error">Server not responding</string>
@@ -92,6 +93,10 @@
     <string name="forgetConfirmPassword">Confirm Password</string>
     <string name="phonenumber">Phone Number</string>
     <string name="forgetDOb">Select Date Of Birth</string>
+
+    <!--other-->
+    <string name="correct_email">Please enter your email address</string>
+
 
 
 </resources>

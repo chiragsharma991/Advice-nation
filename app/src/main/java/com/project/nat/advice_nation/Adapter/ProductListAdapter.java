@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.project.nat.advice_nation.Base.ProductReview;
 import com.project.nat.advice_nation.Model.Product;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
 
 import java.util.ArrayList;
@@ -27,10 +28,10 @@ public class ProductListAdapter extends RecyclerView.Adapter< ProductListAdapter
 {
 
 
-    private final ArrayList<Product> list;
+    private final ArrayList<Subcategory> list;
     private final Context mcontext;
 
-    public ProductListAdapter(ArrayList<Product> list, Context context)
+    public ProductListAdapter(ArrayList<Subcategory> list, Context context)
     {
         this.list = list;
         this.mcontext = context;
@@ -56,11 +57,11 @@ public class ProductListAdapter extends RecyclerView.Adapter< ProductListAdapter
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
 
-        Product product= list.get(position);
-        holder.title.setText(product.getTitle());
-        holder.subtitle.setText(product.getSubtitle());
-        holder.time.setText(product.getTime());
-        holder.image.setImageResource(product.getImage());
+        Subcategory Subcategory= list.get(0);
+        holder.title.setText(Subcategory.getData().get(position).getProductName());
+        holder.subtitle.setText(Subcategory.getData().get(position).getFeatures());
+        holder.time.setText(""+(int)Subcategory.getData().get(position).getPrice());
+    //    holder.image.setImageResource(product.getImage());
      //   holder.ratingBar.setNumStars(3);
         LayerDrawable stars = (LayerDrawable)  holder.ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);

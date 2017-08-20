@@ -137,12 +137,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void setupSlideWindowAnimations(int startGravity, int endGravity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Slide slide = new Slide(startGravity);
-            slide.setDuration(ANIM_TIME);
+            slide.setDuration(800);
             getWindow().setEnterTransition(slide);
 
-            slide = new Slide(endGravity);
-            slide.setDuration(ANIM_TIME);
-            getWindow().setReturnTransition(slide);
+           /* slide = new Slide(endGravity);
+            slide.setDuration(500);
+            getWindow().setReturnTransition(slide);*/
         }
     }
 
@@ -225,6 +225,28 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (dialog.isShowing())
                 dialog.dismiss();
             dialog = null;
+        }
+    }
+
+
+    public void maketrasitionEffect(Intent intent, Activity context, boolean isFinish){
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                startActivity(intent,
+                        ActivityOptions.makeSceneTransitionAnimation(context).toBundle());
+            } else {
+                startActivity(intent);
+            }
+            if(isFinish)
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 500);
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 

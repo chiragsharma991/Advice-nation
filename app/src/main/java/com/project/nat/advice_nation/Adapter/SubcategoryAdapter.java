@@ -33,15 +33,7 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(mContext).inflate(R.layout.activity_subcategory_listitem, parent, false);
-    v.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view)
-      {
-      //  overridePendingTransition(R.anim.start, R.anim.exit);
-        ProductList.startScreen(mContext);
 
-      }
-    });
     return new ViewHolder(v);
   }
 

@@ -42,12 +42,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/retry"
-                android:textSize="@dimen/text_size_large"
+                android:textSize="@dimen/text_size_dashboard"
                 android:text="Retry"
+                android:background="?attr/selectableItemBackground"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:layout_margin="15dp"
-                android:textColor="@color/colorclickable"
+                android:textColor="@color/colorPrimary"
                 />
 
         </RelativeLayout>

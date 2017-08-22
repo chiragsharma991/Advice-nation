@@ -24,6 +24,7 @@
 
         <include
             layout="@layout/activity_notfound"
+            android:visibility="gone"
             >
         </include>
 

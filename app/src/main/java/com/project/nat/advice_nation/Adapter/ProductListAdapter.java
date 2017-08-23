@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +59,10 @@ public class ProductListAdapter extends RecyclerView.Adapter< ProductListAdapter
     {
 
         Subcategory Subcategory= list.get(0);
+        Log.e("TAG", "onBindViewHolder: position is "+position+" "+Subcategory.getData().get(position).getProductName() );
         holder.title.setText(Subcategory.getData().get(position).getProductName());
         holder.subtitle.setText(Subcategory.getData().get(position).getFeatures());
-        holder.time.setText(""+(int)Subcategory.getData().get(position).getPrice());
+        holder.time.setText("\u20B9"+(int)Subcategory.getData().get(position).getPrice());
     //    holder.image.setImageResource(product.getImage());
      //   holder.ratingBar.setNumStars(3);
         LayerDrawable stars = (LayerDrawable)  holder.ratingBar.getProgressDrawable();

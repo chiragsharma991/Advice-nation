@@ -22,7 +22,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -56,6 +58,9 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
     private SharedPreferences sharedPreferences;
     private ArrayList<Subcategory> productSubCategory;
     private Gson gson;
+    private LinearLayout no_datafound,list_item_process;
+    private TextView retry;
+    private int productSubCategoryId,productId;
 
 
     @Override
@@ -70,10 +75,17 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
 
     private void initialise() {
         gson = new Gson();
-        int productSubCategoryId =(int) getIntent().getLongExtra("productSubCategoryId",0);
-        int productId = (int)getIntent().getLongExtra("productId",0);
+         productSubCategoryId =(int) getIntent().getLongExtra("productSubCategoryId",0);
+         productId = (int)getIntent().getLongExtra("productId",0);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         viewpart = findViewById(android.R.id.content);
+        retry=(TextView)findViewById(R.id.retry);
+        no_datafound=(LinearLayout)findViewById(R.id.no_datafound);
+        list_item_process=(LinearLayout)findViewById(R.id.list_item_process);
+        no_datafound.setVisibility(View.GONE);
+        list_item_process.setVisibility(View.GONE); //
+        retry.setOnClickListener(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,8 +102,8 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
         ListView=(RecyclerView)findViewById(R.id.detail_listview);
 
         if (isOnline(context)) {
-          //  progressBar.setVisibility(View.VISIBLE);
-            callback(0, 1);//0 is responseCode for login api
+            list_item_process.setVisibility(View.VISIBLE);
+            callback(0,productId);//0 is responseCode for login api
         } else {
             showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
@@ -129,12 +141,17 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
                 productSubCategory = new ArrayList<Subcategory>();
                 Subcategory Subcategory = gson.fromJson(response.toString(), Subcategory.class);
                 productSubCategory.add(Subcategory);
-                Log.e(TAG, "productSubCategory size is"+productSubCategory.size() );
-               // progressBar.setVisibility(View.GONE);
-                setview();
+                Log.e(TAG, "productSubCategory size is"+productSubCategory.get(0).getData().size() );
+                list_item_process.setVisibility(View.GONE);
+                if(productSubCategory.get(0).getData().size() > 0){
+                    setview();
+                }else{
+                    no_datafound.setVisibility(View.VISIBLE);
+                }
                 break;
 
             default:
+                list_item_process.setVisibility(View.GONE);
                 break;
         }
     }
@@ -147,12 +164,15 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
      //   progressBar.setVisibility(View.GONE);
         switch (error) {
             case 000:
+                list_item_process.setVisibility(View.GONE);
                 showSnackbar(viewpart, getResources().getString(R.string.network_poor));
                 break;
             case 500:
+                list_item_process.setVisibility(View.GONE);
                 showSnackbar(viewpart, getResources().getString(R.string.error_500));
                 break;
             default:
+                list_item_process.setVisibility(View.GONE);
                 showSnackbar(viewpart, getResources().getString(R.string.random_error));
         }
 
@@ -160,23 +180,11 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
 
     private void setview() {
 
-       /* String[]time={"8:33 am","10:01 pm","03:14 pm","08:03 pm"};
-        String[]title={"VR temp v1.40","Controller system","Plc-scada","Supervisory data control"};
-        String[]subtitle={"Temprature controller"," Automationcontrol","Electronics","ladder programming"};
-        ArrayList<Product> list=new ArrayList<>();
-        int[]icon={R.mipmap.one,R.mipmap.two,R.mipmap.three,R.mipmap.four};
-        for (int i = 0; i <4 ; i++) {
-            Product product= new Product(time[i],title[i],subtitle[i],icon[i]);
-            list.add(product);
-        }*/
-
         ProductListAdapter detailListAdapter=new ProductListAdapter(productSubCategory,context);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());
         ListView.setAdapter(detailListAdapter);
-
-
 
     }
 
@@ -213,6 +221,15 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
     @Override
     public void onClick(View view)
     {
+        if (view == retry){
+            if (isOnline(context)) {
+                list_item_process.setVisibility(View.VISIBLE);
+                no_datafound.setVisibility(View.GONE);
+                callback(0, productId);//0 is responseCode for login api
+            } else {
+                showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+            }
+        }
 
 
     }

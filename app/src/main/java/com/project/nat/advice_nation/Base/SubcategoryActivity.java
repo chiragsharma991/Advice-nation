@@ -89,7 +89,7 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     private void Initi() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+       // progressBar.getIndeterminateDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
         progressBar.setVisibility(View.GONE);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Sub Category");

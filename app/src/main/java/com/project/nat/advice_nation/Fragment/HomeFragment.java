@@ -98,7 +98,7 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
 
     private void setview(){
 
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 1));
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         DashboardAdapter adapter = new DashboardAdapter(context, categoryList.get(0).getData());
         recyclerView.setAdapter(adapter);

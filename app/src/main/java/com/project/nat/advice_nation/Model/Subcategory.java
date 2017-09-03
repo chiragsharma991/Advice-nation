@@ -40,10 +40,10 @@ public class Subcategory {
         private long userId;
         private ImageMeta imageMeta;
 
+
         public long getId() {
             return id;
         }
-
         public void setId(long id) {
             this.id = id;
         }
@@ -112,7 +112,9 @@ public class Subcategory {
             this.imageMeta = imageMeta;
         }
     }
-    public class ImageMeta{
+
+
+    public class ImageMeta {
 
         private String uri;
         private String fileName;

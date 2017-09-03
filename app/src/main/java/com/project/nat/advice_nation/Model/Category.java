@@ -22,11 +22,80 @@ public class Category {
     }
 
     public class CategoryList {
-
         private long id;
+        private long userId;
+        private long date;
+        private int productId;
+        private String comment;
+        private String name;
+        private String followUserLink;
         private long productCategoryId;
         private String productCategoryName;
         private String productSubCategoryName;
+
+        public long getUserId() {
+            return userId;
+        }
+
+        public void setUserId(long userId) {
+            this.userId = userId;
+        }
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public long getDate() {
+            return date;
+        }
+
+        public void setDate(long date) {
+            this.date = date;
+        }
+
+        public int getProductId() {
+            return productId;
+        }
+
+        public void setProductId(int productId) {
+            this.productId = productId;
+        }
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getFollowUserLink() {
+            return followUserLink;
+        }
+
+        public void setFollowUserLink(String followUserLink) {
+            this.followUserLink = followUserLink;
+        }
+
+        public void setProductCategoryId(long productCategoryId) {
+            this.productCategoryId = productCategoryId;
+        }
+
+        public void setProductCategoryName(String productCategoryName) {
+            this.productCategoryName = productCategoryName;
+        }
+
+        public void setProductSubCategoryName(String productSubCategoryName) {
+            this.productSubCategoryName = productSubCategoryName;
+        }
+
 
 
         public long getProductCategoryId() {

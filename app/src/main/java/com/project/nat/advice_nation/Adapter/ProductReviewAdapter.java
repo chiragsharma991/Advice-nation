@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
 
 import java.io.File;
@@ -28,20 +29,18 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdapter.MyViewHolder>
 {
-    private ArrayList<String> usename;
-    private ArrayList<String> textComment;
+
+    private final ArrayList<Category> productList;
     private Context mcontext;
 
-    public ProductReviewAdapter(ArrayList<String> strings, ArrayList<String> strings1, Context subclassActivity)
+    public ProductReviewAdapter(ArrayList<Category> productList, Context subclassActivity)
     {
-        this.usename=strings;
-        this.textComment= strings1;
+        this.productList=productList;
         this.mcontext=subclassActivity;
 
     }
 
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+            public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_detailslistitem, parent, false);
@@ -52,8 +51,8 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
-        holder.username.setText(usename.get(position));
-        holder.userComment.setText(textComment.get(position));
+        holder.username.setText(productList.get(0).getData().get(position).getName());
+        holder.userComment.setText(productList.get(0).getData().get(position).getComment());
 
         LayerDrawable stars = (LayerDrawable)   holder.ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
@@ -65,7 +64,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
     @Override
     public int getItemCount()
     {
-        return usename.size();
+        return productList.get(0).getData().size();
     }
 
 

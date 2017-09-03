@@ -38,16 +38,14 @@ public class AnkoinsTranjectionAdapter extends RecyclerView.Adapter<AnkoinsTranj
     }
 
     @Override
-    public AnkoinsTranjectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public AnkoinsTranjectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_activity_ankointranjection, parent, false);
         return new AnkoinsTranjectionAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(AnkoinsTranjectionAdapter.ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(AnkoinsTranjectionAdapter.ViewHolder holder, int position) {
         holder.txt_TranjectionID.setText(ArrayTarnjectionID.get(position));
         holder.txt_Dateoftranjection.setText(ArrayDateoftrajection.get(position));
         holder.txt_Ankoinspent.setText(ArraySpentAnkoins.get(position));
@@ -74,7 +72,6 @@ public class AnkoinsTranjectionAdapter extends RecyclerView.Adapter<AnkoinsTranj
             txt_Dateoftranjection= (TextView) itemView.findViewById(R.id.txt_tranjectDateDetails);
             txt_Ankoinspent= (TextView) itemView.findViewById(R.id.txt_SeptAnkoinsDetails);
             txt_purpose= (TextView) itemView.findViewById(R.id.txt_purposeDiscription);
-
         }
     }
 }

@@ -35,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Dialog dialog;
     private Boolean isSuccess;
 
-    protected boolean checkPermission(String strPermission, Context context){
+    protected boolean checkPermission(String strPermission, Context context) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             int result = ContextCompat.checkSelfPermission(context, strPermission);
             if (result == PackageManager.PERMISSION_GRANTED){
@@ -57,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected void finishWithHandler(){
+    protected void finishWithHandler() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -172,7 +172,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.e(TAG, ""+error);
     }
 
-    protected void moveActivity(Intent intent, Activity context, boolean isFinish){
+    protected void moveActivity(Intent intent, Activity context, boolean isFinish)
+    {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 startActivity(intent,
@@ -213,11 +214,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-
-
 
 
     protected void stopProgressDialog() {

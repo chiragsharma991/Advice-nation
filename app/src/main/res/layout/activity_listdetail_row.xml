@@ -173,6 +173,7 @@
                                 android:scaleX=".5"
                                 android:scaleY=".5"
                                 android:numStars="5"
+                                android:clickable="false"
                                 android:transformPivotX="0dp"
                                 android:transformPivotY="10dp"
                                 />

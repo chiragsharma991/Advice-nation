@@ -40,6 +40,7 @@ public class PagerFragment extends Fragment {
     private void setData() {
 
         Log.e(TAG, "setData: "+position );
+
         switch (position){
             case 0:
                 Glide.with(getActivity()).load(R.mipmap.two).placeholder(R.mipmap.ic_launcher).into(Pager_image);

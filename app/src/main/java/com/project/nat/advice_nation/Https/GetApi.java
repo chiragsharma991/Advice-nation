@@ -90,7 +90,7 @@ public class GetApi {
                     apiResponse.OnFailed(response.statusCode,id);
                 }catch (Exception e){
                     Log.e(TAG, "onErrorResponse: "+e.getMessage());
-                    apiResponse.OnFailed(000,id);
+                    apiResponse.OnFailed(000,id); //gg
 
                 }
             }

@@ -210,17 +210,14 @@ public class DashboardActivity extends BaseActivity
                 Bundle bundle = new Bundle();
                 bundle.putInt(Constants.Bundle_Pos, position);
                 pagerFragment.setArguments(bundle);
-
                 return pagerFragment;
             }
             @Override
             public Parcelable saveState() {return null;}
-
             @Override
             public int getItemPosition(Object object) {
                 return POSITION_NONE;
             }
-
             @Override
             public CharSequence getPageTitle(int position) {
                 return null;

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.project.nat.advice_nation.Adapter.NkoinsSubcatAdapter;
 import com.project.nat.advice_nation.Ankoins.Activity_AnkoinsTranjection;
+import com.project.nat.advice_nation.Ankoins.Activity_CurrentAnkoins;
 import com.project.nat.advice_nation.Ankoins.Activity_TransferAnkoins;
 import com.project.nat.advice_nation.Base.SubcategoryActivity;
 import com.project.nat.advice_nation.R;
@@ -89,6 +90,7 @@ public class AnKoins extends Fragment {
                             case 0:
                                  return;
                             case 1:
+                                Activity_CurrentAnkoins.startScreen(context);
                                 return;
                             case 2:
                                 Activity_TransferAnkoins.startScreen(context);

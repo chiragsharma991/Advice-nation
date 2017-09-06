@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.project.nat.advice_nation.Fragment.AnKoins;
 import com.project.nat.advice_nation.Fragment.HomeFragment;
 import com.project.nat.advice_nation.Model.Subcategory;
@@ -67,6 +68,7 @@ public class DashboardActivity extends BaseActivity
     private Handler mHandler;
     private NavigationView navigationView;
     private ProgressBar progressBar;
+    private Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,7 +89,7 @@ public class DashboardActivity extends BaseActivity
 
     private void initialize()
     {
-
+        gson=new Gson();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mHandler = new Handler();
@@ -210,7 +212,9 @@ public class DashboardActivity extends BaseActivity
             public Fragment getItem(int position) {
                 PagerFragment pagerFragment = new PagerFragment();
                 Bundle bundle = new Bundle();
+                String list=gson.toJson(carouseimages);
                 bundle.putInt(Constants.Bundle_Pos, position);
+                bundle.putString(Constants.KEY, list);
                 pagerFragment.setArguments(bundle);
                 return pagerFragment;
             }

@@ -50,48 +50,38 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
-            >
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
         <activity
             android:name=".Base.About"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
-            >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Base.ProductReview"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".Base.Invite"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Base.Invite"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Ankoins.Activity_TransferAnkoins"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Ankoins.Activity_AnkoinsTranjection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Base.ForgetPassword"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             >
 
         </activity>
-
-        <activity
-        android:name=".Ankoins.Activity_TransferAnkoins"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:screenOrientation="portrait">
-
-    </activity>
-
-        <activity
-            android:name=".Ankoins.Activity_AnkoinsTranjection"
+        <activity android:name=".Ankoins.Activity_CurrentAnkoins"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".Base.ForgetPassword"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            >
 
         </activity>
     </application>

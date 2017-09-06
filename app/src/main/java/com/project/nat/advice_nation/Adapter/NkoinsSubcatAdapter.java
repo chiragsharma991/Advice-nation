@@ -28,7 +28,7 @@ public class NkoinsSubcatAdapter extends RecyclerView.Adapter<NkoinsSubcatAdapte
 
     public NkoinsSubcatAdapter(Context context, List<String> dataSet)
     {
-        mContext = context;
+        mContext = context; //
         mDataSet = dataSet;
     }
 

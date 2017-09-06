@@ -33,6 +33,7 @@
             android:layout_margin="5dp"
             android:textSize="@dimen/text_size_dashboard"
             android:maxLines="2"
+            android:gravity="center_horizontal|center_vertical"
             android:text="@string/dashboard_ictext2"
             android:textColor="@color/tabSelectedIconColor"
             android:textAllCaps="false"

@@ -21,12 +21,13 @@ public class Category {
         return data;
     }
 
+
     public class CategoryList {
         private long id;
         private long userId;
-        private long date;
         private int productId;
         private String comment;
+        private long date;
         private String name;
         private String followUserLink;
         private long productCategoryId;

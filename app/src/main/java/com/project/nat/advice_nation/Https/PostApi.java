@@ -95,12 +95,6 @@ public class PostApi extends BaseActivity   {
                 return super.parseNetworkResponse(response);
             }
 
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                return headers;
-            }
         };
 
         AppController.getInstance().addToRequestQueue(jsonObjReq, apiTag);

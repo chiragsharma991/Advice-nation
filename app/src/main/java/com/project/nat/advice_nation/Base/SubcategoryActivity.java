@@ -1,14 +1,11 @@
 package com.project.nat.advice_nation.Base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,23 +19,18 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.project.nat.advice_nation.Adapter.SubcategoryAdapter;
 import com.project.nat.advice_nation.Https.ApiResponse;
-import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Model.Category;
-import com.project.nat.advice_nation.Model.Parser;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseActivity;
-import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;

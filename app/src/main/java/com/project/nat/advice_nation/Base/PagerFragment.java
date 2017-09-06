@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.Constants;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PagerFragment extends Fragment {
@@ -23,7 +26,9 @@ public class PagerFragment extends Fragment {
     private int position;
     private String TAG="PagerFragment";
 
+    public PagerFragment() {
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_pager_fragment, container, false);
@@ -34,28 +39,20 @@ public class PagerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
          position= getArguments().getInt(Constants.Bundle_Pos);
          initView(view);
-         setData();
+         setData(position);
     }
 
-    private void setData() {
+    private void setData(int position) {
 
-        Log.e(TAG, "setData: "+position );
-
-        switch (position){
-            case 0:
-                Glide.with(getActivity()).load(R.mipmap.two).placeholder(R.mipmap.ic_launcher).into(Pager_image);
-                break;
-            case 1:
-                Glide.with(getActivity()).load(R.mipmap.three).placeholder(R.mipmap.ic_launcher).into(Pager_image);
-                break;
-            case 2:
-                Glide.with(getActivity()).load(R.mipmap.one).placeholder(R.mipmap.ic_launcher).into(Pager_image);
-                break;
-            case 3:
-                Glide.with(getActivity()).load(R.mipmap.bg_people).placeholder(R.mipmap.ic_launcher).into(Pager_image);
-                break;
-
-        }
+        String image = NetworkUrl.URL_GET_IMAGE +"1"+ "?size=0x0&highquality=false";
+        Log.e(TAG, "image: " + image);
+        Glide
+                .with(getActivity())
+                .load(image)
+                .placeholder(R.mipmap.ic_launcher) // can also be a drawable
+                .error(R.mipmap.ic_launcher) // will be displayed if the image cannot be loaded
+                .crossFade()
+                .into(Pager_image);
 
     }
 

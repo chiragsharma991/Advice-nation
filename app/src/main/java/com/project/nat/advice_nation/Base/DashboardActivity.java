@@ -30,11 +30,14 @@ import android.widget.Toast;
 
 import com.project.nat.advice_nation.Fragment.AnKoins;
 import com.project.nat.advice_nation.Fragment.HomeFragment;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
+
+import java.util.ArrayList;
 
 import static com.project.nat.advice_nation.R.anim.exit;
 import static com.project.nat.advice_nation.R.id.progressBar;
@@ -108,7 +111,6 @@ public class DashboardActivity extends BaseActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setViewPagerAdapter(view_pager);
 
     }
 
@@ -197,12 +199,12 @@ public class DashboardActivity extends BaseActivity
         }
     }
 
-    public void setViewPagerAdapter(ViewPager viewPager){
+    public void setViewPagerAdapter(ViewPager viewPager, final ArrayList<Subcategory> carouseimages){
 
         mHeaderPagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {
-                return 4;
+                return carouseimages.get(0).getData().size();
             }
             @Override
             public Fragment getItem(int position) {
@@ -295,8 +297,11 @@ public class DashboardActivity extends BaseActivity
     }
 
     @Override
-    public void onFragmentInteraction(boolean loader) {
+    public void onFragmentInteraction(boolean loader ,ArrayList<Subcategory> carouseimages) {
         progressBar.setVisibility(loader==true ? View.VISIBLE :View.GONE);
+        if(carouseimages!=null) setViewPagerAdapter(view_pager ,carouseimages);
+
+
     }
 
 }

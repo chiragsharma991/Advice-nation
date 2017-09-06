@@ -96,7 +96,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return 4;
+        return list.get(0).getData().size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements RatingBar.OnRatingBarChangeListener {

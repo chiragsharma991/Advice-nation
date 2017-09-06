@@ -11,6 +11,7 @@ public class Constants {
     public static final int REQUEST_PERMISSION_WRITE_STORAGE = 105;
     public static final int REQUEST_OPEN_GALLERY = 104;
     public static int REQUEST_OPEN_CAMERA = 1000;
+    public static String KEY = "data";
 
 
 

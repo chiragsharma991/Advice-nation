@@ -29,10 +29,11 @@ public class Subcategory {
     }
 
     public class Data{
-
         private long id;
         private String productName;
         private long price;
+        private long date;
+        private String name;
         private String features;
         private String description;
         private long productSubCategoryId;
@@ -47,6 +48,10 @@ public class Subcategory {
         public void setId(long id) {
             this.id = id;
         }
+        public long getDate() {
+            return date;}
+        public String getName() {
+            return name;}
 
         public String getProductName() {
             return productName;

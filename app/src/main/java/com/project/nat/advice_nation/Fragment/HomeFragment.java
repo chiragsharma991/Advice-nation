@@ -21,6 +21,7 @@ import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Model.Category;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseFragmetActivity;
@@ -47,6 +48,9 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
     private ArrayList<Category> categoryList;
     private OnFragmentInteractionListener mcallback;
     private View viewpart;
+    private long ID;
+    private String bearerToken;
+    private ArrayList<Subcategory> carouseImageList;
 
     public HomeFragment() {
 
@@ -85,7 +89,7 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
         Initi(v);
         Log.e(TAG, "onActivityCreated: " );
         if (isOnline(context)) {
-           mcallback.onFragmentInteraction(true);
+           mcallback.onFragmentInteraction(true,null);
             callback(0);//0 is id for login api
         } else
             {
@@ -127,6 +131,8 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
     private void Initi(View view) {
         gson = new Gson();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        ID = sharedPreferences.getLong("id",0);
+        bearerToken = sharedPreferences.getString("bearerToken","");
         viewpart = view.findViewById(android.R.id.content);
         recyclerView = (RecyclerView)view.findViewById(R.id.subrecycler);
 
@@ -145,17 +151,24 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
 
     }
 
+    /**
+     *
+     * @param id for api calling number
+     */
 
 
     private void callback(int id) {
         switch (id) {
             case 0:
-                long ID = sharedPreferences.getLong("id",0);
-                String bearerToken = sharedPreferences.getString("bearerToken","");
-                Log.e(TAG, "bearerToken: "+bearerToken );
                 String URL = NetworkUrl.URL_CATEGORY + ID + "/productCategory";
                 String apiTag = NetworkUrl.URL_CATEGORY + ID + "/productCategory";
-                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0,this); //0 is for finish second api call
+                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0,this);
+                break;
+
+            case 1:
+                URL = NetworkUrl.URL_GET_CAROUSE_IMAGE + ID + "/carousel";
+                apiTag = NetworkUrl.URL_GET_CAROUSE_IMAGE + ID + "/carousel";
+                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,1,this);
                 break;
 
             default:
@@ -178,7 +191,16 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
                 categoryList.add(category);
                 Log.e(TAG, "category list: "+categoryList.get(0).getData().size());
                 setview();
-                mcallback.onFragmentInteraction(false);
+                callback(1);  // get carouse image
+                break;
+
+            case 1:
+                carouseImageList=new ArrayList<Subcategory>();
+                Subcategory data = gson.fromJson(response.toString(), Subcategory.class);
+                carouseImageList.add(data);
+                Log.e(TAG, "carouseImageList : "+carouseImageList.get(0).getData().size());
+                mcallback.onFragmentInteraction(false,carouseImageList);
+
                 break;
 
             default:
@@ -189,7 +211,7 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
     @Override
     public void OnFailed(int error,int id) {
         Log.e(TAG, "OnFailed: "+error );
-        mcallback.onFragmentInteraction(false);
+        mcallback.onFragmentInteraction(false,null);
         switch (error) {
             case 000:
                 showSnackbar(viewpart, getResources().getString(R.string.network_poor));
@@ -204,6 +226,7 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
 
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(boolean loader);
+        void onFragmentInteraction(boolean loader ,ArrayList<Subcategory> carouseimages);
+
     }
 }

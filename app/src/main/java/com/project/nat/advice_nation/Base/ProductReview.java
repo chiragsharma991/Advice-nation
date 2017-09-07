@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -175,6 +176,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     }
 
     public static void startScreen(Context context,String productList, int position) {
+
         context.startActivity(new Intent(context, ProductReview.class).putExtra("ProductList",productList)
                 .putExtra("position",position));
 

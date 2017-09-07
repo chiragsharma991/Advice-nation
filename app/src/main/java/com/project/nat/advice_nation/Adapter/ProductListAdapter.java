@@ -1,10 +1,14 @@
 package com.project.nat.advice_nation.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +58,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         Subcategory Subcategory = list.get(0);
         Log.e("TAG", "onBindViewHolder: position is " + position + " " + Subcategory.getData().get(position).getProductName());
@@ -83,7 +87,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             @Override
             public void onClick(View view) {
                 String ProductList = gson.toJson(list);
-                ProductReview.startScreen(mcontext, ProductList, position);
+                Intent intent = new Intent(mcontext, ProductReview.class);
+                intent.putExtra("ProductList", ProductList);
+                intent.putExtra("position", position);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) mcontext, holder.image,"product_image");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mcontext.startActivity(intent, options.toBundle());
+                }else{
+                    mcontext.startActivity(intent);
+                }
+               // ProductReview.startScreen(mcontext, ProductList, position);
             }
         });
 

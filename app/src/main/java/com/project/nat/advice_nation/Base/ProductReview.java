@@ -21,9 +21,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.nat.advice_nation.Adapter.ProductReviewAdapter;
@@ -33,6 +35,8 @@ import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.Subcategory;
 import android.content.SharedPreferences;
+import android.widget.TextView;
+
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseActivity;
@@ -68,9 +72,11 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     private Gson gson;
     private Context context;
     private ProgressBar progressBar;
+    private ImageView product_image;
     private View viewpart;
     private SharedPreferences sharedPreferences;
     private ArrayList<Category> productList;
+    private TextView product_name,product_desc,product_price;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +85,28 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         context=this;
         checkstatusbar();
         Initialise();
+
+    /*    {
+            "status": 200,
+                "data": [
+            {
+                "id": 1,
+                    "productName": "Taj",
+                    "price": 1000,
+                    "features": "Luxury",
+                    "description": "7star hotel",
+                    "productSubCategoryId": 1,
+                    "productRating": 4,
+                    "userId": 1179968,
+                    "image_meta": {
+                "uri": "1_1_image_0902_160627.jpg",
+                        "fileName": "7star.jpg"
+            },
+                "publish": true,
+                    "available": true
+            }
+            ]
+        }*/
         
     }
 
@@ -88,7 +116,11 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         viewpart = findViewById(android.R.id.content);
+        product_name =(TextView)findViewById(R.id.product_name);
+        product_desc =(TextView)findViewById(R.id.product_desc);
+        product_price =(TextView)findViewById(R.id.product_price);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        product_image = (ImageView) findViewById(R.id.product_image);
         progressBar.getIndeterminateDrawable().setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_IN);
         progressBar.setVisibility(View.GONE);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -109,7 +141,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         Log.e(TAG, "list size: "+list.get(0).getData().size()+" "+position );
         int productId= (int) list.get(0).getData().get(position).getId();
         int productSubCategoryId= (int) list.get(0).getData().get(position).getProductSubCategoryId();
-
+        setView(list,position);
         if (isOnline(context)) {
             progressBar.setVisibility(View.VISIBLE);
             callback(0,productSubCategoryId,productId);//0 is responseCode for login api
@@ -117,6 +149,29 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
 
+    }
+
+    /**
+     *
+     * @param list all list of pre activity.
+     * @param position click position of previous activity.
+     */
+    private void setView(List<Subcategory> list, int position) {
+        product_name.setText(list.get(0).getData().get(position).getProductName());
+        product_desc.setText(list.get(0).getData().get(position).getDescription());
+        product_price.setText("\u20B9" + (int)list.get(0).getData().get(position).getPrice());
+
+        String image = NetworkUrl.URL_GET_IMAGE
+                +list.get(0).getData().get(position).getUserId() + "/" +
+                +list.get(0).getData().get(position).getProductSubCategoryId() + "/" +
+                +list.get(0).getData().get(position).getId() + "?size=0x0&highquality=false";
+        Glide
+                .with(context)
+                .load(image)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .crossFade()
+                .into(product_image);
     }
 
     public static void startScreen(Context context,String productList, int position) {

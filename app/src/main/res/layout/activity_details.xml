@@ -49,13 +49,13 @@
 
 
 
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="pin"
-                android:src="@mipmap/bg_people"
                 android:id="@+id/product_image"
 
                 />
@@ -98,7 +98,9 @@
             app:layout_scrollFlags="exitUntilCollapsed"
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp"
+
             >
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,18 +124,20 @@
 
                         <TextView
                             android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".2"
+                            android:layout_weight="1.3"
                             android:text="Product Name :-"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_large"
                             tools:ignore="NestedWeights" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.8"
+                            android:layout_weight="0.7"
+                            android:id="@+id/product_name"
+                            android:textColor="@color/text_dark"
                             android:textSize="@dimen/text_size_large" />
 
                     </LinearLayout>
@@ -147,18 +151,22 @@
                         android:padding="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".2"
+                            android:layout_weight="1.3"
                             android:text="Product Discription :-"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_large"
                             tools:ignore="NestedWeights" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.8" />
+                            android:layout_weight="0.7"
+                            android:id="@+id/product_desc"
+                            android:textColor="@color/text_dark"
+
+                            />
 
                     </LinearLayout>
 
@@ -171,17 +179,20 @@
                         android:padding="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".2"
+                            android:layout_weight="1.3"
                             android:text="Price :-"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_large" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.8" />
+                            android:layout_weight="0.7"
+                            android:textColor="@color/text_dark"
+                            android:id="@+id/product_price"
+                            />
 
                     </LinearLayout>
 
@@ -210,18 +221,19 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0.6">
 
-                            <RatingBar
-                                android:id="@+id/ratingOverall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:focusable="false"
-                                android:numStars="5"
-                                android:scaleX=".5"
-                                android:scaleY=".5"
-                                android:stepSize="0.1"
-                                android:transformPivotX="0dp"
-                                android:transformPivotY="10dp"
 
+
+
+                            <RatingBar
+                                android:rating="4"
+                                android:stepSize="1.0"
+                                android:numStars="5"
+                                android:id="@+id/ratingOverall"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?android:attr/ratingBarStyleIndicator"
+                                android:isIndicator="true"
                                 />
 
                         </LinearLayout>
@@ -253,18 +265,31 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0.6">
 
-                            <RatingBar
+                         <!--   <RatingBar
                                 android:id="@+id/featurerating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="40dp"
                                 android:focusable="false"
                                 android:numStars="5"
+                                android:background="#fffff"
                                 android:scaleX=".5"
                                 android:scaleY=".5"
                                 android:stepSize="0.1"
                                 android:transformPivotX="0dp"
                                 android:transformPivotY="10dp"
 
+                                />-->
+
+                            <RatingBar
+                                android:rating="4"
+                                android:stepSize="1.0"
+                                android:numStars="5"
+                                android:id="@+id/featurerating"
+                                android:layout_marginLeft="10dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?android:attr/ratingBarStyleIndicator"
+                                android:isIndicator="true"
                                 />
 
                         </LinearLayout>

@@ -61,16 +61,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.title.setText(Subcategory.getData().get(position).getProductName());
         holder.subtitle.setText(Subcategory.getData().get(position).getFeatures());
         holder.time.setText("\u20B9" + (int) Subcategory.getData().get(position).getPrice());
-        //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/auth/image/2563260983/5/2?size=0x0&highquality=false
-        String image = NetworkUrl.URL_GET_IMAGE + Subcategory.getData().get(position).getUserId() + "/" +
+        String image = NetworkUrl.URL_GET_IMAGE
+                +Subcategory.getData().get(position).getUserId() + "/" +
                 +Subcategory.getData().get(position).getProductSubCategoryId() + "/" +
                 +Subcategory.getData().get(position).getId() + "?size=0x0&highquality=false";
-        Log.e("TAG", "image: " + image);
-        //    holder.image.setImageResource(product.getImage());
         holder.ratingBar.setRating(Subcategory.getData().get(position).getProductRating());
-        holder.ratingBar.setIsIndicator(true);
-
-
         Glide
                 .with(mcontext)
                 .load(image)

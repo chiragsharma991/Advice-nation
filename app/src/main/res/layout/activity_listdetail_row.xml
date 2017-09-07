@@ -164,7 +164,7 @@
                             android:layout_marginTop="5dp"
                             >
 
-                            <RatingBar
+                          <!--  <RatingBar
                                 android:layout_width="wrap_content"
                                 android:layout_height="40dp"
                                 android:stepSize="1"
@@ -176,6 +176,17 @@
                                 android:clickable="false"
                                 android:transformPivotX="0dp"
                                 android:transformPivotY="10dp"
+                                />-->
+
+                            <RatingBar
+                                android:rating="1"
+                                android:stepSize="1.0"
+                                android:numStars="5"
+                                android:id="@+id/ratingBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:isIndicator="true"
                                 />
 
                             <!--<ToggleButton

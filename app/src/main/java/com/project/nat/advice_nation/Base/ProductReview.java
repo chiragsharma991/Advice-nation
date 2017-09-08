@@ -131,7 +131,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
                 // what do you want here
             }
         });//
@@ -263,6 +263,13 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
   
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        supportFinishAfterTransition();
+
     }
 }
 

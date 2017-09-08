@@ -29,17 +29,39 @@ public class Subcategory {
     }
 
     public class Data{
+
         private long id;
         private String productName;
         private long price;
+        private long anKoin;
         private long date;
         private String name;
         private String features;
+        private String transactionType;
+        private String transactionCategory;
+        private String message;
         private String description;
         private long productSubCategoryId;
         private long productRating;
         private long userId;
         private ImageMeta imageMeta;
+
+        public long getAnKoin() {
+            return anKoin;
+        }
+
+        public String getTransactionType() {
+            return transactionType;
+        }
+
+        public String getTransactionCategory() {
+            return transactionCategory;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
 
 
         public long getId() {

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.project.nat.advice_nation.Ankoins.Activity_AnkoinsTranjection;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
 
 import java.lang.reflect.Array;
@@ -19,20 +20,13 @@ import java.util.ArrayList;
 
 public class AnkoinsTranjectionAdapter extends RecyclerView.Adapter<AnkoinsTranjectionAdapter.ViewHolder>
 {
-    private ArrayList<String> ArrayTarnjectionID;
-    private ArrayList<String> ArrayDateoftrajection;
-    private ArrayList<String> ArraySpentAnkoins;
-    private ArrayList<String> ArrayPupose;
+    private final ArrayList<Subcategory> tranjectionList;
     private Context mcontext;
 
 
-    public AnkoinsTranjectionAdapter(ArrayList<String> ArrayTarnjectionID, ArrayList<String> ArrayDateoftrajection,
-                                     ArrayList<String> ArraySpentAnkoins, ArrayList<String> ArrayPupose, Activity_AnkoinsTranjection context)
+    public AnkoinsTranjectionAdapter(ArrayList<Subcategory> tranjectionList, Activity_AnkoinsTranjection context)
     {
-        this.ArrayTarnjectionID=ArrayTarnjectionID;
-        this.ArrayDateoftrajection= ArrayDateoftrajection;
-        this.ArraySpentAnkoins= ArraySpentAnkoins;
-        this.ArrayPupose=ArrayPupose;
+        this.tranjectionList=tranjectionList;
         this.mcontext=context;
 
     }
@@ -46,16 +40,17 @@ public class AnkoinsTranjectionAdapter extends RecyclerView.Adapter<AnkoinsTranj
 
     @Override
     public void onBindViewHolder(AnkoinsTranjectionAdapter.ViewHolder holder, int position) {
-        holder.txt_TranjectionID.setText(ArrayTarnjectionID.get(position));
-        holder.txt_Dateoftranjection.setText(ArrayDateoftrajection.get(position));
-        holder.txt_Ankoinspent.setText(ArraySpentAnkoins.get(position));
-        holder.txt_purpose.setText(ArrayPupose.get(position));
+
+        holder.txt_TranjectionID.setText("0");
+        holder.txt_Dateoftranjection.setText((int)tranjectionList.get(0).getData().get(position).getDate());
+        holder.txt_Ankoinspent.setText((int)tranjectionList.get(0).getData().get(position).getAnKoin());
+        holder.txt_purpose.setText(tranjectionList.get(0).getData().get(position).getMessage());
 
     }
 
     @Override
     public int getItemCount() {
-        return ArrayTarnjectionID.size();
+        return tranjectionList.get(0).getData().size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder

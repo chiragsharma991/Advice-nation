@@ -42,8 +42,8 @@ public class AnkoinsTranjectionAdapter extends RecyclerView.Adapter<AnkoinsTranj
     public void onBindViewHolder(AnkoinsTranjectionAdapter.ViewHolder holder, int position) {
 
         holder.txt_TranjectionID.setText("0");
-        holder.txt_Dateoftranjection.setText((int)tranjectionList.get(0).getData().get(position).getDate());
-        holder.txt_Ankoinspent.setText((int)tranjectionList.get(0).getData().get(position).getAnKoin());
+        holder.txt_Dateoftranjection.setText(""+(int)tranjectionList.get(0).getData().get(position).getDate());
+        holder.txt_Ankoinspent.setText(""+(int)tranjectionList.get(0).getData().get(position).getAnKoin());
         holder.txt_purpose.setText(tranjectionList.get(0).getData().get(position).getMessage());
 
     }

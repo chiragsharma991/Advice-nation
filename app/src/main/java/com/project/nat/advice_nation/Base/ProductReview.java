@@ -1,9 +1,11 @@
 package com.project.nat.advice_nation.Base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -33,6 +35,8 @@ import com.project.nat.advice_nation.Adapter.ProductReviewAdapter;
 import com.project.nat.advice_nation.Adapter.SubcategoryAdapter;
 import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.GetApi;
+import com.project.nat.advice_nation.Https.PostApi;
+import com.project.nat.advice_nation.Https.PostApiPlues;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.Subcategory;
 import android.content.SharedPreferences;
@@ -41,6 +45,7 @@ import android.widget.TextView;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseActivity;
+import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONObject;
@@ -78,6 +83,9 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     private SharedPreferences sharedPreferences;
     private ArrayList<Category> productList;
     private TextView product_name,product_desc,product_price;
+    private int position ,productId,productSubCategoryId;  // pre params
+    private ArrayList<Subcategory> list;
+    private String comments=null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,27 +95,6 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         checkstatusbar();
         Initialise();
 
-    /*    {
-            "status": 200,
-                "data": [
-            {
-                "id": 1,
-                    "productName": "Taj",
-                    "price": 1000,
-                    "features": "Luxury",
-                    "description": "7star hotel",
-                    "productSubCategoryId": 1,
-                    "productRating": 4,
-                    "userId": 1179968,
-                    "image_meta": {
-                "uri": "1_1_image_0902_160627.jpg",
-                        "fileName": "7star.jpg"
-            },
-                "publish": true,
-                    "available": true
-            }
-            ]
-        }*/
         
     }
 
@@ -135,13 +122,13 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 // what do you want here
             }
         });//
-        String productList = getIntent().getStringExtra("ProductList");
-        int position = getIntent().getIntExtra("position",0);
         Type type=new TypeToken<List<Subcategory>>(){}.getType();
-        List<Subcategory> list = gson.fromJson(productList, type);
+        String productList = getIntent().getStringExtra("ProductList");
+        position = getIntent().getIntExtra("position",0); //previous click position
+        list = gson.fromJson(productList, type);          // list of pre activity.
         Log.e(TAG, "list size: "+list.get(0).getData().size()+" "+position );
-        int productId= (int) list.get(0).getData().get(position).getId();
-        int productSubCategoryId= (int) list.get(0).getData().get(position).getProductSubCategoryId();
+        productId= (int) list.get(0).getData().get(position).getId();
+        productSubCategoryId= (int) list.get(0).getData().get(position).getProductSubCategoryId();
         setView(list,position);
         if (isOnline(context)) {
             progressBar.setVisibility(View.VISIBLE);
@@ -150,6 +137,50 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
 
+    }
+
+    public void onBuy(View view){
+        String price="\u20B9"+""+ (int)list.get(0).getData().get(position).getPrice();
+        new DialogUtils(context, new DialogUtils.dialogResponse() {
+            @Override
+            public void positive(String data) {
+                Log.e(TAG, "positive: ---" );
+                if (isOnline(context)) {
+                    callback(1,productSubCategoryId,productId);//0 is responseCode for login api
+                } else {
+                    showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+                }
+
+            }
+
+            @Override
+            public void negative() {
+                Log.e(TAG, "negative: ---" );
+            }
+        }).showAlertDialog("Item price: "+price,"Are you sure to buy",true,context);
+
+    }
+
+    public void onReview(View view){
+        Log.e(TAG, "onReview: click" );
+        new DialogUtils.CustomDialog(context, new DialogUtils.dialogResponse() {
+            @Override
+            public void positive(String data) {
+                Log.e(TAG, "positive: data --"+data );
+                if (isOnline(context)) {
+                    comments=data;
+                    callback(2,productSubCategoryId,productId);//0 is responseCode for login api
+                } else {
+                    showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+                }
+            }
+
+            @Override
+            public void negative() {
+                Log.e(TAG, "neg.: --" );
+
+            }
+        }).show();
     }
 
     /**
@@ -188,11 +219,26 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             case 0:
                 long user = sharedPreferences.getLong("id", 0);
                 String bearerToken = sharedPreferences.getString("bearerToken", "");
-               // Log.e(TAG, "bearerToken: " + bearerToken);
-                //    //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/2563260983/productSubCategory/2/product/1/comments
                 String URL = NetworkUrl.URL_COMMENTLIST + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments";
                 String apiTag = NetworkUrl.URL_COMMENTLIST + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments";
-                GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0); //0 is for finish second api call
+                GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0);
+                break;
+            case 1:
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+                URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/buy";
+                apiTag = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/buy";
+                PostApiPlues postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 1);
+
+                break;
+            case 2:  // update comments
+                //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/85384665/productSubCategory/22/product/1/comments?comment=yeeee
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+                URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments?"+"comment="+comments;
+                apiTag = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments?"+"comment="+comments;
+                postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 2);
+
                 break;
 
             default:
@@ -230,6 +276,13 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 progressBar.setVisibility(View.GONE);
                 setview();
                 break;
+            case 1:
+                Log.e(TAG, "OnSucess: "+response.toString() );
+                DialogUtils.showAlertDialog(context,"Thanking you !","Product buy successfully");
+                break;
+            case 2:
+                Log.e(TAG, "OnSucess: "+response.toString() );
+                break;
 
             default:
                 break;
@@ -248,6 +301,9 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 break;
             case 500:
                 showSnackbar(viewpart, getResources().getString(R.string.error_500));
+                break;
+            case 412:  //product buy already
+                DialogUtils.showAlertDialog(context,"We are sorry","Product already sold");
                 break;
             default:
                 showSnackbar(viewpart, getResources().getString(R.string.random_error));

@@ -97,5 +97,10 @@
     <!--other-->
     <string name="correct_email">Please enter your email address</string>
 
+    <!--alert-->
+    <string name="alert_message">Please rate the quality of the product</string>
+    <string name="alert_validation">Please enter your comment</string>
+
+
 
 </resources>

@@ -1,16 +1,26 @@
 package com.project.nat.advice_nation.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.project.nat.advice_nation.R;
+
+import org.json.JSONObject;
 
 /**
  * Created by Chari on 7/7/2017.
@@ -18,11 +28,17 @@ import com.project.nat.advice_nation.R;
 
 public class DialogUtils {
 
+    private dialogResponse response;
     private Context context;
     private  static Dialog dialog;
 
     public DialogUtils(Context context){
         this.context=context;
+    }
+    public DialogUtils(Context context, dialogResponse response){
+        this.context=context;
+        this.response = (dialogResponse)response;
+
     }
 
     public Dialog setupCustomeDialogFromBottom(int layout) {
@@ -111,13 +127,12 @@ public class DialogUtils {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
             }
         });
         builder.show();
     }
 
-   /* public static void showProgressDialog(Context context) {
+/*    public static void showProgressDialog(Context context) {
         if (dialog != null) {
             if (dialog.isShowing())
                 dialog.dismiss();
@@ -129,7 +144,9 @@ public class DialogUtils {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setContentView(R.layout.dialog_loader);
         dialog.show();
+
     }
+        */
 
     public static void stopProgressDialog() {
         if (dialog != null) {
@@ -139,26 +156,92 @@ public class DialogUtils {
         }
     }
 
-    public static void showAlertDialog(final BaseActivity.OnDialogClick onDialogClick, String title, String msg, boolean isNegative, Context context){
-        AlertDialog.Builder builder =
+    public  void showAlertDialog(String title, String msg, boolean isNegative, final Context context) {
+        final AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(title);
         builder.setMessage(msg);
-        builder.setPositiveButton(isNegative ? "Yes" : "Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                onDialogClick.onPositiveBtnClick();
-            }
-        });
-        if(isNegative)
+        if (isNegative)
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    onDialogClick.onNegativeBtnClick();
+                    Log.e("TAG", "onClick: "+dialog+" and which"+which );
+                    response.negative();
+
                 }
             });
+        builder.setPositiveButton(isNegative ? "Yes" : "Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                response.positive(null);
+
+            }
+        });
         builder.show();
-    }*/
+    }
+
+    public static class CustomDialog extends Dialog implements View.OnClickListener{
+
+        private final dialogResponse response;
+        public Context c;
+        public Dialog d;
+        public TextView yes, no,alert_validation;
+        private EditText comments;
+
+        public CustomDialog(Context c, dialogResponse response) {
+            super(c);
+            // TODO Auto-generated constructor stub
+            this.c = c;
+            this.response = (dialogResponse)response;
+
+        }
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            setContentView(R.layout.activity_custom_dialog);
+            yes = (TextView) findViewById(R.id.submit);
+            no = (TextView) findViewById(R.id.not_now);
+            alert_validation = (TextView) findViewById(R.id.alert_validation);
+            comments = (EditText) findViewById(R.id.comments);
+            alert_validation.setVisibility(View.GONE);
+            yes.setOnClickListener(this);
+            no.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.submit:
+                    String commentbox=comments.getText().toString().replaceAll("\\s{1,}", "").trim();
+                    if(!TextUtils.isEmpty(commentbox)){
+                        response.positive(commentbox);
+                        dismiss();
+                    }else{
+                        alert_validation.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case R.id.not_now:
+                    response.negative();
+                    dismiss();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public interface dialogResponse {
+
+        void positive(String data);
+
+        void negative();
+
+
+    }
 
 
 }

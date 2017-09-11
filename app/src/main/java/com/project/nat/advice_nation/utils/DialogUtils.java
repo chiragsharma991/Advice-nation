@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -15,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -187,6 +191,7 @@ public class DialogUtils {
         public Dialog d;
         public TextView yes, no,alert_validation;
         private EditText comments;
+        private RatingBar reating;
 
         public CustomDialog(Context c, dialogResponse response) {
             super(c);
@@ -206,6 +211,11 @@ public class DialogUtils {
             no = (TextView) findViewById(R.id.not_now);
             alert_validation = (TextView) findViewById(R.id.alert_validation);
             comments = (EditText) findViewById(R.id.comments);
+            reating = (RatingBar)findViewById(R.id.reating);
+            LayerDrawable rate = (LayerDrawable)reating.getProgressDrawable();
+            rate.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+            rate.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+            rate.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
             alert_validation.setVisibility(View.GONE);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
@@ -216,7 +226,7 @@ public class DialogUtils {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.submit:
-                    String commentbox=comments.getText().toString().replaceAll("\\s{1,}", "").trim();
+                    String commentbox=comments.getText().toString().replaceAll("\\s{2,}", " ").trim();
                     if(!TextUtils.isEmpty(commentbox)){
                         response.positive(commentbox);
                         dismiss();

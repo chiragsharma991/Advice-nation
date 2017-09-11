@@ -39,6 +39,7 @@ public class PostApi extends BaseActivity   {
     403  Forbidden
     404  Not Found
     412  Product already sold
+    415  header problem
 
     */
     private final String apiTag;
@@ -103,6 +104,7 @@ public class PostApi extends BaseActivity   {
                 Log.e(TAG, "parseNetworkResponse: " + header);
                 return super.parseNetworkResponse(response);
             }
+
 
 
 

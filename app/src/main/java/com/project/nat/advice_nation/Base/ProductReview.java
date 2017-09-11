@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -50,7 +51,9 @@ import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -166,7 +169,6 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         new DialogUtils.CustomDialog(context, new DialogUtils.dialogResponse() {
             @Override
             public void positive(String data) {
-                Log.e(TAG, "positive: data --"+data );
                 if (isOnline(context)) {
                     comments=data;
                     callback(2,productSubCategoryId,productId);//0 is responseCode for login api
@@ -177,7 +179,6 @@ public class ProductReview extends BaseActivity implements ApiResponse {
 
             @Override
             public void negative() {
-                Log.e(TAG, "neg.: --" );
 
             }
         }).show();
@@ -204,6 +205,20 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 .error(R.mipmap.ic_launcher)
                 .crossFade()
                 .into(product_image);
+        setRate();
+    }
+
+    private void setRate() {
+        RatingBar ratingOverall = (RatingBar) findViewById(R.id.ratingOverall);
+        RatingBar featurerating = (RatingBar) findViewById(R.id.featurerating);
+        LayerDrawable overall = (LayerDrawable)ratingOverall.getProgressDrawable();
+        overall.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        overall.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        overall.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        LayerDrawable feature = (LayerDrawable)featurerating.getProgressDrawable();
+        feature.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        feature.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        feature.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
     }
 
     public static void startScreen(Context context,String productList, int position) {
@@ -220,14 +235,14 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 long user = sharedPreferences.getLong("id", 0);
                 String bearerToken = sharedPreferences.getString("bearerToken", "");
                 String URL = NetworkUrl.URL_COMMENTLIST + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments";
-                String apiTag = NetworkUrl.URL_COMMENTLIST + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments";
+                String apiTag = URL;
                 GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0);
                 break;
             case 1:
                 user = sharedPreferences.getLong("id", 0);
                 bearerToken = sharedPreferences.getString("bearerToken", "");
                 URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/buy";
-                apiTag = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/buy";
+                apiTag =URL;
                 PostApiPlues postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 1);
 
                 break;
@@ -235,8 +250,15 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/85384665/productSubCategory/22/product/1/comments?comment=yeeee
                 user = sharedPreferences.getLong("id", 0);
                 bearerToken = sharedPreferences.getString("bearerToken", "");
+                try {
+                    comments = URLEncoder.encode(comments,"UTF-8");
+                    Log.e(TAG, "comments: "+comments);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "callback: catch error"+e.getMessage() );
+                }
                 URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments?"+"comment="+comments;
-                apiTag = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/comments?"+"comment="+comments;
+                apiTag = URL;
                 postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 2);
 
                 break;

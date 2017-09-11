@@ -226,14 +226,11 @@
                             android:layout_weight="0.9">
 
 
-
-
                             <RatingBar
-                                android:rating="4"
+                                android:rating="3"
                                 android:stepSize="1.0"
                                 android:numStars="5"
                                 android:id="@+id/ratingOverall"
-                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="?android:attr/ratingBarStyleIndicator"
@@ -290,7 +287,6 @@
                                 android:stepSize="1.0"
                                 android:numStars="5"
                                 android:id="@+id/featurerating"
-                                android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 style="?android:attr/ratingBarStyleIndicator"

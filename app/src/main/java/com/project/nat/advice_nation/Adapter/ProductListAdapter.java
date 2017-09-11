@@ -77,9 +77,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 .error(R.mipmap.ic_launcher) // will be displayed if the image cannot be loaded
                 .crossFade()
                 .into(holder.image);
-
-        LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        LayerDrawable stars = (LayerDrawable)holder.ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
 

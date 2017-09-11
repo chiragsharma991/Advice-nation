@@ -30,7 +30,7 @@ import java.util.Map;
  * Created by Chari on 7/17/2017.
  */
 
-public class PostApiPlues extends BaseActivity   {
+public class PostApiPlues extends BaseActivity {
 
 
     private final String apiTag;
@@ -45,7 +45,7 @@ public class PostApiPlues extends BaseActivity   {
     public String header;
 
 
-    public PostApiPlues(Context context, String url,String bearerToken, JSONObject jObject, String apiTag, String TAG, int id) {
+    public PostApiPlues(Context context, String url, String bearerToken, JSONObject jObject, String apiTag, String TAG, int id) {
 
         this.context = context;
         this.id = id;
@@ -55,42 +55,40 @@ public class PostApiPlues extends BaseActivity   {
         this.bearerToken = bearerToken;
         this.apiTag = apiTag;
         this.TAG = TAG;
-        header="";
+        header = "";
         setApi();
     }
 
     private void setApi() {
 
-        Log.e(TAG, "PostApiPlues: "+TAG+" "+url);
+        Log.e(TAG, "PostApiPlues: " + TAG + " " + url);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         jsonObjReq = new JsonObjectRequest(Request.Method.POST, url
-                , jObject,
+                , null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e(TAG, "onResponse: log" );
-                        apiResponse.OnSucess(response,id);
+                        Log.e(TAG, "onResponse: log");
+                        apiResponse.OnSucess(response, id);
                     }
 
                 }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
+            public void onErrorResponse(VolleyError error) {
                 NetworkResponse response = error.networkResponse;
-                try
-                {
-                    apiResponse.OnFailed(response.statusCode,id);
-                }catch (Exception e)
-                {
-                    Log.e(TAG, "onErrorResponse: "+e.getMessage());
-                    apiResponse.OnFailed(000,id);
+                try {
+                    apiResponse.OnFailed(response.statusCode, id);
+                } catch (Exception e) {
+                    Log.e(TAG, "onErrorResponse: " + e.getMessage());
+                    apiResponse.OnFailed(000, id);
                 }
             }
         }
 
         ) {
+
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 header = response.headers.get("authorization");
@@ -98,14 +96,15 @@ public class PostApiPlues extends BaseActivity   {
                 return super.parseNetworkResponse(response);
             }
 
+
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization",  "Bearer " + bearerToken);
-                headers.put("Authorization",  "Bearer " + bearerToken);
+                headers.put("Authorization", "Bearer " + bearerToken);
                 return headers;
             }
+
 
         };
 

@@ -33,11 +33,14 @@ public class Category {
         private long productCategoryId;
         private String productCategoryName;
         private String productSubCategoryName;
+        private boolean commentFollowed;
 
         public long getUserId() {
             return userId;
         }
-
+        public boolean isCommentFollowed() {
+            return commentFollowed;
+        }
         public void setUserId(long userId) {
             this.userId = userId;
         }

@@ -31,6 +31,7 @@
     <!--error-->
     <string name="error_404">Please enter valid information</string>
     <string name="error_404_reg">Username and Password Already Register</string>
+    <string name="error_404_unfollow">Unfollow permission denied :( </string>
     <string name="error_401">Please Register first</string>
     <string name="error_403">Forbiden</string>
     <string name="error_500">Login session time out...</string>

@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -89,6 +90,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     private int position ,productId,productSubCategoryId;  // pre params
     private ArrayList<Subcategory> list;
     private String comments=null;
+    private Activity ProductReview=this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -229,7 +231,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     }
 
 
-    private void callback(int responseCode, int productSubCategoryId, int productId) {
+    private void callback(int responseCode, int productSubCategoryId, int productId ,int...values) {
         switch (responseCode) {
             case 0:
                 long user = sharedPreferences.getLong("id", 0);
@@ -247,7 +249,6 @@ public class ProductReview extends BaseActivity implements ApiResponse {
 
                 break;
             case 2:  // update comments
-                //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/85384665/productSubCategory/22/product/1/comments?comment=yeeee
                 user = sharedPreferences.getLong("id", 0);
                 bearerToken = sharedPreferences.getString("bearerToken", "");
                 try {
@@ -261,6 +262,14 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 apiTag = URL;
                 postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 2);
 
+                break;
+            case 3:  // follow comments
+             //   http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/85384665/1/1/follow/17041409
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+                URL = NetworkUrl.URL + user+"/"+productId+"/"+values[0]+"/"+"follow/"+values[1];
+                apiTag = URL;
+                postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 3);
                 break;
 
             default:
@@ -305,6 +314,10 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             case 2:
                 Log.e(TAG, "OnSucess: "+response.toString() );
                 break;
+            case 3:
+                Log.e(TAG, "OnSucess: "+response.toString() );
+                callback(0,productSubCategoryId,productId);//0 is responseCode for login api
+                break;
 
             default:
                 break;
@@ -324,6 +337,13 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             case 500:
                 showSnackbar(viewpart, getResources().getString(R.string.error_500));
                 break;
+            case 404:
+                Snackbar snack = Snackbar.make(viewpart, getResources().getString(R.string.error_404_unfollow), Snackbar.LENGTH_LONG);
+                View view = snack.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.RED);
+                snack.show();
+                break;
             case 412:  //product buy already
                 DialogUtils.showAlertDialog(context,"We are sorry","Product already sold");
                 break;
@@ -335,12 +355,26 @@ public class ProductReview extends BaseActivity implements ApiResponse {
 
     private void setview() {
 
-        adapter = new ProductReviewAdapter(productList, this);
+        adapter = new ProductReviewAdapter(productList,ProductReview,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
   
+    }
+
+    public void follow(int position){
+
+        if (isOnline(context)) {
+            int productId = productList.get(0).getData().get(position).getProductId();
+            int id = (int)  productList.get(0).getData().get(position).getId();
+            int userId = (int) productList.get(0).getData().get(position).getUserId();
+            callback(3,productSubCategoryId,productId,id,userId);//0 is responseCode for login api
+
+        } else {
+          //  showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+        }
+
     }
 
     @Override

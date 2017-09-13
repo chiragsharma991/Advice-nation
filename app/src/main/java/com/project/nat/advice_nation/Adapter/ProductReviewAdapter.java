@@ -1,5 +1,6 @@
 package com.project.nat.advice_nation.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.project.nat.advice_nation.Base.ProductReview;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
 
@@ -31,12 +33,14 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
 {
 
     private final ArrayList<Category> productList;
+    private final Activity productReview;
     private Context mcontext;
 
-    public ProductReviewAdapter(ArrayList<Category> productList, Context subclassActivity)
+    public ProductReviewAdapter(ArrayList<Category> productList, Activity productReview, Context subclassActivity)
     {
         this.productList=productList;
         this.mcontext=subclassActivity;
+        this.productReview=productReview;
 
     }
 
@@ -49,15 +53,24 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
 
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position)
+    public void onBindViewHolder(MyViewHolder holder, final int position)
     {
-        holder.username.setText(productList.get(0).getData().get(position).getName());
-        holder.userComment.setText(productList.get(0).getData().get(position).getComment());
-
-        LayerDrawable stars = (LayerDrawable)   holder.ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        LayerDrawable stars = (LayerDrawable)holder.ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        holder.username.setText(productList.get(0).getData().get(position).getName());
+        holder.userComment.setText(productList.get(0).getData().get(position).getComment());
+        holder.follow.setText(productList.get(0).getData().get(position).isCommentFollowed()== true ? "Unfollow" : "Follow");
+        holder.follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mcontext instanceof ProductReview){
+                    ((ProductReview)mcontext).follow(position);
+
+                }
+            }
+        });
 
     }
 
@@ -70,8 +83,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView username;
-        TextView userComment;
+        TextView userComment,follow,username;
         RatingBar ratingBar;
 
         public MyViewHolder(View itemView)
@@ -80,6 +92,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
             username =(TextView) itemView.findViewById(R.id.UserName);
             userComment = (TextView) itemView.findViewById(R.id.Discription);
             ratingBar = (RatingBar) itemView.findViewById(R.id.subUserBar);
+            follow = (TextView) itemView.findViewById(R.id.follow);
 
         }
     }

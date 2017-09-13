@@ -23,6 +23,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * Created by ubuntu on 15/9/16.
@@ -244,6 +247,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+
+    public  String getDate(long time){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd - MMM -yyyy");
+        Date df = new java.util.Date(time);
+        String date = simpleDateFormat.format(df).toString();
+        return date;
     }
 
 

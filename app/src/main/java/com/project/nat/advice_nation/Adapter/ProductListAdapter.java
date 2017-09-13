@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,13 +78,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 .error(R.mipmap.ic_launcher) // will be displayed if the image cannot be loaded
                 .crossFade()
                 .into(holder.image);
-
-        LayerDrawable stars = (LayerDrawable) holder.ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        LayerDrawable stars = (LayerDrawable)holder.ratingBar.getProgressDrawable();
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
 
-        holder.title.setOnClickListener(new View.OnClickListener() {
+        holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String ProductList = gson.toJson(list);
@@ -112,6 +112,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         public TextView title, subtitle, time;
         public ImageView image;
         public RatingBar ratingBar;
+        public CardView card;
 
         public MyViewHolder(View view) {
             super(view);
@@ -120,6 +121,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             image = (ImageView) view.findViewById(R.id.detail_list_image);
             time = (TextView) view.findViewById(R.id.detail_list_time);
             ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+            card = (CardView) view.findViewById(R.id.card);
 
 
         }

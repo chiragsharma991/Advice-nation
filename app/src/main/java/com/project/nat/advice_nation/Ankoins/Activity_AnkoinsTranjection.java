@@ -35,7 +35,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.project.nat.advice_nation.R.id.list_item_process;
 import static com.project.nat.advice_nation.R.id.no_datafound;
 
 /**
@@ -152,7 +151,7 @@ public class Activity_AnkoinsTranjection extends BaseActivity implements ApiResp
 
         switch (id) {
             case 0:
-                Log.e(TAG, "OnSucess: ");
+                Log.e(TAG, "OnSucess: "+response);
                 tranjectionList = new ArrayList<Subcategory>();
                 Subcategory list = gson.fromJson(response.toString(), Subcategory.class);
                 tranjectionList.add(list);

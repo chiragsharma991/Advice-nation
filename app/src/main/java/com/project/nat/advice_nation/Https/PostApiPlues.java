@@ -30,74 +30,65 @@ import java.util.Map;
  * Created by Chari on 7/17/2017.
  */
 
-public class PostApi extends BaseActivity   {
+public class PostApiPlues extends BaseActivity {
 
- /* 405  not proper get/post method
-    201  Created
-    401  Unauthorized
-    400  null parameter
-    403  Forbidden
-    404  Not Found
-    412  Product already sold
-    415  header problem
 
-    */
     private final String apiTag;
     private final JSONObject jObject;
     private final String url;
     private final String TAG;
     private final ApiResponse apiResponse;
     private final int id;
+    private final String bearerToken;
     private Context context;
     private JsonObjectRequest jsonObjReq;
     public String header;
 
 
-    public PostApi(Context context, String url, JSONObject jObject, String apiTag, String TAG, int id) {
+    public PostApiPlues(Context context, String url, String bearerToken, JSONObject jObject, String apiTag, String TAG, int id) {
 
         this.context = context;
         this.id = id;
         apiResponse = (ApiResponse) this.context;
         this.url = url;
         this.jObject = jObject;
+        this.bearerToken = bearerToken;
         this.apiTag = apiTag;
         this.TAG = TAG;
-        header="";
+        header = "";
         setApi();
     }
 
     private void setApi() {
 
-        Log.e(TAG, "PostApi: "+TAG+" "+url);
+        Log.e(TAG, "PostApiPlues: " + TAG + " " + url);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         jsonObjReq = new JsonObjectRequest(Request.Method.POST, url
-                , jObject,
+                , null,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e(TAG, "onResponse: log" );
-                        apiResponse.OnSucess(response,id);
+                        Log.e(TAG, "onResponse: log");
+                        apiResponse.OnSucess(response, id);
                     }
 
                 }, new Response.ErrorListener() {
 
             @Override
-            public void onErrorResponse(VolleyError error)
-            {
+            public void onErrorResponse(VolleyError error) {
                 NetworkResponse response = error.networkResponse;
-                try
-                {
-                    apiResponse.OnFailed(response.statusCode,id);
-                }catch (Exception e)
-                {
-                    Log.e(TAG, "onErrorResponse: "+e.getMessage());
-                    apiResponse.OnFailed(000,id);
+                try {
+                    apiResponse.OnFailed(response.statusCode, id);
+                } catch (Exception e) {
+                    Log.e(TAG, "onErrorResponse: " + e.getMessage());
+                    apiResponse.OnFailed(000, id);
                 }
             }
         }
 
         ) {
+
             @Override
             protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
                 header = response.headers.get("authorization");
@@ -106,6 +97,13 @@ public class PostApi extends BaseActivity   {
             }
 
 
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", "Bearer " + bearerToken);
+                return headers;
+            }
 
 
         };
@@ -114,7 +112,7 @@ public class PostApi extends BaseActivity   {
         int socketTimeout = 10000;//30000-30 seconds - change to what you want
         RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjReq.setRetryPolicy(policy);
-      //  mRequestQueue.add(jsonObjReq);
+        //  mRequestQueue.add(jsonObjReq);
 
     }
 

@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="3dp"
             app:cardElevation="2dp"
+            android:id="@+id/card"
             app:contentPadding="3dp"
             app:theme="@style/AppTheme"
             app:cardPreventCornerOverlap="true"

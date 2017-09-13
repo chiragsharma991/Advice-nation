@@ -3,11 +3,13 @@ package com.project.nat.advice_nation.Base;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -29,24 +33,35 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.project.nat.advice_nation.Adapter.SubcategoryAdapter;
 import com.project.nat.advice_nation.Fragment.AnKoins;
 import com.project.nat.advice_nation.Fragment.HomeFragment;
+import com.project.nat.advice_nation.Https.ApiResponse;
+import com.project.nat.advice_nation.Https.GetApi;
+import com.project.nat.advice_nation.Https.PostApi;
+import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.DialogUtils;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.project.nat.advice_nation.R.anim.exit;
 import static com.project.nat.advice_nation.R.id.progressBar;
 import static com.project.nat.advice_nation.R.id.progressBarToolbar;
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,ApiResponse
 {
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -69,6 +84,8 @@ public class DashboardActivity extends BaseActivity
     private NavigationView navigationView;
     private ProgressBar progressBar;
     private Gson gson;
+    private SharedPreferences sharedPreferences;
+    private String referralCode="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,8 +94,9 @@ public class DashboardActivity extends BaseActivity
         setContentView(R.layout.activity_dashboardn);
         context=DashboardActivity.this;
         initialize();
-      //  setUpNavigationView();
-
+        if (isOnline(context)) {
+            callback(0);
+        }
         if (savedInstanceState == null) {
             navItemIndex = 0;
             CURRENT_TAG = TAG_HOME;
@@ -90,10 +108,10 @@ public class DashboardActivity extends BaseActivity
     private void initialize()
     {
         gson=new Gson();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mHandler = new Handler();
-
 
         page_Indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -113,6 +131,65 @@ public class DashboardActivity extends BaseActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+    }
+
+
+    private void callback(int id) {
+        switch (id) {
+            case 0:
+                //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/85384665/referral
+                long user = sharedPreferences.getLong("id", 0);
+                String bearerToken = sharedPreferences.getString("bearerToken", "");
+                Log.e(TAG, "bearerToken: " + bearerToken);
+                String URL = NetworkUrl.URL + user + "/referral";
+                String apiTag = NetworkUrl.URL_CATEGORY + user + "/referral";
+                GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0); //0 is for finish second api call
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void OnSucess(JSONObject response, int id) {
+
+        switch (id) {
+            case 0:
+                Log.e(TAG, "OnSucess: "+response.toString() );
+                try {
+                    JSONObject jsonObject=new JSONObject(response.toString());
+                    referralCode=jsonObject.getString("data");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("referralCode",referralCode);
+                    editor.apply();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+
+    @Override
+    public void OnFailed(int error, int id) {
+        Log.e(TAG, "OnFailed: " + error);
+        progressBar.setVisibility(View.GONE);
+        switch (error) {
+            case 000:
+                Log.e(TAG, "OnFailed: "+getResources().getString(R.string.network_poor ));
+                break;
+            case 500:
+                Log.e(TAG, "OnFailed: "+getResources().getString(R.string.error_500 ));
+                break;
+            default:
+                Log.e(TAG, "OnFailed: "+getResources().getString(R.string.random_error ));
+        }
 
     }
 
@@ -253,6 +330,16 @@ public class DashboardActivity extends BaseActivity
         if (id == R.id.logout) {
             Login.startScreen(context);
             finish();
+            return true;
+        }
+        if (id == R.id.invite) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    "Hey check out my app at (Referral code ="+referralCode+" ): \n" +
+                            "https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
             return true;
         }
 

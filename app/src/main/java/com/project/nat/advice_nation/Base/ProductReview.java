@@ -69,7 +69,7 @@ import static com.project.nat.advice_nation.R.id.collapsingToolbar;
 public class ProductReview extends BaseActivity implements ApiResponse {
 
     private RecyclerView recyclerView;
-    ProductReviewAdapter adapter;
+    ProductReviewAdapter adapter=null;
     private RatingBar OverallratingBar;
     private RatingBar FeatureRatingbar;
     //public MoviesAdapter moviesAdapter;
@@ -298,24 +298,32 @@ public class ProductReview extends BaseActivity implements ApiResponse {
 
     @Override
     public void OnSucess(JSONObject response, int id) {
+        Log.e(TAG, "OnSucess: "+response.toString() );
         switch (id) {
             case 0:
-                Log.e(TAG, "OnSucess: "+response.toString() );
-                productList = new ArrayList<Category>();
-                Category category = gson.fromJson(response.toString(), Category.class);
-                productList.add(category);
-                progressBar.setVisibility(View.GONE);
-                setview();
+                if(adapter ==null){
+                    productList = new ArrayList<Category>();
+                    Category category = gson.fromJson(response.toString(), Category.class);
+                    productList.add(category);
+                    progressBar.setVisibility(View.GONE);
+                    setview();
+                }else{
+                    productList.clear();
+                    Category category = gson.fromJson(response.toString(), Category.class);
+                    productList.add(category);
+                    adapter.notifyDataSetChanged();
+
+                }
+
+
                 break;
             case 1:
-                Log.e(TAG, "OnSucess: "+response.toString() );
                 DialogUtils.showAlertDialog(context,"Thanking you !","Product buy successfully");
                 break;
             case 2:
-                Log.e(TAG, "OnSucess: "+response.toString() );
+                Log.e(TAG, "OnSucess: id 2"+response );
                 break;
             case 3:
-                Log.e(TAG, "OnSucess: "+response.toString() );
                 callback(0,productSubCategoryId,productId);//0 is responseCode for login api
                 break;
 
@@ -338,11 +346,8 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 showSnackbar(viewpart, getResources().getString(R.string.error_500));
                 break;
             case 404:
-                Snackbar snack = Snackbar.make(viewpart, getResources().getString(R.string.error_404_unfollow), Snackbar.LENGTH_LONG);
-                View view = snack.getView();
-                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.RED);
-                snack.show();
+                showSnackbarError(viewpart,getResources().getString(R.string.error_404_unfollow));
+
                 break;
             case 412:  //product buy already
                 DialogUtils.showAlertDialog(context,"We are sorry","Product already sold");
@@ -354,13 +359,11 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     }
 
     private void setview() {
-
-        adapter = new ProductReviewAdapter(productList,ProductReview,this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-  
+            adapter = new ProductReviewAdapter(productList,ProductReview,this);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+            recyclerView.setLayoutManager(mLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(adapter);
     }
 
     public void follow(int position){

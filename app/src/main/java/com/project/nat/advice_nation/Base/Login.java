@@ -599,7 +599,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
                 UserDetails details = gson.fromJson(response.toString(), UserDetails.class);
                 userlist.add(details);
                 saveProfileData(userlist);
-                showToast("Authentication success", context);
+                customToast("Authentication success", context,R.drawable.autorenew,R.color.colorPrimarylight,true);
+            //    showToast("Authentication success", context);
                 DashboardActivity.startScreen(context);
                 overridePendingTransition(R.anim.start, R.anim.exit);
                 finish();

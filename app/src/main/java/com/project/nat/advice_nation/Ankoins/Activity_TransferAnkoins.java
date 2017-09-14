@@ -106,7 +106,7 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
 
         if(checkValidation()){
             if (isOnline(context)) {
-
+                progressDialogStart(context,getResources().getString(R.string.loading_data));
                 callback(0);//0 is responseCode for login api
             } else {
                 showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
@@ -126,7 +126,7 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
         if (transferCoins == null || transferCoins.isEmpty() || transferCoins.equals("null")) {
             showSnackbar(viewpart, "Please enter transferCoins");
             return false;
-        } else if (toSend == null || toSend.isEmpty() || toSend.equals("null") || android.util.Patterns.EMAIL_ADDRESS.matcher(toSend).matches()) {
+        } else if ( toSend == null || toSend.isEmpty() || toSend.equals("null") || ! android.util.Patterns.EMAIL_ADDRESS.matcher(toSend).matches()) {
             showSnackbar(viewpart, "Please enter right information of mail");
             return false;
         }
@@ -141,9 +141,10 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
                 String bearerToken = sharedPreferences.getString("bearerToken", "");
                 //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/17041409/ankoin/transfer/5
                 JSONObject jsonObject = GetLoginObject();
+                Log.e(TAG, "jsonObject: "+jsonObject.toString() );
                 String URL = NetworkUrl.URL + user + "/ankoin/"+"transfer/"+transferCoins;
                 String apiTag = URL;
-                PostApiPlues postApi = new PostApiPlues(context, URL, bearerToken, jsonObject, apiTag, TAG, 2);
+                PostApiPlues postApi = new PostApiPlues(context, URL, bearerToken, jsonObject, apiTag, TAG, 0);
                 break;
 
             default:
@@ -156,9 +157,13 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
     @Override
     public void OnSucess(JSONObject response, int id) {
 
+        Log.e(TAG, "OnSucess: "+response );
         switch (id) {
             case 0:
-                Log.e(TAG, "OnSucess: "+response );
+                progressDialogStop();
+                customToast("Transfer success",context,R.drawable.done,R.color.colorPrimaryTrans,false);
+                edt_ankoinstotrnsfer.getText().clear();
+                edt_emailtowhomsend.getText().clear();
                 break;
 
             default:
@@ -171,13 +176,19 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
     @Override
     public void OnFailed(int error, int id) {
         Log.e(TAG, "OnFailed: " + error);
-        //   progressBar.setVisibility(View.GONE);
+        progressDialogStop();
         switch (error) {
             case 000:
                 showSnackbar(viewpart, getResources().getString(R.string.network_poor));
                 break;
             case 500:
                 showSnackbar(viewpart, getResources().getString(R.string.error_500));
+                break;
+            case 404:
+                showSnackbar(viewpart, getResources().getString(R.string.error_404_transferAnkoins));
+                break;
+            case 412:
+                showSnackbarError(viewpart, getResources().getString(R.string.error_412));
                 break;
             default:
                 showSnackbar(viewpart, getResources().getString(R.string.random_error));
@@ -190,10 +201,7 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
 
         JSONObject jobject = new JSONObject();
         try {
-
             jobject.put("userName",toSend);
-
-
         } catch (JSONException e) {
             e.printStackTrace();
             Log.e(TAG, "GetLoginObject: " + e.getMessage());

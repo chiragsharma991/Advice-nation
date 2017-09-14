@@ -64,12 +64,12 @@ public class PostApiPlues extends BaseActivity {
         Log.e(TAG, "PostApiPlues: " + TAG + " " + url);
         RequestQueue mRequestQueue = Volley.newRequestQueue(context);
         jsonObjReq = new JsonObjectRequest(Request.Method.POST, url
-                , null,
+                , jObject,
                 new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.e(TAG, "onResponse: log");
+                        Log.e(TAG, "onResponse: "+response);
                         apiResponse.OnSucess(response, id);
                     }
 

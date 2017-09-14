@@ -44,7 +44,7 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
 
     }
 
-            public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_detailslistitem, parent, false);

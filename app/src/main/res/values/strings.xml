@@ -30,14 +30,17 @@
 
     <!--error-->
     <string name="error_404">Please enter valid information</string>
+    <string name="error_404_transferAnkoins">Sender id not found</string>
     <string name="error_404_reg">Username and Password Already Register</string>
     <string name="error_404_unfollow">Unfollow permission denied :( </string>
     <string name="error_401">Please Register first</string>
     <string name="error_403">Forbidden</string>
     <string name="error_500">Login session time out...</string>
+    <string name="error_412">Insufficient AnKoins</string>
     <string name="network_notfound">Please check your network connection</string>
     <string name="network_poor">Network connection is too poor</string>
     <string name="random_error">Server not responding</string>
+    <string name="loading_data">Loading data...</string>
 
 
     <!--Transfer ANikoins-->

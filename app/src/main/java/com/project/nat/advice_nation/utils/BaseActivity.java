@@ -24,6 +24,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
@@ -174,23 +175,43 @@ public abstract class BaseActivity extends AppCompatActivity {
         toast.show();
     }
 
-    protected void customToast(String msg,Context context,int drawable,int color ){
-        StyleableToast styleableToast = new StyleableToast
-                .Builder(this)
-                .duration(Toast.LENGTH_SHORT)
-                .icon(drawable)
-                .spinIcon()
-                .text("Downloading your information")
-                .textColor(Color.WHITE)
-                .backgroundColor(color)
-                .build()
-                ;
+    protected void customToast(String msg,Context context,int drawable,int color,boolean animate ){
+        StyleableToast styleableToast = null;
+        if(animate){
+             styleableToast = new StyleableToast
+                    .Builder(context)
+                    .duration(Toast.LENGTH_SHORT)
+                    .icon(drawable)
+                    .spinIcon()
+                    .text(msg)
+                    .textColor(Color.WHITE)
+                    .backgroundColor(ContextCompat.getColor(context,color))
+                    .build()
+                    ;
+        }else{
+            styleableToast = new StyleableToast
+                    .Builder(context)
+                    .duration(Toast.LENGTH_SHORT)
+                    .icon(drawable)
+                    .text(msg)
+                    .textColor(Color.WHITE)
+                    .backgroundColor(ContextCompat.getColor(context,color))
+                    .build()
+            ;
+        }
         styleableToast.show();
     }
 
     protected void showSnackbar(View view, String msg){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
     }
+
+    protected void showSnackbarError(View view, String msg){
+        Snackbar snack = Snackbar.make(view, msg, Snackbar.LENGTH_LONG);
+        view = snack.getView();
+        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextColor(Color.parseColor("#ff0000"));
+        snack.show();    }
 
     protected void showErrorLog(String error) {
         Log.e(TAG, ""+error);
@@ -221,10 +242,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void startActivityForResults(Intent intent, Activity context, boolean isFinish, int requestCode){
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                startActivityForResult(intent, requestCode,
+                        startActivityForResult(intent, requestCode,
                         ActivityOptions.makeSceneTransitionAnimation(context).toBundle());
             } else {
-                startActivityForResult(intent, requestCode);
+                startActivityForResult(intent, requestCode) ;
             }
             if(isFinish)
                 new Handler().postDelayed(new Runnable() {
@@ -278,7 +299,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return date;
     }
 
-    public  void progressDialogStart() {
+    public  void progressDialogStop() {
         if (progressDialog != null) {
             if (progressDialog.isShowing()) {
                 progressDialog.dismiss();
@@ -288,7 +309,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public  void progressDialogStop(Context cont, String message)
+    public  void progressDialogStart(Context cont, String message)
     {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(cont);//R.style.AlertDialog_Theme);
@@ -302,11 +323,5 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
-
 
 }

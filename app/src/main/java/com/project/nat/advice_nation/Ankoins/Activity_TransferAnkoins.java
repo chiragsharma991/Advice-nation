@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.muddzdev.styleabletoastlibrary.StyleableToast;
 import com.project.nat.advice_nation.Base.ProductList;
@@ -82,17 +81,6 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
     {
         context=this;
         gson = new Gson();
-        StyleableToast styleableToast = new StyleableToast
-                .Builder(this)
-                .duration(Toast.)
-                .icon(R.drawable.autorenew)
-                .spinIcon()
-                .text("Downloading your information")
-                .textColor(Color.WHITE)
-                .backgroundColor(Color.parseColor("#184c6d"))
-                .build()
-                ;
-        styleableToast.show();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         edt_ankoinstotrnsfer = (EditText) findViewById(R.id.edtankointotrnsfer);
         edt_emailtowhomsend = (EditText) findViewById(R.id.edtankoinwhomtotrnsfer);
@@ -132,6 +120,7 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
 
         transferCoins = edt_ankoinstotrnsfer.getText().toString().replaceAll("\\s{2,}", " ").trim();
         toSend = edt_emailtowhomsend.getText().toString().replaceAll("\\s{2,}", " ").trim();
+        Log.e(TAG, "checkValidation: "+android.util.Patterns.EMAIL_ADDRESS.matcher(toSend).matches() );
         Log.e(TAG, "transferCoins: " + transferCoins + " and " + toSend);
 
         if (transferCoins == null || transferCoins.isEmpty() || transferCoins.equals("null")) {
@@ -152,7 +141,7 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
                 String bearerToken = sharedPreferences.getString("bearerToken", "");
                 //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/17041409/ankoin/transfer/5
                 JSONObject jsonObject = GetLoginObject();
-                String URL = NetworkUrl.URL + user + "/ankoin/"+"transfer"+transferCoins;
+                String URL = NetworkUrl.URL + user + "/ankoin/"+"transfer/"+transferCoins;
                 String apiTag = URL;
                 PostApiPlues postApi = new PostApiPlues(context, URL, bearerToken, jsonObject, apiTag, TAG, 2);
                 break;

@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -24,6 +25,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.muddzdev.styleabletoastlibrary.StyleableToast;
+import com.project.nat.advice_nation.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -169,10 +173,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         toast.setGravity(Gravity.BOTTOM, 0, 10);
         toast.show();
     }
-    protected void showToast(String msg,Context context){
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.BOTTOM, 0, 10);
-        toast.show();
+
+    protected void customToast(String msg,Context context,int drawable,int color ){
+        StyleableToast styleableToast = new StyleableToast
+                .Builder(this)
+                .duration(Toast.LENGTH_SHORT)
+                .icon(drawable)
+                .spinIcon()
+                .text("Downloading your information")
+                .textColor(Color.WHITE)
+                .backgroundColor(color)
+                .build()
+                ;
+        styleableToast.show();
     }
 
     protected void showSnackbar(View view, String msg){

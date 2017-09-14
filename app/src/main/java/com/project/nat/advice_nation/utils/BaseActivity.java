@@ -1,8 +1,10 @@
 package com.project.nat.advice_nation.utils;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +35,7 @@ import java.util.Date;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BaseActivity";
+    private  ProgressDialog progressDialog=null;
     protected int FINISH_TIME = 400;
     protected int ANIM_TIME = 300;
     private Dialog dialog;
@@ -166,6 +169,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         toast.setGravity(Gravity.BOTTOM, 0, 10);
         toast.show();
     }
+    protected void showToast(String msg,Context context){
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.BOTTOM, 0, 10);
+        toast.show();
+    }
 
     protected void showSnackbar(View view, String msg){
         Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
@@ -257,18 +265,35 @@ public abstract class BaseActivity extends AppCompatActivity {
         return date;
     }
 
-
-
-   /* void setAlarmForAutoLogout(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, SharedPreferenceUtil.getInt(Constants.KEY_AUTO_LOGOUT_MIN, 30));
-        AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-        if (alarmMgr!= null) {
-            alarmMgr.cancel(alarmIntent);
+    public  void progressDialogStart() {
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+                progressDialog.cancel();
+                progressDialog = null;
+            }
         }
-        alarmMgr.set(AlarmManager.RTC_WAKEUP,  calendar.getTimeInMillis(), alarmIntent);
-    }*/
+    }
+
+    public  void progressDialogStop(Context cont, String message)
+    {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(cont);//R.style.AlertDialog_Theme);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(message);
+            progressDialog.setCancelable(false);
+            if (!progressDialog.isShowing())
+            {
+                progressDialog.show();
+
+            }
+        }
+    }
+
+
+
+
+
+
 
 }

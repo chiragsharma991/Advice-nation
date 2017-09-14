@@ -54,6 +54,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:inputType="number"
                     android:padding="10dp"
                     android:textSize="@dimen/login_text_size"
                     android:id="@+id/edtankointotrnsfer"
@@ -113,10 +114,11 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onTransfer"
             android:textSize="@dimen/login_text_size"
             android:text="@string/transfer_ankoinsbutton"
             android:id="@+id/btnconfirmankoins"
-            android:background="@drawable/border_black"
+            android:background="@drawable/border_black_nonround"
             />
     </RelativeLayout>
 </LinearLayout>

@@ -117,7 +117,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
                 String apiTag_REG = NetworkUrl.URL_REGISTER;
                 JSONObject jsonObject1 = signUp();
                 Log.e(TAG, "callback: json" + jsonObject1.toString());
-                postApi = new PostApi(context, URLREG, jsonObject1, apiTag_REG, TAG ,2);
+                postApi = new PostApi(context, URLREG,jsonObject1, apiTag_REG, TAG ,2);
                 break;
 
             default:

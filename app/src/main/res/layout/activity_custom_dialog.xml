@@ -17,7 +17,6 @@
             android:text="@string/alert_message"
             android:textColor="@android:color/white"
             android:textSize="15sp"
-            android:textSize="15dp"
             android:textStyle="bold"/>
 
     </LinearLayout>

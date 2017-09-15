@@ -26,6 +26,8 @@ import com.project.nat.advice_nation.R;
 
 import org.json.JSONObject;
 
+import static com.project.nat.advice_nation.R.id.reating;
+
 /**
  * Created by Chari on 7/7/2017.
  */
@@ -177,7 +179,7 @@ public class DialogUtils {
         builder.setPositiveButton(isNegative ? "Yes" : "Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                response.positive(null);
+                response.positive(null,0);
 
             }
         });
@@ -191,7 +193,7 @@ public class DialogUtils {
         public Dialog d;
         public TextView yes, no,alert_validation;
         private EditText comments;
-        private RatingBar reating;
+        private RatingBar rating;
 
         public CustomDialog(Context c, dialogResponse response) {
             super(c);
@@ -211,8 +213,8 @@ public class DialogUtils {
             no = (TextView) findViewById(R.id.not_now);
             alert_validation = (TextView) findViewById(R.id.alert_validation);
             comments = (EditText) findViewById(R.id.comments);
-            reating = (RatingBar)findViewById(R.id.reating);
-            LayerDrawable rate = (LayerDrawable)reating.getProgressDrawable();
+            rating = (RatingBar)findViewById(reating);
+            LayerDrawable rate = (LayerDrawable)rating.getProgressDrawable();
             rate.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
             rate.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
             rate.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
@@ -227,8 +229,9 @@ public class DialogUtils {
             switch (v.getId()) {
                 case R.id.submit:
                     String commentbox=comments.getText().toString().replaceAll("\\s{2,}", " ").trim();
+                    int rate= (int) rating.getRating();
                     if(!TextUtils.isEmpty(commentbox)){
-                        response.positive(commentbox);
+                        response.positive(commentbox,rate);
                         dismiss();
                     }else{
                         alert_validation.setVisibility(View.VISIBLE);
@@ -246,7 +249,7 @@ public class DialogUtils {
 
     public interface dialogResponse {
 
-        void positive(String data);
+        void positive(String data , int rate);
 
         void negative();
 

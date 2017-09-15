@@ -138,13 +138,19 @@ public class DashboardActivity extends BaseActivity
     private void callback(int id) {
         switch (id) {
             case 0:
-                //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/85384665/referral
                 long user = sharedPreferences.getLong("id", 0);
                 String bearerToken = sharedPreferences.getString("bearerToken", "");
                 Log.e(TAG, "bearerToken: " + bearerToken);
                 String URL = NetworkUrl.URL + user + "/referral";
                 String apiTag = NetworkUrl.URL_CATEGORY + user + "/referral";
                 GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0); //0 is for finish second api call
+                break;
+            case 1:
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+                URL = NetworkUrl.URL_GET_USER_ANKOINS + user + "/ankoin";
+                apiTag = URL;
+                getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 1);
                 break;
 
             default:
@@ -155,14 +161,24 @@ public class DashboardActivity extends BaseActivity
     @Override
     public void OnSucess(JSONObject response, int id) {
 
+        Log.e(TAG, "OnSucess: id"+id+" = "+response.toString() );
         switch (id) {
             case 0:
-                Log.e(TAG, "OnSucess: "+response.toString() );
                 try {
                     JSONObject jsonObject=new JSONObject(response.toString());
                     referralCode=jsonObject.getString("data");
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("referralCode",referralCode);
+                    editor.apply();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                try {
+                    String totalcoins=response.getString("data");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("totalcoins",totalcoins);
                     editor.apply();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -312,7 +328,13 @@ public class DashboardActivity extends BaseActivity
         page_Indicator.setViewPager(viewPager);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isOnline(context)) {
+            callback(1);// get total coins
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

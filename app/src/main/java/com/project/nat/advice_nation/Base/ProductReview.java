@@ -149,8 +149,9 @@ public class ProductReview extends BaseActivity implements ApiResponse {
 
     public void onBuy(View view){
         String price="\u20B9"+""+ (int)list.get(0).getData().get(position).getPrice();
-       // int deduction=Integer.parseInt(totalcoins)-Integer.parseInt(price);
-        int deduction=89;
+        int deduction=100-500;
+        Log.e(TAG, "onBuy: deduction"+deduction );
+        //int deduction=89;
         String calculateAmount="Remaining Ammount: "+totalcoins+"-"+(int)list.get(0).getData().get(position).getPrice()+"="+deduction;
         Log.e(TAG, "calculateAmount: "+calculateAmount );
                 new DialogUtils(context, new DialogUtils.dialogResponse() {

@@ -27,64 +27,6 @@
             app:contentInsetStart="0dp"
             >
 
-<!--
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <RelativeLayout
-                    android:id="@+id/imageBtnBack"
-                    android:layout_width="40dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="0dp"
-                    android:background="@drawable/button_effect"
-                    >
-
-                    <Button
-                        android:layout_width="@dimen/actionbar_btn_width"
-                        android:layout_height="@dimen/actionbar_btn_hight"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_left_black_24dp"
-                        android:clickable="false" />
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_toRightOf="@+id/imageBtnBack"
-                    android:text="About"
-                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-                    />
-
-
-
-
-                &lt;!&ndash;<RelativeLayout&ndash;&gt;
-                &lt;!&ndash;android:id="@+id/imageBtnSearch"&ndash;&gt;
-                &lt;!&ndash;android:background="@drawable/button_red_effect"&ndash;&gt;
-                &lt;!&ndash;android:layout_width="@dimen/header_clickable_width"&ndash;&gt;
-                &lt;!&ndash;android:layout_height="@dimen/header_clickable_height"&ndash;&gt;
-                &lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;
-                &lt;!&ndash;android:layout_centerVertical="true">&ndash;&gt;
-
-                &lt;!&ndash;<Button&ndash;&gt;
-                &lt;!&ndash;android:clickable="false"&ndash;&gt;
-                &lt;!&ndash;android:background="@mipmap/key_product_search_icon1"&ndash;&gt;
-                &lt;!&ndash;android:layout_width="20dp"&ndash;&gt;
-                &lt;!&ndash;android:layout_height="20dp"&ndash;&gt;
-                &lt;!&ndash;android:layout_centerInParent="true"/>&ndash;&gt;
-
-                &lt;!&ndash;</RelativeLayout>&ndash;&gt;
-
-
-            </RelativeLayout>
--->
         </android.support.v7.widget.Toolbar>
 
 
@@ -104,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Advice Nation"
-            android:textSize="20sp"
+            android:textSize="@dimen/login_text_size"
             android:layout_margin="20dp"
             android:textColor="@color/textBlack" />
 
@@ -113,11 +55,95 @@
             android:id="@+id/versioncode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/text_size_large"
             android:layout_marginTop="10dp"
+            android:text="Version code"
             android:layout_marginLeft="20dp"
             android:textColor="@color/text_dark"
             />
+        <TextView
+            android:id="@+id/version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_large"
+            android:layout_marginTop="10dp"
+            android:text="Version Name"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/text_dark"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/email"
+            android:textSize="@dimen/text_size_large"
+            android:text="Company Email"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorclickable"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/website"
+            android:textSize="@dimen/text_size_large"
+            android:text="Company Website"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorclickable"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Google+"
+                android:id="@+id/google"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Facebook"
+                android:id="@+id/facebook"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Linkedin"
+                android:id="@+id/linkedin"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Twitter"
+                android:id="@+id/twitter"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+
+
+        </LinearLayout>
+
 
 
 

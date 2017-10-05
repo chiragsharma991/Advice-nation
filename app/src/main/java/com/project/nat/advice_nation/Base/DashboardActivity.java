@@ -3,10 +3,13 @@ package com.project.nat.advice_nation.Base;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,6 +20,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,21 +29,40 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.project.nat.advice_nation.Adapter.SubcategoryAdapter;
+import com.project.nat.advice_nation.Fragment.AnKoins;
 import com.project.nat.advice_nation.Fragment.HomeFragment;
-import com.project.nat.advice_nation.Fragment.MoviesFragment;
+import com.project.nat.advice_nation.Https.ApiResponse;
+import com.project.nat.advice_nation.Https.GetApi;
+import com.project.nat.advice_nation.Https.PostApi;
+import com.project.nat.advice_nation.Model.Category;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.DialogUtils;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 import com.project.nat.advice_nation.utils.pageindicator.CirclePageIndicator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.project.nat.advice_nation.R.anim.exit;
+import static com.project.nat.advice_nation.R.id.progressBar;
+import static com.project.nat.advice_nation.R.id.progressBarToolbar;
 import static com.project.nat.advice_nation.R.id.viewPager;
 
 public class DashboardActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener
+        implements NavigationView.OnNavigationItemSelectedListener,HomeFragment.OnFragmentInteractionListener,ApiResponse
 {
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -54,11 +78,15 @@ public class DashboardActivity extends BaseActivity
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final String TAG_MOVIES = "movies";
+    private static final String TAG_ANKOINS = "ankoins";
     public static String CURRENT_TAG = TAG_HOME;
     private DrawerLayout drawer;
     private Handler mHandler;
     private NavigationView navigationView;
+    private ProgressBar progressBar;
+    private Gson gson;
+    private SharedPreferences sharedPreferences;
+    private String referralCode="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,26 +95,29 @@ public class DashboardActivity extends BaseActivity
         setContentView(R.layout.activity_dashboardn);
         context=DashboardActivity.this;
         initialize();
-        setUpNavigationView();
-
+        if (isOnline(context)) {
+            callback(0);
+        }
         if (savedInstanceState == null) {
             navItemIndex = 0;
             CURRENT_TAG = TAG_HOME;
-            loadHomeFragment();
+            loadHomeFragment(getString(R.string.app_name));
         }
 
     }
 
     private void initialize()
     {
-
+        gson=new Gson();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        navigationView();
         setSupportActionBar(toolbar);
         mHandler = new Handler();
 
-
         page_Indicator = (CirclePageIndicator) findViewById(R.id.pageIndicator);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -99,37 +130,110 @@ public class DashboardActivity extends BaseActivity
         collapsingToolbarLayout.setTitle(getString(R.string.app_name));
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    //    navigationView = (NavigationView) findViewById(R.id.nav_view);
+     //   navigationView.setNavigationItemSelectedListener(this);
 
-        setViewPagerAdapter(view_pager);
 
     }
 
-    /***
-     * Returns respected fragment that user
-     * selected from navigation menu
-     */
-    private void loadHomeFragment() {
+    private void navigationView() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        TextView user_name = (TextView)header.findViewById(R.id.user_name);
+        TextView firstName = (TextView)header.findViewById(R.id.firstName);
+        user_name.setText(sharedPreferences.getString("username", ""));
+        firstName.setText(sharedPreferences.getString("firstName", ""));
+    }
 
-        // set toolbar title
-        setToolbarTitle();
 
-        // if user select the current navigation menu again, don't do anything
-        // just close the navigation drawer
-        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+    private void callback(int id) {
+        switch (id) {
+            case 0:
+                long user = sharedPreferences.getLong("id", 0);
+                String bearerToken = sharedPreferences.getString("bearerToken", "");
+                Log.e(TAG, "bearerToken: " + bearerToken);
+                String URL = NetworkUrl.URL + user + "/referral";
+                String apiTag = NetworkUrl.URL_CATEGORY + user + "/referral";
+                GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0); //0 is for finish second api call
+                break;
+            case 1:
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+                URL = NetworkUrl.URL_GET_USER_ANKOINS + user + "/ankoin";
+                apiTag = URL;
+                getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 1);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void OnSucess(JSONObject response, int id) {
+
+        Log.e(TAG, "OnSucess: id"+id+" = "+response.toString() );
+        switch (id) {
+            case 0:
+                try {
+                    JSONObject jsonObject=new JSONObject(response.toString());
+                    referralCode=jsonObject.getString("data");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("referralCode",referralCode);
+                    editor.apply();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case 1:
+                try {
+                    String totalcoins=response.getString("data");
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("totalcoins",totalcoins);
+                    editor.apply();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+
+
+    @Override
+    public void OnFailed(int error, int id) {
+        Log.e(TAG, "OnFailed: " + error);
+        progressBar.setVisibility(View.GONE);
+        switch (error) {
+            case 000:
+                Log.e(TAG, "OnFailed: "+getResources().getString(R.string.network_poor ));
+                break;
+            case 500:
+                Log.e(TAG, "OnFailed: "+getResources().getString(R.string.error_500 ));
+                break;
+            default:
+                Log.e(TAG, "OnFailed: "+getResources().getString(R.string.random_error ));
+        }
+
+    }
+
+
+    private void loadHomeFragment(String title)
+    {
+        setToolbarTitle(title);
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null)
+        {
             drawer.closeDrawers();
             return;
         }
 
-        // Sometimes, when fragment has huge data, screen seems hanging
-        // when switching between navigation menus
-        // So using runnable, the fragment is loaded with cross fade effect
-        // This effect can be seen in GMail app
         Runnable mPendingRunnable = new Runnable() {
             @Override
             public void run() {
-                // update the main content by replacing fragments
                 Fragment fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
@@ -139,23 +243,21 @@ public class DashboardActivity extends BaseActivity
             }
         };
 
-        // If mPendingRunnable is not null, then add to the message queue
         if (mPendingRunnable != null) {
             mHandler.post(mPendingRunnable);
         }
-
-        //Closing drawer on item click
         drawer.closeDrawers();
-
-        // refresh toolbar menu
         invalidateOptionsMenu();
     }
 
-    private void setToolbarTitle() {
-        getSupportActionBar().setTitle("");
+    private void setToolbarTitle(String title) {
+        //getSupportActionBar().setTitle(title);
+        collapsingToolbarLayout.setTitle(title);
+
     }
 
     private Fragment getHomeFragment() {
+        Log.e(TAG, "getHomeFragment: " );
         switch (navItemIndex) {
             case 0:
                 // home
@@ -163,54 +265,13 @@ public class DashboardActivity extends BaseActivity
                 return homeFragment;
 
             case 2:
-                // movies fragment
-                MoviesFragment moviesFragment = new MoviesFragment();
-                return moviesFragment;
+                // Ankoins fragment
+                AnKoins anKoins = new AnKoins();
+                return anKoins;
 
             default:
                 return new HomeFragment();
         }
-    }
-
-    private void setUpNavigationView() {
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            // This method will trigger on item Click of navigation menu..
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.getItemId()) {
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
-                    case R.id.nav_camera:
-                        navItemIndex = 0;
-                        CURRENT_TAG = TAG_HOME;
-                        break;
-                    case R.id.nav_gallery:
-                        navItemIndex = 2;
-                        CURRENT_TAG = TAG_MOVIES;
-                        break;
-
-                    default:
-                        navItemIndex = 0;
-                }
-
-                //Checking if the item is in checked state or not, if not make it in checked state
-            /*    if (menuItem.isChecked()) {
-                    menuItem.setChecked(false);
-                } else {
-                    menuItem.setChecked(true);
-                }
-                menuItem.setChecked(true);*/
-
-                loadHomeFragment();
-
-                return true;
-            }
-        });
-
-
     }
 
 
@@ -225,12 +286,9 @@ public class DashboardActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else
         {
-           // super.onBackPressed();
-            //overridePendingTransition(R.anim.frist_to_second, R.anim.second_to_frist);
             if (exit)
             {
                 finish();
-                //finish activity
             } else
             {
                 Toast.makeText(this, "Press Back again to Exit.",
@@ -248,30 +306,31 @@ public class DashboardActivity extends BaseActivity
         }
     }
 
-    public void setViewPagerAdapter(ViewPager viewPager){
+    public void setViewPagerAdapter(ViewPager viewPager, final ArrayList<Subcategory> carouseimages){
 
+        final long user = sharedPreferences.getLong("id", 0);
         mHeaderPagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public int getCount() {
-                return 4;
+                return carouseimages.get(0).getData().size();
             }
             @Override
             public Fragment getItem(int position) {
                 PagerFragment pagerFragment = new PagerFragment();
                 Bundle bundle = new Bundle();
+                String list=gson.toJson(carouseimages);
                 bundle.putInt(Constants.Bundle_Pos, position);
+                bundle.putString(Constants.KEY_IMAGE, list);
+                bundle.putLong(Constants.KEY_USER_ID,user);
                 pagerFragment.setArguments(bundle);
-
                 return pagerFragment;
             }
             @Override
             public Parcelable saveState() {return null;}
-
             @Override
             public int getItemPosition(Object object) {
                 return POSITION_NONE;
             }
-
             @Override
             public CharSequence getPageTitle(int position) {
                 return null;
@@ -281,15 +340,17 @@ public class DashboardActivity extends BaseActivity
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(0);
         page_Indicator.setViewPager(viewPager);
-        handler.postDelayed(runnable, delay);
     }
 
-    Runnable runnable = new Runnable() {
-        public void run() {
-            Log.e(TAG, "runable: " );
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isOnline(context)) {
+            callback(1);// get total coins
         }
-    };
+    }
+
+
 
 
     @Override
@@ -301,15 +362,23 @@ public class DashboardActivity extends BaseActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
             Login.startScreen(context);
             finish();
+            return true;
+        }
+        if (id == R.id.invite) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,
+                    "Hey check out my app at (Referral code ="+referralCode+" ): \n" +
+                            "https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
             return true;
         }
 
@@ -324,22 +393,30 @@ public class DashboardActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.home) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+            loadHomeFragment(getString(R.string.app_name));
+
+        } else if (id == R.id.ankoins) {
+            navItemIndex = 2;
+            CURRENT_TAG = TAG_ANKOINS;
+            loadHomeFragment(getString(R.string.app_ankoins));
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            Invite.startScreen(context);
 
         } else if (id == R.id.about) {
 
           About.startScreen(context);
         }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        else{
+            loadHomeFragment(getString(R.string.app_name));
+        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -349,9 +426,12 @@ public class DashboardActivity extends BaseActivity
         context.startActivity(new Intent(context, DashboardActivity.class));
     }
 
-    public void onClickButton(View view)
-    {
-        SubcategoryActivity.startScreen(context);
-     //   overridePendingTransition(R.anim.start, R.anim.exit);
+    @Override
+    public void onFragmentInteraction(boolean loader ,ArrayList<Subcategory> carouseimages) {
+        progressBar.setVisibility(loader==true ? View.VISIBLE :View.GONE);
+        if(carouseimages!=null) setViewPagerAdapter(view_pager ,carouseimages);
+
+
     }
+
 }

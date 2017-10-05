@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="3dp"
             app:cardElevation="2dp"
+            android:id="@+id/card"
             app:contentPadding="3dp"
             app:theme="@style/AppTheme"
             app:cardPreventCornerOverlap="true"
@@ -30,7 +31,6 @@
                 android:padding="5dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-
                 >
 
                 <RelativeLayout
@@ -96,7 +96,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/detail_list_time"
-                                    android:text="03:45 pm"
+                                    android:text="400"
                                     android:singleLine="true"
                                     android:textColor="@color/text_light"
                                     android:textSize="@dimen/text_size_large"
@@ -118,22 +118,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:weightSum="1">
 
                             <TextView
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_weight="0.35"
-                                android:singleLine="true"
+                                android:layout_gravity="left"
+                                android:layout_weight="1"
                                 android:id="@+id/detail_list_subtitle"
                                 android:text="Sales(U)"
                                 android:textColor="@color/text_light"
+                                android:maxLines="2"
                                 android:textSize="@dimen/text_size_large"
                                 />
 
-                            <TextView
+                           <!-- <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -152,7 +152,7 @@
                                 android:text="100"
                                 android:textColor="@color/text_light"
                                 android:textSize="@dimen/text_size_large"
-                                />
+                                />-->
 
                         </LinearLayout>
                         <!--Promo Sales(U)-->
@@ -162,22 +162,34 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="5dp"
                             >
 
-                            <RatingBar
+                          <!--  <RatingBar
                                 android:layout_width="wrap_content"
                                 android:layout_height="40dp"
-                                android:stepSize="0.1"
+                                android:stepSize="1"
                                 android:focusable="false"
                                 android:id="@+id/ratingBar"
                                 android:scaleX=".5"
                                 android:scaleY=".5"
                                 android:numStars="5"
+                                android:clickable="false"
                                 android:transformPivotX="0dp"
                                 android:transformPivotY="10dp"
+                                />-->
 
+                            <RatingBar
+                                android:rating="1"
+                                android:stepSize="1.0"
+                                android:numStars="5"
+                                android:id="@+id/ratingBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:isIndicator="true"
                                 />
+
                             <!--<ToggleButton
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -204,7 +216,6 @@
                                 android:focusableInTouchMode="false"
                                 android:textOff=""
                                 android:textOn=""/>-->
-
 
                         </LinearLayout>
 

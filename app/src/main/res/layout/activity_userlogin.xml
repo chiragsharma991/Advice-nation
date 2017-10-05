@@ -51,7 +51,7 @@
                                android:layout_width="match_parent"
                                android:layout_height="wrap_content"
                                android:hint="@string/login_email"
-                               android:id="@+id/user_name"
+                               android:id="@+id/user_name_edt"
                                android:textColorHint="@color/tabSelectedIconColor"
                                android:textColor="@color/tabSelectedIconColor"
                                android:textSize="@dimen/login_text_size"
@@ -64,7 +64,7 @@
                            android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:hint="@string/login_password"
-                           android:id="@+id/user_password"
+                           android:id="@+id/user_password_edt"
                            android:layout_marginTop="15dp"
                            android:layout_marginBottom="15dp"
                            android:inputType="textPassword"
@@ -111,11 +111,14 @@
                        android:gravity="center_horizontal"
                        >
                        <TextView
-                           android:layout_width="wrap_content"
+                           android:layout_width="match_parent"
                            android:layout_height="wrap_content"
                            android:text="@string/log_in"
                            android:id="@+id/login"
                            android:textStyle="bold"
+                           android:gravity="center_horizontal"
+                           android:background="?attr/selectableItemBackground"
+                           android:clickable="true"
                            android:textSize="@dimen/login_text_button"
                            android:textColor="@color/def"
                            android:textAllCaps="true"
@@ -127,7 +130,8 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:padding="@dimen/activity_horizontal_margin"
-                           android:visibility="invisible" />
+                           android:visibility="visible"
+                           />
 
 
                    </LinearLayout>

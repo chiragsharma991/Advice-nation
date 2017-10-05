@@ -1,49 +1,62 @@
 package com.project.nat.advice_nation.Fragment;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.project.nat.advice_nation.Adapter.DashboardAdapter;
+import com.project.nat.advice_nation.Base.SubcategoryActivity;
+import com.project.nat.advice_nation.Https.ApiResponse;
+import com.project.nat.advice_nation.Https.AppController;
+import com.project.nat.advice_nation.Https.GetApi;
+import com.project.nat.advice_nation.Model.Category;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
+import com.project.nat.advice_nation.utils.BaseFragmetActivity;
+import com.project.nat.advice_nation.utils.NetworkUrl;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HomeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private String TAG="HomeFragment";
     private OnFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
+    private Context context;
+    private SharedPreferences sharedPreferences;
+    private Gson gson;
+    private GetApi getApi;
+    private ArrayList<Category> categoryList;
+    private OnFragmentInteractionListener mcallback;
+    private View viewpart;
+    private long ID;
+    private String bearerToken;
+    private ArrayList<Subcategory> carouseImageList;
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -65,46 +78,155 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view=inflater.inflate(R.layout.fragment_dashboard, container, false);
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View v =getView();
+        Initi(v);
+        Log.e(TAG, "onActivityCreated: " );
+        if (isOnline(context)) {
+           mcallback.onFragmentInteraction(true,null);
+            callback(0);//0 is id for login api
+        } else
+            {
+            showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
+
+
+
     }
+
+    private void setview(){
+
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        DashboardAdapter adapter = new DashboardAdapter(context, categoryList.get(0).getData());
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(context, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position)
+                    {
+                       int selectID=(int)categoryList.get(0).getData().get(position).getId();
+                        Log.e(TAG, "onItemClick ID: "+selectID );
+                        SubcategoryActivity.startScreen(context,selectID);
+
+                        // do whatever
+                    }
+
+                    @Override public void onLongItemClick(View view, int position)
+                    {
+                        // do whatever
+                    }
+                })
+        );
+
+    }
+
+
+    private void Initi(View view) {
+        gson = new Gson();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        ID = sharedPreferences.getLong("id",0);
+        bearerToken = sharedPreferences.getString("bearerToken","");
+        viewpart = view.findViewById(android.R.id.content);
+        recyclerView = (RecyclerView)view.findViewById(R.id.subrecycler);
+
+
+    }
+
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
+        this.context=context;
+        mcallback=(OnFragmentInteractionListener)context;
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+
+
     }
 
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     *
+     * @param id for api calling number
      */
+
+
+    private void callback(int id) {
+        switch (id) {
+            case 0:
+                String URL = NetworkUrl.URL_CATEGORY + ID + "/productCategory";
+                String apiTag = NetworkUrl.URL_CATEGORY + ID + "/productCategory";
+                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,0,this);
+                break;
+
+            case 1:
+                URL = NetworkUrl.URL_GET_CAROUSE_IMAGE + ID + "/carousel";
+                apiTag = NetworkUrl.URL_GET_CAROUSE_IMAGE + ID + "/carousel";
+                getApi = new GetApi(context, URL,bearerToken,apiTag,TAG,1,this);
+                break;
+
+            default:
+                break;
+
+
+        }
+
+
+    }
+
+    @Override
+    public void OnSucess(JSONObject response, int id) {
+        Log.e(TAG, "OnSucess: home fragment"+id+" "+response );
+
+        switch (id){
+            case 0:
+                categoryList=new ArrayList<Category>();
+                Category category = gson.fromJson(response.toString(), Category.class);
+                categoryList.add(category);
+                Log.e(TAG, "category list: "+categoryList.get(0).getData().size());
+                setview();
+                callback(1);  // get carouse image
+                break;
+
+            case 1:
+                carouseImageList=new ArrayList<Subcategory>();
+                Subcategory data = gson.fromJson(response.toString(), Subcategory.class);
+                carouseImageList.add(data);
+                Log.e(TAG, "carouseImageList : "+carouseImageList.get(0).getData().size());
+                mcallback.onFragmentInteraction(false,carouseImageList);
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void OnFailed(int error,int id) {
+        Log.e(TAG, "OnFailed: "+error );
+        mcallback.onFragmentInteraction(false,null);
+        switch (error) {
+            case 000:
+                showSnackbar(viewpart, getResources().getString(R.string.network_poor));
+                break;
+            default:
+                showSnackbar(viewpart, getResources().getString(R.string.random_error));
+
+        }
+
+    }
+
+
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(boolean loader ,ArrayList<Subcategory> carouseimages);
+
     }
 }

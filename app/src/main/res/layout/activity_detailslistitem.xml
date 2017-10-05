@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/bst_cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        app:cardUseCompatPadding="false"
-        app:contentPadding="5dp"
-        app:cardBackgroundColor="@color/tabSelectedIconColor"
-        app:cardElevation="2dp"
-
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="3dp"
-
-        >
-
-   <!-- <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="DisableBaselineAlignment"
@@ -31,9 +16,9 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        >
 
 
-        >-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,29 +35,21 @@
                     android:layout_height="wrap_content"
                     tools:ignore="InefficientWeight,UselessLeaf,UselessParent"
                     android:orientation="horizontal"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:layout_weight="3"
+                    android:gravity="center_vertical"
                     >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:text="User"
+                        android:singleLine="true"
                         android:id="@+id/UserName"
-                        android:textColor="#50bdff"
+                        android:textColor="@color/colorclickable"
                         android:textSize="@dimen/text_size_large"
-                        android:layout_weight="1"
                         tools:ignore="NestedWeights" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="invisible"
-                        android:textColor="@color/textBlack"
-                        android:layout_weight="1"
-                        />
 
-                    <RatingBar
+                 <!--   <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:stepSize="1"
@@ -84,14 +61,27 @@
                         android:transformPivotX="0dp"
                         android:transformPivotY="10dp"
 
+                        />-->
+
+                    <RatingBar
+                        android:rating="3"
+                        android:stepSize="1.0"
+                        android:numStars="5"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/subUserBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:isIndicator="true"
                         />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="0dp"
                     >
                     <TextView
                         android:layout_width="match_parent"
@@ -117,10 +107,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Follow"
+                        android:id="@+id/follow"
                         android:clickable="true"
                         android:textSize="@dimen/text_size_large"
                         android:gravity="end"
-                        android:textColor="#50bdff"
+                        android:textColor="@color/colorclickable"
                         />
                 </LinearLayout>
 
@@ -135,10 +126,6 @@
 
 
 
-<!--
     </LinearLayout>
--->
-
-    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

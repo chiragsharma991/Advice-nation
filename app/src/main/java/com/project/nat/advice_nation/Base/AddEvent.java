@@ -24,7 +24,10 @@ import com.project.nat.advice_nation.utils.BaseActivity;
 import com.project.nat.advice_nation.utils.Constants;
 import com.project.nat.advice_nation.utils.DialogUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -101,11 +104,11 @@ public class AddEvent extends BaseActivity {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
             try {
-                File photoFile = createImageFile();
-                imagePath = photoFile.getAbsolutePath();
-             //   intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
 
+                //intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 startActivityForResult(intent, Constants.REQUEST_OPEN_CAMERA);
+
+
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e(TAG, "catch openCamera: "+e.getMessage() );
@@ -219,12 +222,21 @@ public class AddEvent extends BaseActivity {
     private Uri getCamaraImageUri(Intent data) {
         Uri uri = null;
         try {
-            Uri selectedImage = data.getData();
-            Log.e(TAG, "uri: "+selectedImage );
-            Intent intent = getIntent();
-            String image_path= intent.getStringExtra("test");
-            Uri fileUri = Uri.parse(image_path);
-         //   displayImage(imageUri);
+            // if you use intent put extra  output then you not necessary to use output stream.
+            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+
+            File photoFile = createImageFile();
+            imagePath = photoFile.getAbsolutePath();
+            uri= Uri.fromFile(new File(imagePath));
+
+            FileOutputStream fo = new FileOutputStream(photoFile);
+            fo.write(bytes.toByteArray());
+            fo.close();
+
+            displayImage(uri);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

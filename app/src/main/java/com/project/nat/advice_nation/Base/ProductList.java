@@ -4,44 +4,88 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.project.nat.advice_nation.Adapter.ProductListAdapter;
+import com.project.nat.advice_nation.Https.ApiResponse;
+import com.project.nat.advice_nation.Https.GetApi;
+import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.Product;
+import com.project.nat.advice_nation.Model.Subcategory;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.BaseActivity;
+import com.project.nat.advice_nation.utils.Constants;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class ProductList extends AppCompatActivity implements View.OnClickListener{
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
+public class ProductList extends BaseActivity implements View.OnClickListener,ApiResponse {
 
     private RecyclerView ListView;
     private RelativeLayout btnBack;
+    private String TAG="ProductList";
+    private Context context;
+    private View viewpart;
+    private SharedPreferences sharedPreferences;
+    private ArrayList<Subcategory> productSubCategory;
+    private Gson gson;
+    private LinearLayout no_datafound,list_item_process;
+    private TextView retry;
+    private int productSubCategoryId,productId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_list);
+        context=ProductList.this;
         initialise();
         checkstatusbar();
 
     }
 
     private void initialise() {
+        gson = new Gson();
+         productSubCategoryId =(int) getIntent().getLongExtra("productSubCategoryId",0);
+         productId = (int)getIntent().getLongExtra("productId",0);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        viewpart = findViewById(android.R.id.content);
+        retry=(TextView)findViewById(R.id.retry);
+        no_datafound=(LinearLayout)findViewById(R.id.no_datafound);
+        list_item_process=(LinearLayout)findViewById(R.id.list_item_process);
+        no_datafound.setVisibility(View.GONE);
+        list_item_process.setVisibility(View.GONE); //
+        retry.setOnClickListener(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,35 +101,90 @@ public class ProductList extends AppCompatActivity implements View.OnClickListen
         });
         ListView=(RecyclerView)findViewById(R.id.detail_listview);
 
-
-        String[]time={"8:33 am","10:01 pm","03:14 pm","08:03 pm"};
-        String[]title={"VR temp v1.40","Controller system","Plc-scada","Supervisory data control"};
-        String[]subtitle={"Temprature controller"," Automationcontrol","Electronics","ladder programming"};
-        ArrayList<Product> list=new ArrayList<>();
-        int[]icon={R.mipmap.one,R.mipmap.two,R.mipmap.three,R.mipmap.four};
-        for (int i = 0; i <4 ; i++) {
-            Product product= new Product(time[i],title[i],subtitle[i],icon[i]);
-            list.add(product);
+        if (isOnline(context)) {
+            list_item_process.setVisibility(View.VISIBLE);
+            callback(0,productId);//0 is responseCode for login api
+        } else {
+            showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
 
-        ProductListAdapter detailListAdapter=new ProductListAdapter(list,this);
+
+
+
+    }
+
+    private void callback(int responseCode, int productSubCategoryId) {
+        switch (responseCode) {
+            case 0:
+                long user = sharedPreferences.getLong("id", 0);
+                String bearerToken = sharedPreferences.getString("bearerToken", "");
+                Log.e(TAG, "bearerToken: " + bearerToken);
+                String URL = NetworkUrl.URL_CATEGORY + user + "/productSubCategory/" + productSubCategoryId+"/product";
+                String apiTag = NetworkUrl.URL_CATEGORY + user + "/productSubCategory/" + productSubCategoryId+"/product";
+                GetApi getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 0); //0 is for finish second api call
+                break;
+
+            default:
+                break;
+
+
+        }
+    }
+
+
+    @Override
+    public void OnSucess(JSONObject response, int id) {
+
+        switch (id) {
+            case 0:
+                //Log.e(TAG, "OnSucess: "+response.toString() );
+                productSubCategory = new ArrayList<Subcategory>();
+                Subcategory Subcategory = gson.fromJson(response.toString(), Subcategory.class);
+                productSubCategory.add(Subcategory);
+                Log.e(TAG, "productSubCategory size is"+productSubCategory.get(0).getData().size() );
+                list_item_process.setVisibility(View.GONE);
+                if(productSubCategory.get(0).getData().size() > 0){
+                    setview();
+                }else{
+                    no_datafound.setVisibility(View.VISIBLE);
+                }
+                break;
+
+            default:
+                list_item_process.setVisibility(View.GONE);
+                break;
+        }
+    }
+
+
+
+    @Override
+    public void OnFailed(int error, int id) {
+        Log.e(TAG, "OnFailed: " + error);
+     //   progressBar.setVisibility(View.GONE);
+        switch (error) {
+            case 000:
+                list_item_process.setVisibility(View.GONE);
+                showSnackbar(viewpart, getResources().getString(R.string.network_poor));
+                break;
+            case 500:
+                list_item_process.setVisibility(View.GONE);
+                showSnackbar(viewpart, getResources().getString(R.string.error_500));
+                break;
+            default:
+                list_item_process.setVisibility(View.GONE);
+                showSnackbar(viewpart, getResources().getString(R.string.random_error));
+        }
+
+    }
+
+    private void setview() {
+
+        ProductListAdapter detailListAdapter=new ProductListAdapter(productSubCategory,context);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         ListView.setLayoutManager(mLayoutManager);
         ListView.setItemAnimator(new DefaultItemAnimator());
         ListView.setAdapter(detailListAdapter);
-
-
-        /*//Rating onClick
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-
-                Toast.makeText(getApplicationContext(),"Rating is:-"+String.valueOf(rating),Toast.LENGTH_SHORT).show();
-
-            }
-        });*/
-
-
 
     }
 
@@ -106,8 +205,8 @@ public class ProductList extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    public static void startScreen(Context context){
-        context.startActivity(new Intent(context, ProductList.class));
+    public static void startScreen(Context context,long productSubCategoryId, long productId ){
+        context.startActivity(new Intent(context, ProductList.class).putExtra("productSubCategoryId",productSubCategoryId).putExtra("productId",productId));
 
     }
 
@@ -122,6 +221,15 @@ public class ProductList extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view)
     {
+        if (view == retry){
+            if (isOnline(context)) {
+                list_item_process.setVisibility(View.VISIBLE);
+                no_datafound.setVisibility(View.GONE);
+                callback(0, productId);//0 is responseCode for login api
+            } else {
+                showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+            }
+        }
 
 
     }

@@ -1,0 +1,139 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Light"
+            app:contentInsetEnd="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetStart="0dp"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:id="@+id/to_do_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical" >
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Invite User by Email Address :"
+            android:textSize="@dimen/login_text_size"
+            android:layout_margin="20dp"
+            android:textColor="@color/textBlack" />
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:hint="Email Address"
+            android:background="@drawable/border_black"
+            android:textSize="@dimen/login_text_size"
+            android:padding="10dp"
+
+            />
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Or By Social Media :"
+                android:textSize="@dimen/login_text_size"
+                android:layout_margin="20dp"
+                android:textColor="@color/textBlack" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Google+"
+                android:id="@+id/google"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Facebook"
+                android:id="@+id/facebook"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="WhatsApp"
+                android:id="@+id/whatsapp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_large"
+                android:text="Twitter"
+                android:id="@+id/twitter"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/colorclickable"
+                />
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>
+
+

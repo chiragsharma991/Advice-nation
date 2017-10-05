@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.project.nat.advice_nation"
-    >
+    package="com.project.nat.advice_nation">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:name=".Https.AppController"
@@ -36,34 +36,50 @@
             android:name=".Base.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Base.ProductList"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Base.AddEvent"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
         <activity
             android:name=".Base.SubcategoryActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|stateAlwaysHidden">
-        </activity>
-
-        <activity android:name=".Base.About"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-        </activity>
-        <activity android:name=".Base.ProductReview"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
-        </activity>
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+        <activity
+            android:name=".Base.About"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Base.ProductReview"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Base.Invite"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Ankoins.Activity_TransferAnkoins"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Ankoins.Activity_AnkoinsTranjection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Base.ForgetPassword"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Ankoins.Activity_CurrentAnkoins"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

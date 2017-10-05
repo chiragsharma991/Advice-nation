@@ -13,6 +13,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+    <item name="android:textColor">#ffff</item>
+    </style>
+
+
+
 
     <!--Splash Theme-->
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -76,5 +82,7 @@
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">@color/loginlight_blue</item>
     </style>
+
+    <style name="ThemeOverlay.AppCompat.Dark.ActionBar"></style>
 
 </resources>

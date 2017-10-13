@@ -119,7 +119,7 @@ public class Activity_TransferAnkoins extends BaseActivity implements ApiRespons
 
             new DialogUtils(context, new DialogUtils.dialogResponse() {
                 @Override
-                public void positive(String data ,int rate) {
+                public void positive(String data ,int rate,int...featureRate) {
                     if (isOnline(context)) {
                         progressDialogStart(context,getResources().getString(R.string.loading_data));
                         callback(0);//0 transfer api

@@ -70,7 +70,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
     private String tag_json_obj = "json_obj_req";
     private Calendar calendar;
     private int year, month, day;
-    private EditText edtName,edtEmail,edtAge,user_name_edt,user_password_edt,edt_Passwordreg,edt_lastNamereg;
+    private EditText edtName,edtEmail,edtAge,user_name_edt,user_password_edt,edt_Passwordreg,edt_lastNamereg,edtaddress;
     private TextView txtDateofbirth;
     private SwitchCompat switchcompact;
     private ProgressBar progressBarToolbar;
@@ -82,7 +82,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
     private PostApi postApi;
     private GetApi getApi;
     private ArrayList<Category> categoryList;
-    private TextInputLayout txtName,txtLastname,txtEmail,txtPhone,txtDate,txtPassword;
+    private TextInputLayout txtName,txtLastname,txtEmail,txtPhone,txtDate,txtPassword,text_edtaddress;
     private ProgressBar progressBarToolbarReg;
     private RadioGroup radio_group;
     private JSONObject jsonObjectofRagistration;
@@ -148,6 +148,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         edt_lastNamereg= (EditText) findViewById(R.id.edtLastName);
         edt_Passwordreg = (EditText) findViewById(R.id.edtPassword);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
+        edtaddress = (EditText) findViewById(R.id.edtaddress);
         edtAge = (EditText) findViewById(R.id.edtphone);
         user_name_edt = (EditText) findViewById(R.id.user_name_edt);
         user_password_edt = (EditText) findViewById(R.id.user_password_edt);
@@ -163,6 +164,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         txtPhone =(TextInputLayout) findViewById(R.id.text_edtphone);
         txtPassword =(TextInputLayout) findViewById(R.id.text_password);
         txtDate =(TextInputLayout) findViewById(R.id.text_Date);
+        text_edtaddress =(TextInputLayout) findViewById(R.id.text_edtaddress);
         txtDateofbirth = (TextView) findViewById(R.id.txtDateofbirth);
         radio_group = (RadioGroup) findViewById(R.id.radio_group);
         radio_male = (RadioButton) findViewById(R.id.sign_male);
@@ -229,11 +231,13 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         edtAge.getText().clear();
         edt_Passwordreg.getText().clear();
         edt_lastNamereg.getText().clear();
+        edtaddress.getText().clear();
         radio_male.setChecked(true);
         //txtName,txtLastname,txtEmail,txtPhone,txtDate,txtPassword;
         txtName.setErrorEnabled(false);
         txtLastname.setErrorEnabled(false);
         txtEmail.setErrorEnabled(false);
+        text_edtaddress.setErrorEnabled(false);
         txtPhone.setErrorEnabled(false);
         txtDate.setErrorEnabled(false);
         txtPassword.setErrorEnabled(false);
@@ -244,6 +248,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         edtName.setFocusableInTouchMode(true);
         edtEmail.setFocusableInTouchMode(true);
         edtAge.setFocusableInTouchMode(true);
+        edtaddress.setFocusableInTouchMode(true);
         edt_Passwordreg.setFocusableInTouchMode(true);
         edt_lastNamereg.setFocusableInTouchMode(true);
     }
@@ -461,6 +466,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
                 jobject.put("gender",gender);
                 jobject.put("id",0);
                 jobject.put("lastName", edt_lastNamereg.getText().toString().replaceAll("\\s{2,}", " ").trim());
+                jobject.put("address", edtaddress.getText().toString().replaceAll("\\s{2,}", " ").trim());
                 jobject.put("newSecret" ,edt_Passwordreg.getText().toString().replaceAll("\\s{2,}", " ").trim());
                 jobject.put("phoneNumber", edtAge.getText().toString().replaceAll("\\s{2,}", " ").trim());
                 JSONArray jsonArray = new JSONArray();
@@ -708,10 +714,10 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new DialogUtils.CustomDialog(context, new DialogUtils.dialogResponse() {
+                new DialogUtils.CustomDialog(context,null, new DialogUtils.dialogResponse() {
 
                     @Override
-                    public void positive(String data , int productRate) {
+                    public void positive(String data , int productRate, int...featureRate) {
                         dismissSoftkeyboard(context);
                         if (isOnline(context)) {
                             progressDialogStart(context,"submitting...");

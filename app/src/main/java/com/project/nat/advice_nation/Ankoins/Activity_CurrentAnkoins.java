@@ -320,7 +320,9 @@ public class Activity_CurrentAnkoins extends BaseActivity implements ApiResponse
         });
 
         if (isOnline(context)) {
-            callback(0);//0 is responseCode for login api
+            callback(0);//0 is responseCod
+
+            // e for login api
             progressBar.setVisibility(View.VISIBLE);
         } else {
             showSnackbar(viewpart, getResources().getString(R.string.network_notfound));

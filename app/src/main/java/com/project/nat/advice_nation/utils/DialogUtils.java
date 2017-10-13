@@ -37,14 +37,15 @@ public class DialogUtils {
 
     private dialogResponse response;
     private Context context;
-    private  static Dialog dialog;
+    private static Dialog dialog;
 
-    public DialogUtils(Context context){
-        this.context=context;
+    public DialogUtils(Context context) {
+        this.context = context;
     }
-    public DialogUtils(Context context, dialogResponse response){
-        this.context=context;
-        this.response = (dialogResponse)response;
+
+    public DialogUtils(Context context, dialogResponse response) {
+        this.context = context;
+        this.response = (dialogResponse) response;
 
     }
 
@@ -126,7 +127,7 @@ public class DialogUtils {
     }*/
 
 
-    public static void showAlertDialog(Context context, String title, String msg){
+    public static void showAlertDialog(Context context, String title, String msg) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(title);
@@ -139,7 +140,7 @@ public class DialogUtils {
         builder.show();
     }
 
-   public void alert(String message, Context context) {
+    public void alert(String message, Context context) {
         android.app.AlertDialog.Builder bld = new android.app.AlertDialog.Builder(context);
         bld.setMessage(message);
         bld.setNeutralButton("OK", null);
@@ -170,7 +171,7 @@ public class DialogUtils {
         }
     }
 
-    public  void showAlertDialog(String title, String msg, boolean isNegative, final Context context) {
+    public void showAlertDialog(String title, String msg, boolean isNegative, final Context context) {
         final AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
         builder.setTitle(title);
@@ -179,7 +180,7 @@ public class DialogUtils {
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Log.e("TAG", "onClick: "+dialog+" and which"+which );
+                    Log.e("TAG", "onClick: " + dialog + " and which" + which);
                     response.negative();
 
                 }
@@ -187,27 +188,32 @@ public class DialogUtils {
         builder.setPositiveButton(isNegative ? "Yes" : "Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                response.positive(null,0);
+                response.positive(null, 0);
 
             }
         });
         builder.show();
     }
 
-    public static class CustomDialog extends Dialog implements View.OnClickListener{
+    public static class CustomDialog extends Dialog implements View.OnClickListener {
 
         private final dialogResponse response;
+        private final String[] featurerate;
         public Context c;
         public Dialog d;
-        public TextView yes, no,alert_validation;
+        public TextView yes, no, alert_validation;
         private EditText comments;
-        private RatingBar rating;
+        private RatingBar rating, feature_rateOne, feature_rateTwo, feature_rateThree, feature_rateFour, feature_rateFive, feature_rateSix;
 
-        public CustomDialog(Context c, dialogResponse response) {
+        private TextView featuretxt_rateOne, featuretxt_rateTwo, featuretxt_rateThree, featuretxt_rateFour, featuretxt_rateFive, featuretxt_rateSix;
+
+
+        public CustomDialog(Context c, String[] featurerate, dialogResponse response) {
             super(c);
             // TODO Auto-generated constructor stub
             this.c = c;
-            this.response = (dialogResponse)response;
+            this.featurerate = featurerate;
+            this.response = (dialogResponse) response;
 
         }
 
@@ -216,17 +222,35 @@ public class DialogUtils {
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            if(c instanceof Login){
+            if (c instanceof Login) {
                 Log.e("TAG", "instanceof:Login -----");
                 setContentView(R.layout.activity_custom_dialog_refer);
-            }else{
+            } else {
                 Log.e("TAG", "Not instanceof:Login -----");
                 setContentView(R.layout.activity_custom_dialog);
-                rating = (RatingBar)findViewById(R.id.rating);
-                LayerDrawable rate = (LayerDrawable)rating.getProgressDrawable();
+                feature_rateOne = (RatingBar) findViewById(R.id.feature_rateOne);
+                feature_rateTwo = (RatingBar) findViewById(R.id.feature_rateTwo);
+                feature_rateThree = (RatingBar) findViewById(R.id.feature_rateThree);
+                feature_rateFour = (RatingBar) findViewById(R.id.feature_rateFour);
+                feature_rateFive = (RatingBar) findViewById(R.id.feature_rateFive);
+                feature_rateSix = (RatingBar) findViewById(R.id.feature_rateSix);
+                rating = (RatingBar) findViewById(R.id.rating);
+                featuretxt_rateOne = (TextView) findViewById(R.id.featuretxt_rateOne);
+                featuretxt_rateTwo = (TextView) findViewById(R.id.featuretxt_rateTwo);
+                featuretxt_rateThree = (TextView) findViewById(R.id.featuretxt_rateThree);
+                featuretxt_rateFour = (TextView) findViewById(R.id.featuretxt_rateFour);
+                featuretxt_rateFive = (TextView) findViewById(R.id.featuretxt_rateFive);
+                featuretxt_rateSix = (TextView) findViewById(R.id.featuretxt_rateSix);
+               /* LayerDrawable rate = (LayerDrawable) rating.getProgressDrawable();
                 rate.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
                 rate.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-                rate.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+                rate.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);*/
+                featuretxt_rateOne.setText(featurerate[0]);
+                featuretxt_rateTwo.setText(featurerate[1]);
+                featuretxt_rateThree.setText(featurerate[2]);
+                featuretxt_rateFour.setText(featurerate[3]);
+                featuretxt_rateFive.setText(featurerate[4]);
+                featuretxt_rateSix.setText(featurerate[5]);
             }
             yes = (TextView) findViewById(R.id.submit);
             no = (TextView) findViewById(R.id.not_now);
@@ -243,17 +267,23 @@ public class DialogUtils {
             switch (v.getId()) {
                 case R.id.submit:
                     String commentbox = null;
-                    int rate = 0;
-                    if(c instanceof Login){
-                         commentbox=comments.getText().toString().replaceAll("\\s{2,}", " ").trim();
-                    }else{
-                        commentbox=comments.getText().toString().replaceAll("\\s{2,}", " ").trim();
-                        rate= (int) rating.getRating();
+                    int rate = 0; int rate1 = 0; int rate2 = 0; int rate3 = 0; int rate4 = 0; int rate5 = 0; int rate6 = 0;
+                    if (c instanceof Login) {
+                        commentbox = comments.getText().toString().replaceAll("\\s{2,}", " ").trim();
+                    } else {
+                        commentbox = comments.getText().toString().replaceAll("\\s{2,}", " ").trim();
+                        rate = (int)  rating.getRating();
+                        rate1 = (int) feature_rateOne.getRating();
+                        rate2 = (int) feature_rateTwo.getRating();
+                        rate3 = (int) feature_rateThree.getRating();
+                        rate4 = (int) feature_rateFour.getRating();
+                        rate5 = (int) feature_rateFive.getRating();
+                        rate6 = (int) feature_rateSix.getRating();
                     }
-                    if(!TextUtils.isEmpty(commentbox)){
-                        response.positive(commentbox,rate);
+                    if (!TextUtils.isEmpty(commentbox)) {
+                        response.positive(commentbox, rate ,rate1,rate2,rate3,rate4,rate5,rate6);
                         dismiss();
-                    }else{
+                    } else {
                         alert_validation.setVisibility(View.VISIBLE);
                     }
                     break;
@@ -269,7 +299,7 @@ public class DialogUtils {
 
     public interface dialogResponse {
 
-        void positive(String data , int rate);
+        void positive(String data, int rate, int... featureRate);
 
         void negative();
 

@@ -24,7 +24,7 @@
             android:background="@color/dashboard_icon6"
             android:scaleType="centerCrop"
             />
-
+<!--
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
             android:text="@string/dashboard_ictext2"
             android:textColor="@color/tabSelectedIconColor"
             android:textAllCaps="false"
-            />
+            />-->
 
 
     </RelativeLayout>

@@ -104,7 +104,7 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
 
         recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        DashboardAdapter adapter = new DashboardAdapter(context, categoryList.get(0).getData());
+        DashboardAdapter adapter = new DashboardAdapter(context,ID, categoryList.get(0).getData());
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(

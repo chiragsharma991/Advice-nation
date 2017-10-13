@@ -316,6 +316,7 @@ public class DashboardActivity extends BaseActivity
             }
             @Override
             public Fragment getItem(int position) {
+                Log.i(TAG, "Fragment getItem: "+position);
                 PagerFragment pagerFragment = new PagerFragment();
                 Bundle bundle = new Bundle();
                 String list=gson.toJson(carouseimages);

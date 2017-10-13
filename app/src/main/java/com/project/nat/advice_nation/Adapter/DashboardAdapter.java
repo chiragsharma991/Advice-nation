@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.project.nat.advice_nation.Base.ProductList;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import java.util.List;
 import java.util.Random;
@@ -23,11 +25,13 @@ import java.util.Random;
 public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
 
     private final List<Category.CategoryList> data;
+    private final long ID;
     private Context mContext;
 
 
-    public DashboardAdapter(Context context, List<Category.CategoryList> data) {
+    public DashboardAdapter(Context context, long ID, List<Category.CategoryList> data) {
         mContext = context;
+        this.ID = ID;
         this.data = data;
     }
 
@@ -55,10 +59,21 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         //  Picasso.with(mContext).load(R.drawable.bg).into(holder.image);
         Random rnd = new Random();
         int currentStrokeColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        holder.image.setBackgroundColor(currentStrokeColor);
+       // holder.image.setBackgroundColor(currentStrokeColor);
         //  Glide.with(mContext).load(R.color.dashboard_icon2).into(holder.image);
+        //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/auth/image/17041409/productCategory/1?size=0x0&highquality=false
+        String imageUrl = NetworkUrl.URL_GET_IMAGE+ID+"/productCategory/"+data.get(position).getId()+"?size=0x0&highquality=false";
 
-        holder.text.setText(data.get(position).getProductCategoryName());
+
+        Glide
+                .with(mContext)
+                .load(imageUrl)
+                .placeholder(currentStrokeColor) // can also be a drawable
+                .error(currentStrokeColor) // will be displayed if the image cannot be loaded
+                .crossFade()
+                .into(holder.image);
+
+     //   holder.text.setText(data.get(position).getProductCategoryName());
 
     }
 

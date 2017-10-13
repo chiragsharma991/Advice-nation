@@ -97,7 +97,7 @@
                         tools:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                         <EditText
-                            android:id="@+id/edtNewsTitle"
+                            android:id="@+id/product_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Product Name"
@@ -115,7 +115,7 @@
                         tools:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                         <EditText
-                            android:id="@+id/edtYourName"
+                            android:id="@+id/product_desc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Product Description"
@@ -133,7 +133,7 @@
                         tools:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                         <EditText
-                            android:id="@+id/edtMobileNo"
+                            android:id="@+id/product_feature"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Key Features"
@@ -150,7 +150,7 @@
                         tools:hintTextAppearance="@style/TextAppearance.App.TextInputLayout">
 
                         <EditText
-                            android:id="@+id/edtDesc"
+                            android:id="@+id/product_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Price"

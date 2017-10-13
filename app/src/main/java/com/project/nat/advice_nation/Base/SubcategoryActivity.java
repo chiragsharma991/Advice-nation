@@ -48,6 +48,8 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     private View viewpart;
     private ProgressBar progressBar;
     private ArrayList<Category> SubcategoryList;
+    private long user;
+    private String bearerToken;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,8 +116,8 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     private void callback(int responseCode, int productCategoryId) {
         switch (responseCode) {
             case 0:
-                long user = sharedPreferences.getLong("id", 0);
-                String bearerToken = sharedPreferences.getString("bearerToken", "");
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
                 Log.e(TAG, "bearerToken: " + bearerToken);
                 String URL = NetworkUrl.URL_CATEGORY + user + "/productCategory/" + productCategoryId;
                 String apiTag = NetworkUrl.URL_CATEGORY + user + "/productCategory/" + productCategoryId;
@@ -162,7 +164,7 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
 
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        SubcategoryAdapter adapter = new SubcategoryAdapter(context, SubcategoryList);
+        SubcategoryAdapter adapter = new SubcategoryAdapter(context,user, SubcategoryList);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(

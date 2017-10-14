@@ -1,5 +1,6 @@
 package com.project.nat.advice_nation.Base;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -23,37 +24,31 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.project.nat.advice_nation.Https.ApiResponse;
+import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Https.PostApi;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.UserDetails;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.BaseActivity;
-import com.project.nat.advice_nation.utils.DialogUtils;
 import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Login extends BaseActivity implements View.OnClickListener,ApiResponse {
 
@@ -70,7 +65,13 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
     private String tag_json_obj = "json_obj_req";
     private Calendar calendar;
     private int year, month, day;
-    private EditText edtName,edtEmail,edtAge,user_name_edt,user_password_edt,edt_Passwordreg,edt_lastNamereg;
+    private EditText edtName;
+    private EditText edtEmail;
+    private EditText edtAge;
+    private EditText user_name_edt;
+    private EditText user_password_edt;
+    private EditText edt_Passwordreg;
+    private EditText edt_lastNamereg;
     private TextView txtDateofbirth;
     private SwitchCompat switchcompact;
     private ProgressBar progressBarToolbar;
@@ -84,10 +85,6 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
     private ArrayList<Category> categoryList;
     private TextInputLayout txtName,txtLastname,txtEmail,txtPhone,txtDate,txtPassword;
     private ProgressBar progressBarToolbarReg;
-    private RadioGroup radio_group;
-    private JSONObject jsonObjectofRagistration;
-    private long timestamp;
-    private RadioButton radio_male;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -102,11 +99,10 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         initialize();
         //apicall();
         Inidate();
+
     }
 
-
-
-    private void callback(int id, String...data) {
+    private void callback(int id) {
         switch (id) {
             case 0:
                 String URL = NetworkUrl.URL_LOGIN;
@@ -119,20 +115,9 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
             case 1:
                 String URLREG = NetworkUrl.URL_REGISTER;
                 String apiTag_REG = NetworkUrl.URL_REGISTER;
-                jsonObjectofRagistration = signUp();
-                Log.i(TAG, "callback: json" + jsonObjectofRagistration.toString());
-                postApi = new PostApi(context, URLREG,jsonObjectofRagistration, apiTag_REG, TAG ,1);
-                break;
-            case 2:
-                //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/auth/referral?userName=charisharma16%40gmail.com&referralCode=CHNGRI
-                try {
-                    String userName=jsonObjectofRagistration.getString("userName");
-                    URLREG = NetworkUrl.URL_AUTH + "referral?userName="+userName+"&referralCode="+data[0];
-                    apiTag_REG = URLREG;
-                    postApi = new PostApi(context, URLREG,null, apiTag_REG, TAG ,2);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                JSONObject jsonObject1 = signUp();
+                Log.e(TAG, "callback: json" + jsonObject1.toString());
+                postApi = new PostApi(context, URLREG,jsonObject1, apiTag_REG, TAG ,2);
                 break;
 
             default:
@@ -164,10 +149,6 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         txtPassword =(TextInputLayout) findViewById(R.id.text_password);
         txtDate =(TextInputLayout) findViewById(R.id.text_Date);
         txtDateofbirth = (TextView) findViewById(R.id.txtDateofbirth);
-        radio_group = (RadioGroup) findViewById(R.id.radio_group);
-        radio_male = (RadioButton) findViewById(R.id.sign_male);
-        RadioButton  radio_female = (RadioButton) findViewById(R.id.sign_female);
-
         edtName.addTextChangedListener(new MyTextWatcher(edtName));
         edt_lastNamereg.addTextChangedListener(new MyTextWatcher(edt_lastNamereg));
         edt_Passwordreg.addTextChangedListener(new MyTextWatcher(edt_Passwordreg));
@@ -187,8 +168,8 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
 
 
-        tvSignupInvoker = (TextView) findViewById(R.id.tvSignupInvoker);   //go to register page
-        tvSigninInvoker = (TextView) findViewById(R.id.tvSigninInvoker);  //go to login page
+        tvSignupInvoker = (TextView) findViewById(R.id.tvSignupInvoker);
+        tvSigninInvoker = (TextView) findViewById(R.id.tvSigninInvoker);
 
         btnSignup = (TextView) findViewById(R.id.btnSignup);
         btnSignLogin = (TextView) findViewById(R.id.login);
@@ -205,7 +186,6 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
             @Override
             public void onClick(View view) {
                 isSigninScreen = false;
-                dismissSoftkeyboard(context);
                 showSignupForm();
             }
         });
@@ -214,38 +194,11 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
             @Override
             public void onClick(View view) {
                 isSigninScreen = true;
-                dismissSoftkeyboard(context);
                 showSigninForm();
-
             }
         });
         showSigninForm();
 
-    }
-
-    private void clearSingnupEntries(){
-        edtName.getText().clear();
-        edtEmail.getText().clear();
-        edtAge.getText().clear();
-        edt_Passwordreg.getText().clear();
-        edt_lastNamereg.getText().clear();
-        radio_male.setChecked(true);
-        //txtName,txtLastname,txtEmail,txtPhone,txtDate,txtPassword;
-        txtName.setErrorEnabled(false);
-        txtLastname.setErrorEnabled(false);
-        txtEmail.setErrorEnabled(false);
-        txtPhone.setErrorEnabled(false);
-        txtDate.setErrorEnabled(false);
-        txtPassword.setErrorEnabled(false);
-
-        txtDateofbirth.setText(getResources().getString(R.string.language));
-
-       // edtName.setFocusable(true);
-        edtName.setFocusableInTouchMode(true);
-        edtEmail.setFocusableInTouchMode(true);
-        edtAge.setFocusableInTouchMode(true);
-        edt_Passwordreg.setFocusableInTouchMode(true);
-        edt_lastNamereg.setFocusableInTouchMode(true);
     }
 
 
@@ -290,19 +243,6 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
             };
 
     private void showDate(int year, int month, int day) {
-
-
-        try {
-            String dateofbirth=day+"-"+month+"-"+year;
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-            Date date= (Date)formatter.parse(dateofbirth);
-            long output=date.getTime()/1000L;
-            String str=Long.toString(output);
-            timestamp = Long.parseLong(str) * 1000;
-            Log.i(TAG, "showDate: "+timestamp );
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
         txtDateofbirth.setText(new StringBuilder().append(day).append("/")
                 .append(month).append("/").append(year));
     }
@@ -331,10 +271,6 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
     }
 
     private void showSigninForm() {
-        // remove all focus
-
-
-
         PercentRelativeLayout.LayoutParams paramsLogin = (PercentRelativeLayout.LayoutParams) llSignin.getLayoutParams();
         PercentLayoutHelper.PercentLayoutInfo infoLogin = paramsLogin.getPercentLayoutInfo();
         infoLogin.widthPercent = 0.85f;
@@ -433,7 +369,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
         if (view == login_forgetPassword)
         {
-            maketrasitionEffect(new Intent(this, ForgetPassword.class),this, true);
+            maketrasitionEffect(new Intent(this, ForgetPassword.class),this, false);
 
         }
 
@@ -449,16 +385,13 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
             JSONObject jobject = new JSONObject();
             try {
-
-                RadioButton radioButton = (RadioButton) radio_group.findViewById(radio_group.getCheckedRadioButtonId());
-                String gender = (String) radioButton.getText();
                 jobject.put("active",true);
                 jobject.put("anKoins",0);
-                jobject.put("dateOfBirth",timestamp);
+                jobject.put("dateOfBirth", "2017-08-05T09:31:33.568Z");
                 jobject.put("deviceOs", "ANDROID");
                 jobject.put("deviceToken", "testDeviceToken");
                 jobject.put("firstName", edtName.getText().toString().replaceAll("\\s{2,}", " ").trim());
-                jobject.put("gender",gender);
+                jobject.put("gender", "MALE");
                 jobject.put("id",0);
                 jobject.put("lastName", edt_lastNamereg.getText().toString().replaceAll("\\s{2,}", " ").trim());
                 jobject.put("newSecret" ,edt_Passwordreg.getText().toString().replaceAll("\\s{2,}", " ").trim());
@@ -615,19 +548,13 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
         Log.e(TAG, "OnFailed:" + error);
         showProgress(false);
         showProgressReg(false);
-        progressDialogStop();
-
 
         switch (error) {
             case 404:
                 if (id==0)
                 {
                     showSnackbar(viewpart, getResources().getString(R.string.error_404));
-                }else if(id==2)
-                {
-                    showSnackbar(viewpart, getResources().getString(R.string.error_404_referral));
-                }
-                else
+                }else
                 {
                     showSnackbar(viewpart, getResources().getString(R.string.error_404_reg));
                 }
@@ -679,23 +606,17 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
                 finish();
                 break;
 
-            case 1:
+            case 2:
                 showProgressReg(false);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        isSigninScreen = true;
-                        showSigninForm();
-                        referralDialog();
+                        showToast("Registration Success", context);
                     }
-                }, 1000);
-                showToast("Registration Success", context);
-                clearSingnupEntries();
-                break;
+                }, 500);
+                isSigninScreen = true;
+                showSigninForm();
 
-            case 2:
-                progressDialogStop();
-                showToast("Referral code validation success !", context);
             default:
                 break;
 
@@ -703,38 +624,9 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
     }
 
-    private void referralDialog() {
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new DialogUtils.CustomDialog(context, new DialogUtils.dialogResponse() {
-
-                    @Override
-                    public void positive(String data , int productRate) {
-                        dismissSoftkeyboard(context);
-                        if (isOnline(context)) {
-                            progressDialogStart(context,"submitting...");
-                            String referral=data;
-                            callback(2,referral);// submit referral
-                        } else {
-                            showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
-                        }
-                    }
-                    @Override
-                    public void negative() {
-                        dismissSoftkeyboard(context);
-                    }
-                }).show();
-            }
-        }, 1000);
-
-    }
-
     private void saveProfileData(ArrayList<UserDetails> userlist) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("username", userlist.get(0).getData().getUserName());
-        editor.putString("firstName", userlist.get(0).getData().getFirstName());
         editor.putLong("dateOfBirth", userlist.get(0).getData().getDateOfBirth());
         editor.putLong("id", userlist.get(0).getData().getId());
         editor.putString("bearerToken", postApi.header);
@@ -785,6 +677,4 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
         }
     }
-
-
 }

@@ -64,7 +64,7 @@
                         />-->
 
                     <RatingBar
-                        android:rating="3"
+                        android:rating="0"
                         android:stepSize="1.0"
                         android:numStars="5"
                         android:layout_marginLeft="10dp"

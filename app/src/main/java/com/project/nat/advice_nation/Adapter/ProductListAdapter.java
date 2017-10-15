@@ -62,9 +62,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         Subcategory Subcategory = list.get(0);
-        Log.e("TAG", "onBindViewHolder: position is " + position + " " + Subcategory.getData().get(position).getProductName());
+        Log.e("TAG", "onBindViewHolder: position is " + position + " " +  gson.toJson(list));
         holder.title.setText(Subcategory.getData().get(position).getProductName());
-        holder.subtitle.setText(Subcategory.getData().get(position).getFeatures());
+        holder.subtitle.setText(Subcategory.getData().get(position).getDescription());
         holder.time.setText("\u20B9" + (int) Subcategory.getData().get(position).getPrice());
         String image = NetworkUrl.URL_GET_IMAGE
                 +Subcategory.getData().get(position).getUserId() + "/" +

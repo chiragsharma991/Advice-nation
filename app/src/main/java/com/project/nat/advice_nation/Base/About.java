@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.BaseActivity;
 
-public class About extends AppCompatActivity {
+public class About extends BaseActivity implements View.OnClickListener {
 
     private RelativeLayout btnBack;
     private About context;
@@ -100,10 +102,10 @@ public class About extends AppCompatActivity {
         TextView facebook = (TextView) findViewById(R.id.facebook);
         TextView linkedin = (TextView) findViewById(R.id.linkedin);
         TextView twitter = (TextView) findViewById(R.id.twitter);
-        SpannableString content1 = new SpannableString("Company Email");
+        SpannableString content1 = new SpannableString("advisenationproject@gmail.com");
         content1.setSpan(new UnderlineSpan(), 0, content1.length(), 0);
         email.setText(content1);
-        SpannableString content2 = new SpannableString("Company Website");
+        SpannableString content2 = new SpannableString("www.advisenation.com");
         content2.setSpan(new UnderlineSpan(), 0, content2.length(), 0);
         website.setText(content2);
         SpannableString content3 = new SpannableString("Google+");
@@ -118,10 +120,62 @@ public class About extends AppCompatActivity {
         SpannableString content6 = new SpannableString("Twitter");
         content6.setSpan(new UnderlineSpan(), 0, content6.length(), 0);
         twitter.setText(content6);
+
+        email.setOnClickListener(this);
+        website.setOnClickListener(this);
+        google.setOnClickListener(this);
+        facebook.setOnClickListener(this);
+        linkedin.setOnClickListener(this);
+        twitter.setOnClickListener(this);
+
     }
 
     public static void startScreen(Context context)
     {
         context.startActivity(new Intent(context, About.class));
+    }
+
+    @Override
+    public void onClick(View view) {
+        String url=null;
+        Intent i;
+        switch (view.getId()){
+            case R.id.email:
+                String[] TO = {"advisenationproject@gmail.com"};
+                String[] CC = {""};
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.setType("text/plain");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+               // emailIntent.putExtra(Intent.EXTRA_CC, CC);
+                //emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+               // emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+                startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+                break;
+            case R.id.website:
+                break;
+            case R.id.google:
+
+                break;
+            case R.id.facebook:
+                url = "https://m.facebook.com/Advisenation-249245148776352/";
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+            case R.id.linkedin:
+                url = "https://in.linkedin.com/in/advisenation-online-aba938120";
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+            case R.id.twitter:
+                url = "https://twitter.com/search?q=%40ANAdvise&src=typd&lang=en";
+                i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+                break;
+
+        }
     }
 }

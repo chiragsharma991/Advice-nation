@@ -17,5 +17,6 @@ public class NetworkUrl
     public static final String URL_GET_CAROUSE_IMAGE ="http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/";
     public static final String URL_GET_USER_ANKOINS ="http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/";
     public static final String URL ="http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/";
+    public static final String URL_AUTH ="http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/auth/";
 
 }

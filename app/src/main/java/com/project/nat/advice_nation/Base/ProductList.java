@@ -60,7 +60,7 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
     private Gson gson;
     private LinearLayout no_datafound,list_item_process;
     private TextView retry;
-    private int productSubCategoryId,productId;
+    private int productCategoryId,productSubCategoryId;
 
 
     @Override
@@ -75,8 +75,8 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
 
     private void initialise() {
         gson = new Gson();
-         productSubCategoryId =(int) getIntent().getLongExtra("productSubCategoryId",0);
-         productId = (int)getIntent().getLongExtra("productId",0);
+        productCategoryId =(int) getIntent().getLongExtra("productCategoryId",0);
+        productSubCategoryId = (int)getIntent().getLongExtra("productId",0);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         viewpart = findViewById(android.R.id.content);
         retry=(TextView)findViewById(R.id.retry);
@@ -103,7 +103,7 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
 
         if (isOnline(context)) {
             list_item_process.setVisibility(View.VISIBLE);
-            callback(0,productId);//0 is responseCode for login api
+            callback(0,productSubCategoryId);//0 is responseCode for login api
         } else {
             showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
         }
@@ -206,7 +206,7 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
     }
 
     public static void startScreen(Context context,long productSubCategoryId, long productId ){
-        context.startActivity(new Intent(context, ProductList.class).putExtra("productSubCategoryId",productSubCategoryId).putExtra("productId",productId));
+        context.startActivity(new Intent(context, ProductList.class).putExtra("productCategoryId",productSubCategoryId).putExtra("productId",productId));
 
     }
 
@@ -225,7 +225,7 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
             if (isOnline(context)) {
                 list_item_process.setVisibility(View.VISIBLE);
                 no_datafound.setVisibility(View.GONE);
-                callback(0, productId);//0 is responseCode for login api
+                callback(0, productSubCategoryId);//0 is responseCode for login api
             } else {
                 showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
             }
@@ -252,7 +252,7 @@ public class ProductList extends BaseActivity implements View.OnClickListener,Ap
             return true;
         }
         else if(id ==R.id.selected){
-            moveActivity(new Intent(this, AddEvent.class),this, false);
+            moveActivity(new Intent(this, AddEvent.class).putExtra("productSubCategoryId",productSubCategoryId),this, false);
             return true;
         }
 

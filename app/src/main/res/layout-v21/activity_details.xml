@@ -201,45 +201,47 @@
                     </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="4dp">
+                    <!--
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:layout_marginTop="2dp"
+                                            android:gravity="center_horizontal|center_vertical"
+                                            android:orientation="horizontal"
+                                            android:padding="4dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:gravity="center_vertical"
-                            android:text="Overall Ratings :-"
-                            android:layout_weight="1.1"
-                            android:textColor="@color/primary_text"
-                            android:textSize="@dimen/text_size_large"
-                            tools:ignore="NestedWeights" />
+                                            <TextView
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:gravity="center_vertical"
+                                                android:text="Overall Ratings :-"
+                                                android:layout_weight="1.1"
+                                                android:textColor="@color/primary_text"
+                                                android:textSize="@dimen/text_size_large"
+                                                tools:ignore="NestedWeights" />
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0.9">
+                                            <LinearLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="wrap_content"
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_weight="0.9">
 
 
-                            <RatingBar
-                                android:rating="3"
-                                android:stepSize="1.0"
-                                android:numStars="5"
-                                android:id="@+id/ratingOverall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="?android:attr/ratingBarStyleIndicator"
-                                android:isIndicator="true"
-                                />
+                                                <RatingBar
+                                                    android:rating="3"
+                                                    android:stepSize="1.0"
+                                                    android:numStars="5"
+                                                    android:id="@+id/ratingOverall"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    style="?android:attr/ratingBarStyleIndicator"
+                                                    android:isIndicator="true"
+                                                    />
 
-                        </LinearLayout>
+                                            </LinearLayout>
 
-                    </LinearLayout>
+                                        </LinearLayout>
+                    -->
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -254,7 +256,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:gravity="center_vertical"
-                            android:text="Feature Ratings :-"
+                            android:text="Product Ratings :-"
                             android:layout_weight="1.1"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_large"
@@ -267,20 +269,20 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0.9">
 
-                         <!--   <RatingBar
-                                android:id="@+id/featurerating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="40dp"
-                                android:focusable="false"
-                                android:numStars="5"
-                                android:background="#fffff"
-                                android:scaleX=".5"
-                                android:scaleY=".5"
-                                android:stepSize="0.1"
-                                android:transformPivotX="0dp"
-                                android:transformPivotY="10dp"
+                            <!--   <RatingBar
+                                   android:id="@+id/featurerating"
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="40dp"
+                                   android:focusable="false"
+                                   android:numStars="5"
+                                   android:background="#fffff"
+                                   android:scaleX=".5"
+                                   android:scaleY=".5"
+                                   android:stepSize="0.1"
+                                   android:transformPivotX="0dp"
+                                   android:transformPivotY="10dp"
 
-                                />-->
+                                   />-->
 
                             <RatingBar
                                 android:rating="4"
@@ -359,14 +361,14 @@
     </android.support.design.widget.AppBarLayout>
 
 
-   <!-- <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />-->
+    <!-- <android.support.design.widget.FloatingActionButton
+         android:id="@+id/fab"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_margin="@dimen/fab_margin"
+         app:layout_anchor="@id/app_bar"
+         app:layout_anchorGravity="bottom|end"
+         app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 
     <include layout="@layout/content_scrolling" />

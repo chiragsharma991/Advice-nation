@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.project.nat.advice_nation.Adapter.DashboardAdapter;
+import com.project.nat.advice_nation.Base.DashboardActivity;
 import com.project.nat.advice_nation.Base.SubcategoryActivity;
 import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
@@ -104,7 +105,7 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
 
         recyclerView.setLayoutManager(new GridLayoutManager(context, 3));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        DashboardAdapter adapter = new DashboardAdapter(context, categoryList.get(0).getData());
+        DashboardAdapter adapter = new DashboardAdapter(context,ID, categoryList.get(0).getData());
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnItemTouchListener(
@@ -213,11 +214,12 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
         Log.e(TAG, "OnFailed: "+error );
         mcallback.onFragmentInteraction(false,null);
         switch (error) {
-            case 000:
-                showSnackbar(viewpart, getResources().getString(R.string.network_poor));
+            case 500:
+                showSnackbar(getView(), getResources().getString(R.string.error_500));
                 break;
             default:
-                showSnackbar(viewpart, getResources().getString(R.string.random_error));
+                showSnackbar(getView(), getResources().getString(R.string.random_error));
+                break;
 
         }
 

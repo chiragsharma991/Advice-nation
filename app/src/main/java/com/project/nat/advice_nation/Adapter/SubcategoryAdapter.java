@@ -2,6 +2,7 @@ package com.project.nat.advice_nation.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.project.nat.advice_nation.Base.ProductList;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
+import com.project.nat.advice_nation.utils.NetworkUrl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,13 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
   private final ArrayList<Category> data;
   private Context mContext;
+  private long user;
 
 
-  public SubcategoryAdapter(Context context, ArrayList<Category> data)
+  public SubcategoryAdapter(Context context, long user, ArrayList<Category> data)
   {
     mContext = context;
+    this.user = user;
     this.data = data;
   }
 
@@ -44,7 +48,19 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
 
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
   //  Picasso.with(mContext).load(R.drawable.bg).into(holder.image);
-    Glide.with(mContext).load(R.mipmap.placeholder).into(holder.image);
+  //  Glide.with(mContext).load(R.mipmap.placeholder).into(holder.image);
+    // http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/auth/image/17041409/1/productSubCategory/1?size=0x0&highquality=false
+
+    String imageUrl = NetworkUrl.URL_GET_IMAGE+user+"/"+data.get(0).getData().get(position).getId()+"/productSubCategory/"+
+            data.get(0).getData().get(position).getProductCategoryId()+"?size=0x0&highquality=false";
+    Log.e("TAG", "imageUrl: "+imageUrl );
+    Glide
+            .with(mContext)
+            .load(imageUrl)
+            .placeholder(R.mipmap.placeholder) // can also be a drawable
+            .error(R.mipmap.placeholder) // will be displayed if the image cannot be loaded
+            .crossFade()
+            .into(holder.image);
 
     holder.text.setText(data.get(0).getData().get(position).getProductSubCategoryName());
 

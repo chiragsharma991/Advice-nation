@@ -2,9 +2,11 @@ package com.project.nat.advice_nation.Base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -23,6 +25,8 @@ import static com.project.nat.advice_nation.R.id.website;
 public class Invite extends AppCompatActivity {
 
     private Context context;
+    private SharedPreferences sharedPreferences;
+    private String referralCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,20 @@ public class Invite extends AppCompatActivity {
         }
     }
 
+    public void onInvite(View view){
+
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT,
+                "Hey check out my app at (Referral code ="+referralCode+" ): \n" +
+                        "https://play.google.com/store/apps/details?id=com.project.nat.advice_nation");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
     private void initialise() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        referralCode=sharedPreferences.getString("referralCode", "");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Invite User");

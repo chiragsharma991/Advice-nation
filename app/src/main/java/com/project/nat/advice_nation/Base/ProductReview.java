@@ -95,6 +95,8 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     private int rating=0;
     private Activity ProductReview=this;
     private String totalcoins;
+    private long follow_userId=0;
+    private int[] allFeatureRate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,7 +164,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         Log.e(TAG, "calculateAmount: "+calculateAmount );
                 new DialogUtils(context, new DialogUtils.dialogResponse() {
             @Override
-            public void positive(String data ,int rate) {
+            public void positive(String data ,int rate ,int...featureRate) {
                 if (isOnline(context)) {
                     callback(1,productSubCategoryId,productId);//
                 } else {
@@ -189,25 +191,13 @@ public class ProductReview extends BaseActivity implements ApiResponse {
 
 
     public void onReview(View view){
-        Log.i(TAG, "onReview: click" );
-        new DialogUtils.CustomDialog(context, new DialogUtils.dialogResponse() {
+        if (isOnline(context)) {
+            progressBar.setVisibility(View.VISIBLE);
+            callback(6,productSubCategoryId,productId);// get feature rating
+        } else {
+            showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+        }
 
-            @Override
-            public void positive(String data , int productRate) {
-                if (isOnline(context)) {
-                    comments=data;
-                    rating=productRate;
-                    callback(2,productSubCategoryId,productId);// submit comment
-                } else {
-                    showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
-                }
-            }
-
-            @Override
-            public void negative() {
-
-            }
-        }).show();
     }
 
     /**
@@ -234,16 +224,17 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     }
 
     private void setRate() {
-        RatingBar ratingOverall = (RatingBar) findViewById(R.id.ratingOverall);
+       // RatingBar ratingOverall = (RatingBar) findViewById(R.id.ratingOverall);
         RatingBar featurerating = (RatingBar) findViewById(R.id.featurerating);
-        LayerDrawable overall = (LayerDrawable)ratingOverall.getProgressDrawable();
+      /*  LayerDrawable overall = (LayerDrawable)ratingOverall.getProgressDrawable();
         overall.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
         overall.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-        overall.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        overall.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);*/
         LayerDrawable feature = (LayerDrawable)featurerating.getProgressDrawable();
         feature.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
         feature.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
         feature.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        featurerating.setRating(list.get(0).getData().get(position).getProductRating());
     }
 
     public static void startScreen(Context context,String productList, int position) {
@@ -288,7 +279,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             case 3:  // follow comments
                 user = sharedPreferences.getLong("id", 0);
                 bearerToken = sharedPreferences.getString("bearerToken", "");
-                URL = NetworkUrl.URL + user+"/"+productId+"/"+values[0]+"/"+"follow/"+values[1];
+                URL = NetworkUrl.URL + user+"/"+productId+"/"+values[0]+"/"+"follow/"+follow_userId;
                 apiTag = URL;
                 postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 3);
                 break;
@@ -300,7 +291,14 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/17041409/productSubCategory/1/product/3/features?rating1=3&rating2=2&rating3=4&rating4=5&rating5=4&rating6=3
                 URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/rating?"+"rating="+rating;
+                apiTag = URL;
+                postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 100);  // default response
+
+                // call for feature rate
+                URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/features?"+
+                        "rating1="+allFeatureRate[0]+"&rating2="+allFeatureRate[1]+"&rating3="+allFeatureRate[2]+"&rating4="+allFeatureRate[3]+"&rating5="+allFeatureRate[4]+"&rating6="+allFeatureRate[5];
                 apiTag = URL;
                 postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 100);  // default response
                 break;
@@ -311,6 +309,14 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 URL = NetworkUrl.URL_GET_USER_ANKOINS + user + "/ankoin";
                 apiTag = URL;
                 getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 5);
+                break;
+            case 6:  // Get feature rating
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+          //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/17041409/productSubCategory/1/product/3/features
+                URL = NetworkUrl.URL + user + "/productSubCategory/" + productSubCategoryId+"/product/"+productId+"/features";
+                apiTag = URL;
+                getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 6);
                 break;
 
             default:
@@ -340,6 +346,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     @Override
     public void OnSucess(JSONObject response, int id) {
         Log.e(TAG, "OnSucess: id"+id+" = "+response.toString() );
+        progressBar.setVisibility(View.GONE);
         switch (id) {
             case 0:
                 if(adapter ==null){
@@ -353,7 +360,6 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                     Category category = gson.fromJson(response.toString(), Category.class);
                     productList.add(category);
                     adapter.notifyDataSetChanged();
-
                 }
                 break;
             case 1:
@@ -361,7 +367,7 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                 onResume();
                 break;
             case 2:
-                customToast(getResources().getString(R.string.submit_rate),context,R.drawable.done,R.color.colorPrimaryTrans,false);
+                customToast(getResources().getString(R.string.submit_rate),context,R.drawable.done,R.color.color_success,false);
                 callback(4,productSubCategoryId,productId);// submit rating
                 break;
             case 3:
@@ -377,7 +383,49 @@ public class ProductReview extends BaseActivity implements ApiResponse {
                     e.printStackTrace();
                 }
                 break;
+            case 6:
+
+                try {
+                    String[]featurerate=new String[6];
+                    String feature1=response.getJSONObject("data").getString("feature1");
+                    featurerate[0]=feature1;
+                    String feature2=response.getJSONObject("data").getString("feature2");
+                    featurerate[1]=feature2;
+                    String feature3=response.getJSONObject("data").getString("feature3");
+                    featurerate[2]=feature3;
+                    String feature4=response.getJSONObject("data").getString("feature4");
+                    featurerate[3]=feature4;
+                    String feature5=response.getJSONObject("data").getString("feature5");
+                    featurerate[4]=feature5;
+                    String feature6=response.getJSONObject("data").getString("feature6");
+                    featurerate[5]=feature6;
+                    new DialogUtils.CustomDialog(context,featurerate, new DialogUtils.dialogResponse() {
+
+                        @Override
+                        public void positive(String data , int productRate,int...featureRate) {
+                            if (isOnline(context)) {
+                                comments=data;
+                                allFeatureRate=featureRate;
+                                rating=productRate;
+                                callback(2,productSubCategoryId,productId);// submit comment
+                            } else {
+                                progressBar.setVisibility(View.GONE);
+                                showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+                            }
+                        }
+
+                        @Override
+                        public void negative() {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
+                progressBar.setVisibility(View.GONE);
                 break;
         }
         
@@ -423,9 +471,9 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         if (isOnline(context)) {
             int productId = productList.get(0).getData().get(position).getProductId();
             int id = (int)  productList.get(0).getData().get(position).getId();
-            int userId = (int) productList.get(0).getData().get(position).getUserId();
-            Log.e(TAG, "follow: productId "+productId+" id "+id+ " userId "+userId );
-            callback(3,productSubCategoryId,productId,id,userId);//0 is responseCode for login api
+            follow_userId = productList.get(0).getData().get(position).getUserId();
+            Log.e(TAG, "follow: productId "+productId+" id "+id+ " userId "+follow_userId );
+            callback(3,productSubCategoryId,productId,id);//0 is responseCode for login api
 
         } else {
           //  showSnackbar(viewpart, getResources().getString(R.string.network_notfound));

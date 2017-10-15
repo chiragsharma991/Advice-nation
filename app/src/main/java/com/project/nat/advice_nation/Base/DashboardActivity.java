@@ -1,5 +1,6 @@
 package com.project.nat.advice_nation.Base;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -72,7 +73,8 @@ public class DashboardActivity extends BaseActivity
     private Handler handler=new Handler();
     private int delay=5000;
     private String TAG="DashboardActivity";
-    private Context context;
+    private  Context context;
+    public static Activity DashboardActivity=null;
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
@@ -94,6 +96,7 @@ public class DashboardActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboardn);
         context=DashboardActivity.this;
+        DashboardActivity=this;
         initialize();
         if (isOnline(context)) {
             callback(0);
@@ -316,6 +319,7 @@ public class DashboardActivity extends BaseActivity
             }
             @Override
             public Fragment getItem(int position) {
+                Log.i(TAG, "Fragment getItem: "+position);
                 PagerFragment pagerFragment = new PagerFragment();
                 Bundle bundle = new Bundle();
                 String list=gson.toJson(carouseimages);
@@ -368,19 +372,20 @@ public class DashboardActivity extends BaseActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
             Login.startScreen(context);
+            sharedPreferences.edit().clear().commit();
             finish();
             return true;
         }
-        if (id == R.id.invite) {
+     /*   if (id == R.id.invite) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
                     "Hey check out my app at (Referral code ="+referralCode+" ): \n" +
-                            "https://play.google.com/store/apps/details?id=com.google.android.apps.plus");
+                            "https://play.google.com/store/apps/details?id=com.project.nat.advice_nation");
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
             return true;
-        }
+        }*/
 
 
         return super.onOptionsItemSelected(item);

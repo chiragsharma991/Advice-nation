@@ -40,7 +40,7 @@ public class PostApi extends BaseActivity   {
     403  Forbidden
     404  Not Found
     412  Product already sold
-    415  header problem
+    415  header problem / media contain
 
     */
     private final String apiTag;

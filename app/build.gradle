@@ -18,6 +18,10 @@ android {
         }
     }
 }
+android
+        {
+            useLibrary  'org.apache.http.legacy'
+        }
 def glideVersion = "3.6.1"
 
 
@@ -37,4 +41,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     testCompile 'junit:junit:4.12'
     compile project(':styleabletoast')
+    compile files('libs/apache-mime4j-0.6.jar')
+    compile files('libs/httpmime-4.0.1.jar')
 }

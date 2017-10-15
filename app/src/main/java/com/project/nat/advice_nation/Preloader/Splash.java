@@ -1,8 +1,12 @@
 package com.project.nat.advice_nation.Preloader;
 
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.WindowManager;
+
+import com.project.nat.advice_nation.Base.DashboardActivity;
 import com.project.nat.advice_nation.Base.Login;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.utils.AnimationUtils;
@@ -12,9 +16,8 @@ import com.project.nat.advice_nation.utils.CircleProgressBar;
 public class Splash extends BaseActivity {
 
     private CircleProgressBar progressBar;
+    private SharedPreferences sharedPreferences;
     //comit from surya
-
-
 
 
     @Override
@@ -36,7 +39,9 @@ public class Splash extends BaseActivity {
                     // Thread will sleep for 5 seconds
                     sleep(3 * 1000);
                     showProgress(false);
-                    Login.startScreen(Splash.this);
+                    if (sharedPreferences.getLong("id", 0) != 0)
+                        DashboardActivity.startScreen(Splash.this);
+                    else Login.startScreen(Splash.this);
                     finish();
 
 
@@ -51,7 +56,7 @@ public class Splash extends BaseActivity {
 
     private void intialize() {
 
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         progressBar = (CircleProgressBar) findViewById(R.id.progressBar);
         showProgress(true);
 
@@ -67,7 +72,6 @@ public class Splash extends BaseActivity {
             AnimationUtils.animateScaleIn(progressBar);
         }
     }
-
 
 
     private void fullScreen() {

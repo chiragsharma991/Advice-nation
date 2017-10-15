@@ -16,8 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.project.nat.advice_nation.Adapter.SubcategoryAdapter;
@@ -39,7 +41,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * Created by Chari on 7/9/2017.
  */
 
-public class SubcategoryActivity extends BaseActivity implements ApiResponse {
+public class SubcategoryActivity extends BaseActivity implements ApiResponse,View.OnClickListener {
     private RecyclerView recyclerView;
     private RelativeLayout btnBack;
     private SubcategoryActivity context;
@@ -48,6 +50,11 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     private View viewpart;
     private ProgressBar progressBar;
     private ArrayList<Category> SubcategoryList;
+    private long user;
+    private String bearerToken;
+    private LinearLayout no_datafound;
+    private TextView retry;
+    private int selectedID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,8 +97,12 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
         gson = new Gson();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         viewpart = findViewById(android.R.id.content);
+        no_datafound=(LinearLayout)findViewById(R.id.no_datafound);
+        retry=(TextView)findViewById(R.id.retry);
+        no_datafound.setVisibility(View.GONE);
+        retry.setOnClickListener(this);
         Intent intent = getIntent();
-        int selectedID = intent.getExtras().getInt("ID");
+        selectedID = intent.getExtras().getInt("ID");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,8 +125,8 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     private void callback(int responseCode, int productCategoryId) {
         switch (responseCode) {
             case 0:
-                long user = sharedPreferences.getLong("id", 0);
-                String bearerToken = sharedPreferences.getString("bearerToken", "");
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
                 Log.e(TAG, "bearerToken: " + bearerToken);
                 String URL = NetworkUrl.URL_CATEGORY + user + "/productCategory/" + productCategoryId;
                 String apiTag = NetworkUrl.URL_CATEGORY + user + "/productCategory/" + productCategoryId;
@@ -150,7 +161,11 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
                 Category category = gson.fromJson(response.toString(), Category.class);
                 SubcategoryList.add(category);
                 progressBar.setVisibility(View.GONE);
-                setview();
+                if(SubcategoryList.get(0).getData().size() > 0){
+                    setview();
+                }else{
+                    no_datafound.setVisibility(View.VISIBLE);
+                }
                 break;
 
             default:
@@ -162,7 +177,7 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
 
         recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        SubcategoryAdapter adapter = new SubcategoryAdapter(context, SubcategoryList);
+        SubcategoryAdapter adapter = new SubcategoryAdapter(context,user, SubcategoryList);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(
@@ -200,4 +215,13 @@ public class SubcategoryActivity extends BaseActivity implements ApiResponse {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if (isOnline(context)) {
+            progressBar.setVisibility(View.VISIBLE);
+            callback(0, selectedID);//0 is responseCode for login api
+        } else {
+            showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+        }
+    }
 }

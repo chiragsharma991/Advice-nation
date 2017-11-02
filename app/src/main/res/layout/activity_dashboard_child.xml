@@ -23,7 +23,7 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/dashboard_icon2"
+            android:background="@color/colorPrimary"
             android:scaleType="centerCrop"
             />
 

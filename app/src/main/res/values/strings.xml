@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Advise Nation</string>
+    <string name="app_name">AdviseNation</string>
     <string name="app_product_review">Product Review</string>
     <string name="app_ankoins">AnKoins</string>
 
@@ -7,7 +7,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
-    <string name="splash_title">Advise ~ Nation</string>
+    <string name="splash_title">AdviseNation</string>
     <string name="login_email">User Email</string>
     <string name="login_password">Password</string>
     <string name="title_activity_dashboard">DashboardActivity</string>

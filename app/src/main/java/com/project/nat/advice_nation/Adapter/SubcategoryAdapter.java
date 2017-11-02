@@ -51,8 +51,8 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
   //  Glide.with(mContext).load(R.mipmap.placeholder).into(holder.image);
     // http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/auth/image/17041409/1/productSubCategory/1?size=0x0&highquality=false
 
-    String imageUrl = NetworkUrl.URL_GET_IMAGE+user+"/"+data.get(0).getData().get(position).getId()+"/productSubCategory/"+
-            data.get(0).getData().get(position).getProductCategoryId()+"?size=0x0&highquality=false";
+    String imageUrl = NetworkUrl.URL_GET_IMAGE+user+"/"+data.get(0).getData().get(position).getProductCategoryId()+"/productSubCategory/"+
+            data.get(0).getData().get(position).getId()+"?size=0x0&highquality=false";
     Log.e("TAG", "imageUrl: "+imageUrl );
     Glide
             .with(mContext)

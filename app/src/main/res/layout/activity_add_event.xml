@@ -58,11 +58,11 @@
                      android:id="@+id/txtAddNews"
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:gravity="center"
                      android:layout_marginTop="5dp"
+                     android:gravity="center"
                      android:text="@string/addevent_upload"
-                     android:textColor="@android:color/white"
-                     android:textSize="30sp" />
+                     android:textAppearance="@style/TextAppearance.StatusBar.EventContent.Title"
+                     />
 
              </LinearLayout>
 

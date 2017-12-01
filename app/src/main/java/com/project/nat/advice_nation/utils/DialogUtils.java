@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -33,7 +35,7 @@ import static com.project.nat.advice_nation.R.id.reating;
  * Created by Chari on 7/7/2017.
  */
 
-public class DialogUtils {
+public class DialogUtils  {
 
     private dialogResponse response;
     private Context context;
@@ -225,6 +227,7 @@ public class DialogUtils {
             if (c instanceof Login) {
                 Log.e("TAG", "instanceof:Login -----");
                 setContentView(R.layout.activity_custom_dialog_refer);
+                setCanceledOnTouchOutside(false);
             } else {
                 Log.e("TAG", "Not instanceof:Login -----");
                 setContentView(R.layout.activity_custom_dialog);
@@ -235,16 +238,18 @@ public class DialogUtils {
                 feature_rateFive = (RatingBar) findViewById(R.id.feature_rateFive);
                 feature_rateSix = (RatingBar) findViewById(R.id.feature_rateSix);
                 rating = (RatingBar) findViewById(R.id.rating);
+                setRateColor(feature_rateOne);setRateColor(feature_rateTwo);setRateColor(feature_rateThree);
+                setRateColor(feature_rateFour);setRateColor(feature_rateFive);setRateColor(feature_rateSix);setRateColor(rating);
                 featuretxt_rateOne = (TextView) findViewById(R.id.featuretxt_rateOne);
                 featuretxt_rateTwo = (TextView) findViewById(R.id.featuretxt_rateTwo);
                 featuretxt_rateThree = (TextView) findViewById(R.id.featuretxt_rateThree);
                 featuretxt_rateFour = (TextView) findViewById(R.id.featuretxt_rateFour);
                 featuretxt_rateFive = (TextView) findViewById(R.id.featuretxt_rateFive);
                 featuretxt_rateSix = (TextView) findViewById(R.id.featuretxt_rateSix);
-               /* LayerDrawable rate = (LayerDrawable) rating.getProgressDrawable();
-                rate.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+                LayerDrawable rate = (LayerDrawable) rating.getProgressDrawable();
+                rate.getDrawable(2).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
                 rate.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-                rate.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);*/
+                rate.getDrawable(1).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
                 featuretxt_rateOne.setText(featurerate[0]);
                 featuretxt_rateTwo.setText(featurerate[1]);
                 featuretxt_rateThree.setText(featurerate[2]);
@@ -259,6 +264,14 @@ public class DialogUtils {
             alert_validation.setVisibility(View.GONE);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
+
+        }
+        private void setRateColor(RatingBar rate){
+            LayerDrawable ratingBar = (LayerDrawable) rate.getProgressDrawable();
+            ratingBar.getDrawable(2).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
+            ratingBar.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+            ratingBar.getDrawable(1).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
+
 
         }
 
@@ -281,13 +294,19 @@ public class DialogUtils {
                         rate6 = (int) feature_rateSix.getRating();
                     }
                     if (!TextUtils.isEmpty(commentbox)) {
+                        InputMethodManager inputManager = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                         response.positive(commentbox, rate ,rate1,rate2,rate3,rate4,rate5,rate6);
                         dismiss();
+
                     } else {
                         alert_validation.setVisibility(View.VISIBLE);
                     }
+
                     break;
                 case R.id.not_now:
+                    InputMethodManager inputManager = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     response.negative();
                     dismiss();
                     break;

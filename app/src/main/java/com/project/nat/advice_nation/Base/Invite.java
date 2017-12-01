@@ -61,8 +61,14 @@ public class Invite extends AppCompatActivity {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT,
-                "Hey check out my app at (Referral code ="+referralCode+" ): \n" +
-                        "https://play.google.com/store/apps/details?id=com.project.nat.advice_nation");
+                "I invite you to a whole new world of shopping, " +
+                        "here are 10 Ankoins for you and for me. Signup with my code:"+referralCode+""+
+                        " to avail the offer and enjoy the shopping at AdviseNation.\n" +
+                        "Android:\n"+
+                        "https://play.google.com/store/apps/details?id=com.project.nat.advice_nation"+
+                        "\nApple App Store:\n"+
+                        "https://itunes.apple.com/us/app/advisenation/id1290976065?mt=8"
+        );
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }

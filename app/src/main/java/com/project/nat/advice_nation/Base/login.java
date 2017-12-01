@@ -718,7 +718,7 @@ public class Login extends BaseActivity implements View.OnClickListener,ApiRespo
 
                     @Override
                     public void positive(String data , int productRate, int...featureRate) {
-                        dismissSoftkeyboard(context);
+                        //dismissSoftkeyboard(context);
                         if (isOnline(context)) {
                             progressDialogStart(context,"submitting...");
                             String referral=data;

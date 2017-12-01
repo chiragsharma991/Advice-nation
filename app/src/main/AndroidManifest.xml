@@ -79,7 +79,12 @@
         <activity
             android:name=".Ankoins.Activity_CurrentAnkoins"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
+        <activity android:name=".Base.SettingEvent"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

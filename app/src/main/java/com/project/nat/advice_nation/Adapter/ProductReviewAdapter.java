@@ -53,12 +53,12 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
 
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position)
+    public void onBindViewHolder(final MyViewHolder holder, final int position)
     {
         LayerDrawable stars = (LayerDrawable)holder.ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
         holder.username.setText(productList.get(0).getData().get(position).getName());
         holder.userComment.setText(productList.get(0).getData().get(position).getComment());
         holder.follow.setText(productList.get(0).getData().get(position).isCommentFollowed()== true ? "Unfollow" : "Follow");
@@ -66,7 +66,8 @@ public class ProductReviewAdapter extends RecyclerView.Adapter<ProductReviewAdap
             @Override
             public void onClick(View view) {
                 if(mcontext instanceof ProductReview){
-                    ((ProductReview)mcontext).follow(position);  // direct call in activity withkout using interface
+                    if(holder.follow.getText().equals("Unfollow")) ((ProductReview)mcontext).follow(position,false);
+                    else ((ProductReview)mcontext).follow(position,true);  // direct call in activity withkout using interface
 
                 }
             }

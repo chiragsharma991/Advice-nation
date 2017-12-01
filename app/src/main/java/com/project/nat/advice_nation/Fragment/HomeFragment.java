@@ -1,6 +1,7 @@
 package com.project.nat.advice_nation.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,12 +18,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.project.nat.advice_nation.Adapter.DashboardAdapter;
 import com.project.nat.advice_nation.Base.DashboardActivity;
+import com.project.nat.advice_nation.Base.Login;
 import com.project.nat.advice_nation.Base.SubcategoryActivity;
 import com.project.nat.advice_nation.Https.ApiResponse;
 import com.project.nat.advice_nation.Https.AppController;
 import com.project.nat.advice_nation.Https.GetApi;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.Model.Subcategory;
+import com.project.nat.advice_nation.Preloader.Splash;
 import com.project.nat.advice_nation.R;
 import com.project.nat.advice_nation.RecylerViewClick.RecyclerItemClickListener;
 import com.project.nat.advice_nation.utils.BaseFragmetActivity;
@@ -31,6 +34,8 @@ import com.project.nat.advice_nation.utils.NetworkUrl;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
@@ -215,9 +220,24 @@ public class HomeFragment extends BaseFragmetActivity implements ApiResponse {
         mcallback.onFragmentInteraction(false,null);
         switch (error) {
             case 500:
+
                 showSnackbar(getView(), getResources().getString(R.string.error_500));
+
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        sharedPreferences.edit().clear().commit();
+                        Intent intent=new Intent(context, Login.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        DashboardActivity.DashboardActivity.finish();                    }
+                }, 3000);
                 break;
             default:
+                Intent intent = new Intent(context, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                DashboardActivity.DashboardActivity.finish();
                 showSnackbar(getView(), getResources().getString(R.string.random_error));
                 break;
 

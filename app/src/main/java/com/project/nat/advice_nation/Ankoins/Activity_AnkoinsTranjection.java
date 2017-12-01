@@ -44,7 +44,6 @@ import static com.project.nat.advice_nation.R.id.no_datafound;
 public class Activity_AnkoinsTranjection extends BaseActivity implements ApiResponse
 {
     private RecyclerView recyclerView;
-    private String[] Array_TranjectionID,Array_DateOfTranjection,Array_AnkoinsSpents,Array_Purpose;
     private AnkoinsTranjectionAdapter adapter;
     private Context context;
     private Gson gson;
@@ -60,14 +59,6 @@ public class Activity_AnkoinsTranjection extends BaseActivity implements ApiResp
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ankointranjection);
-        Array_TranjectionID = new String[]{"AB456GSDHAGS","RJTH98785BD","HHER2656"};
-        Array_DateOfTranjection = new String[]{"01-05-2010  12:45:50  PM","03-01-2015  11:25:10  PM","15-09-2017  09:15:02  AM"};
-        Array_AnkoinsSpents = new String[]{"100","120","1500"};
-        Array_Purpose = new String[]{"This is for the testing purpose tranjection from the advice nation ",
-                                      "My purpose of tranjection is buys good product from spenting the ankois"
-                                       ,"This is my last tesing ankoin tranjection from this seasion"};
-
-
         checkstatusbar();
         IniliView();
 
@@ -103,7 +94,7 @@ public class Activity_AnkoinsTranjection extends BaseActivity implements ApiResp
         progressBar.setVisibility(View.GONE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Tranjection History");
+        getSupportActionBar().setTitle("Transaction History");
         toolbar.setNavigationIcon(R.drawable.ic_left_black_24dp);
         toolbar.setNavigationContentDescription("Back");
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));

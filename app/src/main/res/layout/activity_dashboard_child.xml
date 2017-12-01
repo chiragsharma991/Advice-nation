@@ -7,6 +7,7 @@
     android:layout_margin="0dp"
     card_view:cardBackgroundColor="@color/color_bg"
     card_view:cardCornerRadius="0dp"
+    android:foreground="@drawable/gradient_color"
     card_view:cardElevation="5dp"
     android:layout_height="wrap_content">
 
@@ -15,6 +16,7 @@
         android:layout_height="100dp"
         android:layout_margin="1dp"
         android:orientation="vertical"
+        android:id="@+id/parent"
         >
 
 
@@ -23,8 +25,8 @@
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerCrop"
+            android:layout_margin="5dp"
+            android:scaleType="fitCenter"
             />
 
 

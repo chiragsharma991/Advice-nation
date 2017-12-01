@@ -60,8 +60,8 @@ public class PagerFragment extends Fragment {
         Glide
                 .with(getActivity())
                 .load(image)
-                .placeholder(R.mipmap.ic_launcher) // can also be a drawable
-                .error(R.mipmap.ic_launcher) // will be displayed if the image cannot be loaded
+                .placeholder(R.mipmap.ic_placeholder) // can also be a drawable
+                .error(R.mipmap.ic_placeholder) // will be displayed if the image cannot be loaded
                 .crossFade()
                 .into(Pager_image);
 

@@ -2,6 +2,7 @@
     <string name="app_name">AdviseNation</string>
     <string name="app_product_review">Product Review</string>
     <string name="app_ankoins">AnKoins</string>
+    <string name="app_home">Home</string>
 
     <!--login-->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -33,9 +34,10 @@
     <string name="error_404_transferAnkoins">Sender id not found</string>
     <string name="error_404_reg">Username and Password Already Register</string>
     <string name="error_404_referral">User with referral code not found</string>
-    <string name="error_404_unfollow">Unfollow permission denied :( </string>
+    <string name="error_404_unfollow">User cannot follow own comment :( </string>
     <string name="error_401">Please Register first</string>
     <string name="error_403">Forbidden</string>
+    <string name="error_400">Old password incorrect.</string>
     <string name="error_500">Login session time out...</string>
     <string name="error_412">Insufficient AnKoins</string>
     <string name="network_notfound">Please check your network connection</string>
@@ -45,6 +47,7 @@
     <string name="submit_rate">Thanking you for your valuable comment !</string>
     <string name="purchase_success">Purchase Success !</string>
     <string name="enough_koins">You have not enough coins. \n Please buy coins and try again</string>
+    <string name="unfollow">Unfollow permission denied</string>
 
 
     <!--Transfer ANikoins-->
@@ -52,10 +55,15 @@
     <string name="transfer_anikoinswhomtotransfer">Email Address To Whom Transfer</string>
     <string name="transfer_remaiinganikoinstotransfer">Remaining Ankoins</string>
     <string name="transfer_ankoinsbutton">Confirm Transfer</string>
-    <string name="tranjection_ankoinTranjectidtxt">Tranjection Id :</string>
-    <string name="tranjection_ankoinDateOftrajection">Date Of Tranjection :</string>
+    <string name="tranjection_ankoinTranjectidtxt">Transaction  Id :</string>
+    <string name="tranjection_ankoinDateOftrajection">Date Of Transaction  :</string>
     <string name="tranjection_spentAnkoins">Ankoins Spent :</string>
     <string name="tranjection_purpose">Purpose :</string>
+
+    <!--setting event-->
+    <string name="set_current_password">Enter your new password</string>
+    <string name="set_previous_password">Enter your current password</string>
+
 
 
     <!--dashboard icon text-->

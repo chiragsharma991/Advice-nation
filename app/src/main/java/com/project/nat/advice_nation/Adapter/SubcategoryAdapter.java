@@ -57,8 +57,8 @@ public class SubcategoryAdapter extends RecyclerView.Adapter<SubcategoryAdapter.
     Glide
             .with(mContext)
             .load(imageUrl)
-            .placeholder(R.mipmap.placeholder) // can also be a drawable
-            .error(R.mipmap.placeholder) // will be displayed if the image cannot be loaded
+          //  .placeholder(R.drawable.image_placeholder_24dp) // can also be a drawable
+          //  .error(R.drawable.image_placeholder_24dp) // will be displayed if the image cannot be loaded
             .crossFade()
             .into(holder.image);
 

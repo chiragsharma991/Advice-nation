@@ -56,7 +56,7 @@ public class AnimationUtils {
             view.setScaleX(0.2f);
             view.setScaleY(0.2f);
             view.animate()
-                    .setStartDelay(200)
+                    .setStartDelay(300)
                     .alpha(1)
                     .scaleX(1)
                     .scaleY(1).setListener(new Animator.AnimatorListener() {

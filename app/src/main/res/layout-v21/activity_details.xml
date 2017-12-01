@@ -20,7 +20,7 @@
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
             app:titleEnabled="false"
-            android:layout_height="200dp"
+            android:layout_height="250dp"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:contentScrim="?attr/colorPrimary"
@@ -58,8 +58,6 @@
                 app:layout_collapseMode="pin"
                 android:id="@+id/product_image"
                 android:transitionName="product_image"
-
-
                 />
 
             <android.support.v7.widget.Toolbar
@@ -159,7 +157,8 @@
                             android:text="Product Discription :-"
                             android:textColor="@color/primary_text"
                             android:textSize="@dimen/text_size_large"
-                            tools:ignore="NestedWeights" />
+                            tools:ignore="NestedWeights"
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -342,6 +341,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:onClick="onVoucher"
                             android:textColor="@color/primary_text"
                             android:background="@drawable/border_black"
                             android:text="Voucher"

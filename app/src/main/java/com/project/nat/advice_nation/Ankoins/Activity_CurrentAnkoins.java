@@ -368,7 +368,7 @@ public class Activity_CurrentAnkoins extends BaseActivity implements ApiResponse
 
             case 1:
                 //http://ec2-13-126-97-168.ap-south-1.compute.amazonaws.com:8080/AdviseNation/api/users/17041409/ankoin/buy/10
-                URL = NetworkUrl.URL + user + "/ankoin/buy/10";
+                URL = NetworkUrl.URL + user + "/ankoin/buy/2000";
                 apiTag = URL;
                 PostApiPlues postApi = new PostApiPlues(context, URL,bearerToken, null, apiTag, TAG, 1);
                 break;

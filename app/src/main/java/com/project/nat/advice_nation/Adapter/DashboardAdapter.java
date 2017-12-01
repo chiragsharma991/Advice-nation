@@ -3,13 +3,16 @@ package com.project.nat.advice_nation.Adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.project.nat.advice_nation.Base.DashboardActivity;
 import com.project.nat.advice_nation.Base.ProductList;
 import com.project.nat.advice_nation.Model.Category;
 import com.project.nat.advice_nation.R;
@@ -26,7 +29,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
     private final List<Category.CategoryList> data;
     private final long ID;
+    private Random random;
     private Context mContext;
+    private int color[]={R.color.dashboard_icon1,R.color.dashboard_icon2,R.color.dashboard_icon3,R.color.dashboard_icon4};
+    private int colorPosition=0;
 
 
     public DashboardAdapter(Context context, long ID, List<Category.CategoryList> data) {
@@ -50,11 +56,6 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
         return new ViewHolder(v);
     }
 
-    private void overridePendingTransition(int start, int exit)
-    {
-
-    }
-
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
         //  Picasso.with(mContext).load(R.drawable.bg).into(holder.image);
         Random rnd = new Random();
@@ -72,8 +73,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
                 .error(currentStrokeColor) // will be displayed if the image cannot be loaded
                 .crossFade()
                 .into(holder.image);
-
+        random=new Random();
         holder.text.setText(data.get(position).getProductCategoryName());
+        if(colorPosition == 4) colorPosition=0;
+        holder.parent.setBackgroundResource(color[colorPosition]);
+        colorPosition++;
 
     }
 
@@ -88,12 +92,14 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.View
 
         public ImageView image;
         public TextView text;
+        public RelativeLayout parent;
 
         public ViewHolder(View itemView)
         {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image);
             text = (TextView) itemView.findViewById(R.id.text);
+            parent = (RelativeLayout) itemView.findViewById(R.id.parent);
         }
     }
 }

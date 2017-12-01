@@ -35,12 +35,12 @@
         <item>#c9cc84</item>
     </array>
 
-    <color name="dashboard_icon1">#6c6d5e</color>
-    <color name="dashboard_icon2">#a656af</color>
-    <color name="dashboard_icon3">#c9cc84</color>
-    <color name="dashboard_icon4">#e0ea00</color>
-    <color name="dashboard_icon5">#6fabe8</color>
-    <color name="dashboard_icon6">#6da065</color>
+    <color name="dashboard_icon1">#51514F</color>
+    <color name="dashboard_icon2">#F35D5C</color>
+    <color name="dashboard_icon3">#F3A65E</color>
+    <color name="dashboard_icon4">#E4CA5B</color>
+    <color name="dashboard_icon6">#51514F</color>
+
 
     <!--list text-->
 
@@ -60,4 +60,10 @@
     <color name="colorAccentTrans">#a0009688</color>
     <color name="colorBlackTrans">#a0000000</color>
     <color name="color_success">#20a722</color>
+
+
+
+
+
+
 </resources>

@@ -4,7 +4,10 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 
 import com.project.nat.advice_nation.Base.DashboardActivity;
 import com.project.nat.advice_nation.Base.Login;
@@ -26,7 +29,6 @@ public class Splash extends BaseActivity {
         setContentView(R.layout.activity_splash);
         intialize();
         fullScreen();
-        functionality();
 
 
     }
@@ -39,11 +41,17 @@ public class Splash extends BaseActivity {
                     // Thread will sleep for 5 seconds
                     sleep(3 * 1000);
                     showProgress(false);
-                    if (sharedPreferences.getLong("id", 0) != 0)
+                    if (sharedPreferences.getLong("id", 0) != 0 && isOnline(Splash.this)){
                         DashboardActivity.startScreen(Splash.this);
-                    else Login.startScreen(Splash.this);
-                    finish();
-
+                        finish();
+                    }
+                    else{
+                        Login.startScreen(Splash.this);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+                        finish();
+                    }
 
                 } catch (Exception e) {
                 }
@@ -58,7 +66,24 @@ public class Splash extends BaseActivity {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         progressBar = (CircleProgressBar) findViewById(R.id.progressBar);
-        showProgress(true);
+        ImageView logo=(ImageView)findViewById(R.id.splash_logo);
+        Animation animation= android.view.animation.AnimationUtils.loadAnimation(this,R.anim.zoom_out);
+        logo.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                Log.e("TA", "onAnimationEnd: " );
+                showProgress(true);
+                functionality();
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
 
 
     }

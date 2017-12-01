@@ -55,6 +55,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.project.nat.advice_nation.R.anim.exit;
@@ -89,6 +91,9 @@ public class DashboardActivity extends BaseActivity
     private Gson gson;
     private SharedPreferences sharedPreferences;
     private String referralCode="";
+    public  int time_tomove=0;
+    public Timer timer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -104,7 +109,7 @@ public class DashboardActivity extends BaseActivity
         if (savedInstanceState == null) {
             navItemIndex = 0;
             CURRENT_TAG = TAG_HOME;
-            loadHomeFragment(getString(R.string.app_name));
+            loadHomeFragment(getString(R.string.app_home));
         }
 
     }
@@ -130,7 +135,7 @@ public class DashboardActivity extends BaseActivity
         view_pager=(ViewPager)findViewById(viewPager);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);
-        collapsingToolbarLayout.setTitle(getString(R.string.app_name));
+        collapsingToolbarLayout.setTitle(getString(R.string.app_home));
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(this, android.R.color.transparent));
 
     //    navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -166,6 +171,14 @@ public class DashboardActivity extends BaseActivity
                 URL = NetworkUrl.URL_GET_USER_ANKOINS + user + "/ankoin";
                 apiTag = URL;
                 getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 1);
+                break;
+
+            case 2:
+                user = sharedPreferences.getLong("id", 0);
+                bearerToken = sharedPreferences.getString("bearerToken", "");
+                URL = NetworkUrl.URL + user + "/logout";
+                apiTag = URL;
+                getApi = new GetApi(context, URL, bearerToken, apiTag, TAG, 2);
                 break;
 
             default:
@@ -344,6 +357,35 @@ public class DashboardActivity extends BaseActivity
         viewPager.setOffscreenPageLimit(4);
         viewPager.setCurrentItem(0);
         page_Indicator.setViewPager(viewPager);
+        timer = new Timer();
+        timer.schedule(new UpdateTimeTask(), 3000, 2000);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageSelected(int position) {
+                time_tomove=position;
+                timer.cancel();
+                timer = new Timer();
+                timer.schedule(new UpdateTimeTask(), 3000, 2000);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+
+
+    }
+
+  public  class UpdateTimeTask extends TimerTask {
+        public void run() {
+            //Code for the viewPager to change view
+            System.out.println("The value of the time_tomove "+time_tomove);
+            if(time_tomove ==3 ) time_tomove=0;
+            else time_tomove++;
+            view_pager.setCurrentItem(time_tomove);
+
+
+        }
     }
 
     @Override
@@ -356,7 +398,7 @@ public class DashboardActivity extends BaseActivity
 
 
 
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -371,12 +413,18 @@ public class DashboardActivity extends BaseActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.logout) {
-            Login.startScreen(context);
-            sharedPreferences.edit().clear().commit();
-            finish();
+
+            if(isOnline(context))
+            {
+                callback(2);
+            }else{
+                Login.startScreen(context);
+                sharedPreferences.edit().clear().commit();
+                finish();
+            }
             return true;
         }
-     /*   if (id == R.id.invite) {
+     *//*   if (id == R.id.invite) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT,
@@ -385,11 +433,11 @@ public class DashboardActivity extends BaseActivity
             sendIntent.setType("text/plain");
             startActivity(sendIntent);
             return true;
-        }*/
+        }*//*
 
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -401,16 +449,24 @@ public class DashboardActivity extends BaseActivity
         if (id == R.id.home) {
             navItemIndex = 0;
             CURRENT_TAG = TAG_HOME;
-            loadHomeFragment(getString(R.string.app_name));
+            loadHomeFragment(getString(R.string.app_home));
 
         } else if (id == R.id.ankoins) {
             navItemIndex = 2;
             CURRENT_TAG = TAG_ANKOINS;
             loadHomeFragment(getString(R.string.app_ankoins));
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.logout) {
+            if(isOnline(context))
+            {
+                callback(2);
+            }
+                Login.startScreen(context);
+                sharedPreferences.edit().clear().commit();
+                finish();
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_setting) {
+            SettingEvent.startScreen(context);
 
         } else if (id == R.id.nav_share) {
             Invite.startScreen(context);
@@ -420,10 +476,31 @@ public class DashboardActivity extends BaseActivity
           About.startScreen(context);
         }
         else{
-            loadHomeFragment(getString(R.string.app_name));
+            loadHomeFragment(getString(R.string.app_home));
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e(TAG, "onRestart: ---" );
+        timer = new Timer();
+        timer.schedule(new UpdateTimeTask(), 3000, 2000);
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+            timer.cancel();
+            Log.e(TAG, "onStop: ---" );
+        }catch (NullPointerException e){
+            Log.e(TAG, "onStop: "+e.getMessage() );
+        }
+
     }
 
     public static void startScreen(Context context)

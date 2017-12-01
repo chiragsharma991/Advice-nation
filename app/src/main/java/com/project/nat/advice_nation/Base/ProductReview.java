@@ -216,8 +216,8 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         Glide
                 .with(context)
                 .load(image)
-                .placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.ic_placeholder)
+                .error(R.mipmap.ic_placeholder)
                 .crossFade()
                 .into(product_image);
         setRate();
@@ -226,14 +226,10 @@ public class ProductReview extends BaseActivity implements ApiResponse {
     private void setRate() {
        // RatingBar ratingOverall = (RatingBar) findViewById(R.id.ratingOverall);
         RatingBar featurerating = (RatingBar) findViewById(R.id.featurerating);
-      /*  LayerDrawable overall = (LayerDrawable)ratingOverall.getProgressDrawable();
-        overall.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
-        overall.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-        overall.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);*/
         LayerDrawable feature = (LayerDrawable)featurerating.getProgressDrawable();
-        feature.getDrawable(2).setColorFilter(Color.parseColor("#24b89e"), PorterDuff.Mode.SRC_ATOP);
+        feature.getDrawable(2).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
         feature.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-        feature.getDrawable(1).setColorFilter(Color.parseColor("#000000"), PorterDuff.Mode.SRC_ATOP);
+        feature.getDrawable(1).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
         featurerating.setRating(list.get(0).getData().get(position).getProductRating());
     }
 
@@ -457,6 +453,9 @@ public class ProductReview extends BaseActivity implements ApiResponse {
         }
 
     }
+    public void onVoucher(View view){
+        showSnackbar(viewpart,"Comming soon... :)");
+    }
 
     private void setview() {
             adapter = new ProductReviewAdapter(productList,ProductReview,this);
@@ -466,25 +465,36 @@ public class ProductReview extends BaseActivity implements ApiResponse {
             recyclerView.setAdapter(adapter);
     }
 
-    public void follow(int position){
+    public void follow(int position, boolean proceed){
 
-        if (isOnline(context)) {
-            int productId = productList.get(0).getData().get(position).getProductId();
-            int id = (int)  productList.get(0).getData().get(position).getId();
-            follow_userId = productList.get(0).getData().get(position).getUserId();
-            Log.e(TAG, "follow: productId "+productId+" id "+id+ " userId "+follow_userId );
-            callback(3,productSubCategoryId,productId,id);//0 is responseCode for login api
+        if(!proceed){
+            showSnackbarError(viewpart,getResources().getString(R.string.unfollow));
 
-        } else {
-          //  showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+        }else{
+            if (isOnline(context)) {
+                int productId = productList.get(0).getData().get(position).getProductId();
+                int id = (int)  productList.get(0).getData().get(position).getId();
+                follow_userId = productList.get(0).getData().get(position).getUserId();
+                Log.e(TAG, "follow: productId "+productId+" id "+id+ " userId "+follow_userId );
+                callback(3,productSubCategoryId,productId,id);//0 is responseCode for login api
+
+            } else {
+                //  showSnackbar(viewpart, getResources().getString(R.string.network_notfound));
+            }
         }
+
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        supportFinishAfterTransition();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            supportFinishAfterTransition();
+        }else{
+            finish();
+        }
+       // finish();
 
     }
 }

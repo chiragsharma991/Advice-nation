@@ -75,14 +75,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         Glide
                 .with(mcontext)
                 .load(image)
-                .placeholder(R.mipmap.ic_launcher) // can also be a drawable
-                .error(R.mipmap.ic_launcher) // will be displayed if the image cannot be loaded
+                .placeholder(R.mipmap.placeholder) // can also be a drawable
+                .error(R.mipmap.placeholder) // will be displayed if the image cannot be loaded
                 .crossFade()
                 .into(holder.image);
+
         LayerDrawable stars = (LayerDrawable)holder.ratingBar.getProgressDrawable();
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
         stars.getDrawable(0).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(Color.parseColor("#dfdedf"), PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.parseColor("#212121"), PorterDuff.Mode.SRC_ATOP);
 
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override

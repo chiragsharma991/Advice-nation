@@ -25,6 +25,8 @@ public class NkoinsSubcatAdapter extends RecyclerView.Adapter<NkoinsSubcatAdapte
 
     private Context mContext;
     private List<String> mDataSet;
+    private int color[]={R.color.dashboard_icon1,R.color.dashboard_icon2,R.color.dashboard_icon3,R.color.dashboard_icon4};
+
 
     public NkoinsSubcatAdapter(Context context, List<String> dataSet)
     {
@@ -54,8 +56,8 @@ public class NkoinsSubcatAdapter extends RecyclerView.Adapter<NkoinsSubcatAdapte
     @Override public void onBindViewHolder(ViewHolder holder, int position) {
         //  Picasso.with(mContext).load(R.drawable.bg).into(holder.image);
         Random rnd = new Random();
-        int currentStrokeColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-        holder.image.setBackgroundColor(currentStrokeColor);
+       // int currentStrokeColor = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+        holder.image.setBackgroundResource(color[position]);
       //  Glide.with(mContext).load(R.color.dashboard_icon2).into(holder.image);
 
         holder.text.setText(mDataSet.get(position));
